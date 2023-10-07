@@ -1,70 +1,86 @@
 package ru.devpro.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
 
 @Entity
-    @Table(name = "cats")
-    public class Cat {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private long id;
-        private  String name;
-        private  String breed;
-        private  String volunteer;
-        private  String owner;
+@Table(name = "cats")
+public class Cat {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Schema(description = "Имя кошки")
+    @NotNull
+    private String name;
+    @Schema(description = "Порода кошки")
+    @NotBlank
+    private String breed;
 
-        public Cat() {
-        }
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    @JsonIgnore
+    private Owner owner;
+    @ManyToOne
+    @JoinColumn(name = "volunteer_id")
+    @JsonIgnore
+    private Volunteer volunteer;
 
-        public Cat(String name, String breed, String volunteer, String owner) {
-            this.name = name;
-            this.breed = breed;
-            this.owner = owner;
-            this.volunteer = volunteer;
-        }
+    public Cat() {
+    }
 
-        public long getId() {
-            return id;
-        }
+    public Cat(long id, String name, String breed, Owner owner, Volunteer volunteer) {
+        this.id = id;
+        this.name = name;
+        this.breed = breed;
+        this.owner = owner;
+        this.volunteer = volunteer;
+    }
 
-        public void setId(long id) {
-            this.id = id;
-        }
+    public long getId() {
+        return id;
+    }
 
-        public String getName() {
-            return name;
-        }
+    public void setId(long id) {
+        this.id = id;
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+    public String getName() {
+        return name;
+    }
 
-        public String getBreed() {
-            return breed;
-        }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-        public void setBreed(String breed) {
-            this.breed = breed;
-        }
+    public String getBreed() {
+        return breed;
+    }
 
-        public String getVolunteer() {
-            return volunteer;
-        }
+    public void setBreed(String breed) {
+        this.breed = breed;
+    }
 
-        public void setVolunteer(String volunteer) {
-            this.volunteer = volunteer;
-        }
+    public Owner getOwner() {
+        return owner;
+    }
 
-        public String getOwner() {
-            return owner;
-        }
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
 
-        public void setOwner(String owner) {
-            this.owner = owner;
-        }
+    public Volunteer getVolunteer() {
+        return volunteer;
+    }
+
+    public void setVolunteer(Volunteer volunteer) {
+        this.volunteer = volunteer;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -85,8 +101,8 @@ import java.util.Objects;
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", breed='" + breed + '\'' +
-                ", volunteer='" + volunteer + '\'' +
-                ", owner='" + owner + '\'' +
+                ", owner=" + owner +
+                ", volunteer=" + volunteer +
                 '}';
     }
 }
