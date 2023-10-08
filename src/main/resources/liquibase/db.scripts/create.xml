@@ -5,27 +5,53 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
-    <changeSet id="....." author="">
+    <changeSet id="create-cats-table" author="skanash">
         <preConditions>
             <not>
-                <tableExists tableName="....."/>
+                <tableExists tableName="cats"/>
             </not>
         </preConditions>
 
-        <createTable tableName="......">
+        <createTable tableName="cats">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" />
             </column>
-            <column name="text" type="varchar(2048)">
+            <column name="name" type="varchar(255)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="chat_id" type="BIGINT">
+            <column name="breed" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
         </createTable>
-        <createIndex tableName="" indexName="......">
-            <column name="......"/>
-        </createIndex>
+
+      <!--  <createIndex tableName="cats" indexName="IDX_CATS">
+            <column name="date_time"/>
+        </createIndex>-->
+    </changeSet>
+
+
+    <changeSet id="create-dogs-table" author="skanash">
+        <preConditions>
+            <not>
+                <tableExists tableName="dogs"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="dogs">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="breed" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+        </createTable>
+        <!--<createIndex tableName="dogs" indexName="IDX_DOGS">
+            <column name="date_time"/>
+        </createIndex>-->
     </changeSet>
  </databaseChangeLog>

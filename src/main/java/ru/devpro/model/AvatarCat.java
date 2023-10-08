@@ -23,6 +23,7 @@ public class AvatarCat {
     @Schema(description = "массив байт(хранение в БД)")
     private byte[] preview;
     @OneToOne(fetch = FetchType.EAGER)
+
     private Cat cat;
 
     public AvatarCat() {

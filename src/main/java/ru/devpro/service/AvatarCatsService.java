@@ -24,24 +24,20 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Service
 @Transactional
-public class AvatarService {
+public class AvatarCatsService {
     @Value("${path.to.avatars.folder}")
     private String avatarsDir;
-
-    private final AvatarCatsRepository avatarCatsRepositoryRepository;
-    private final AvatarDogsRepository avatarDogsRepositoryRepository;
-
+    private final AvatarCatsRepository avatarCatsRepository;
     private final CatService catService;
-    private final DogService dogService;
-    private static final Logger LOGGER = LoggerFactory.getLogger(CatService.class);
 
-    public AvatarService(AvatarCatsRepository avatarCatsRepositoryRepository,
-                         AvatarDogsRepository avatarDogsRepositoryRepository,
-                         CatService catService, DogService dogService) {
-        this.avatarCatsRepositoryRepository = avatarCatsRepositoryRepository;
-        this.avatarDogsRepositoryRepository = avatarDogsRepositoryRepository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AvatarCatsService.class);
+
+    public AvatarCatsService(AvatarCatsRepository avatarCatsRepository,
+                             CatService catService) {
+        this.avatarCatsRepository = avatarCatsRepository;
+
         this.catService = catService;
-        this.dogService = dogService;
+
     }
 
     public void uploadAvatar(Long catId, MultipartFile avatarFile) throws IOException {
@@ -78,7 +74,7 @@ public class AvatarService {
         //переформатируем в нужный размер исходный файл
         avatar.setPreview(generateImagePreview(filePath));
         //сохраняем в БД
-        avatarCatsRepositoryRepository.save(avatar);
+        avatarCatsRepository.save(avatar);
         LOGGER.info("Avatar uploaded successfully for student with ID: {}", catId);
     }
 
@@ -92,13 +88,13 @@ public class AvatarService {
      */
     public AvatarCat findCatAvatar(Long catId) {
         LOGGER.info("Finding avatar for student with ID: {}", catId);
-        return avatarCatsRepositoryRepository.findCatById(catId).orElse(new AvatarCat());
+        return avatarCatsRepository.findCatById(catId).orElse(new AvatarCat());
     }
     public Page<AvatarCat> listCatsAvatars(Pageable pageable) {
         LOGGER.info("Listing avatars with pagination: page={}, size={}",
                 pageable.getPageNumber(),
                 pageable.getPageSize());
-        return avatarCatsRepositoryRepository.findAll(pageable);
+        return avatarCatsRepository.findAll(pageable);
     }
 
     /**

@@ -15,11 +15,11 @@ public class Dog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Schema(description = "Имя собаки")
     @NotNull
     private String name;
-    @Schema(description = "Порода кошки")
+    @Schema(description = "Порода собаки")
     @NotBlank
     private String breed;
 

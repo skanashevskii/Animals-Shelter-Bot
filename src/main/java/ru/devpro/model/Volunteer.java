@@ -29,6 +29,7 @@ public class Volunteer {
 
     @OneToMany(mappedBy = "volunteer",fetch = FetchType.EAGER)
     private Set<Cat> cats;
+    @OneToMany(mappedBy = "volunteer",fetch = FetchType.EAGER)
     private Set<Dog> dogs;
 
     public Volunteer() {

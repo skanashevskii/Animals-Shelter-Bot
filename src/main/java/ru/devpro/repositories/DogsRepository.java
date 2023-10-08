@@ -1,7 +1,7 @@
 package ru.devpro.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.devpro.model.Cat;
+
 import ru.devpro.model.Dog;
 
 import java.util.List;

@@ -12,8 +12,9 @@ import java.util.Optional;
 @Repository
 public interface AvatarCatsRepository extends JpaRepository<AvatarCat,Long> {
 
-    Optional<AvatarCat> findCatById(Long studentId);
+    Optional<AvatarCat> findCatById(Long catId);
+
 
     @NotNull
-    Page<AvatarCat> findAll(Pageable pageable);
+    Page<AvatarCat> findAll(@NotNull Pageable pageable);
 }

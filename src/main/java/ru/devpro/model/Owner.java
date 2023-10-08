@@ -22,29 +22,26 @@ public class Owner {
     @Schema(description = "Имя владельца")
     @NotEmpty(message = "name cannot be empty")
     @Size(min = 1, max = 50)
-    @Column(name = "name")
     private String name;
     @Schema(description = "Фамилия владельца")
     @NotEmpty(message = "family cannot be empty")
     @Size(min = 1, max = 50)
-    @Column(name = "family")
     private String family;
     @Schema(description = "Телефон владельца")
     @NotEmpty(message = "telephone cannot be empty")
     @Size(min = 1, max = 50)
-    @Column(name = "telephone")
     private Long telephone;
 
     @Schema(description = "e-mail владельца")
     @Email(message = "Не правильный Email", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     @NotEmpty(message = "Email cannot be empty")
     @Size(min = 10, max = 50)
-    @Column(name = "e-mail")
     private String email;
 
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<Cat> cats;
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<Dog> dogs;
 
     public Owner() {

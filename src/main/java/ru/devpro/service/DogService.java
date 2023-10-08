@@ -1,9 +1,10 @@
 package ru.devpro.service;
 
+import org.springframework.stereotype.Service;
 import ru.devpro.model.Dog;
 
 import java.util.Collection;
-
+@Service
 public class DogService {
     public String getDogs() {
         return null;

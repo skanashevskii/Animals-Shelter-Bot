@@ -4,31 +4,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
-    <include file="db.scripts/create-notification-task.xml" relativeToChangelogFile="true" />
+    <include file="db.scripts/create.xml" relativeToChangelogFile="true" />
  </databaseChangeLog>
 
-<!--
-Этот XML-файл представляет собой файл миграции, который используется с инструментом Liquibase
-для управления структурой базы данных. Давайте разберем его построчно:
-
-<?xml version="1.0" encoding="UTF-8"?>: Эта строка определяет версию XML и кодировку символов,
-используемую в файле.
-
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=
-"http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/
-dbchangelog/dbchangelog-4.9.xsd">: Этот блок определяет корневой элемент XML-файла и
- устанавливает пространство имен XML для Liquibase. Также указывается схема XSD для
- проверки синтаксиса XML.
-
-<include file="db.scripts/create.xml" relativeToChangelogFile="true" />:
-Этот блок включает (include) другой файл миграции с именем create.xml.
-Параметр relativeToChangelogFile="true" указывает, что путь к файлу create.xml
-относится к текущему файлу миграции (databaseChangeLog). Это позволяет создавать модульные
-и переиспользуемые миграции, включая их в основной файл миграции.
-
-Итак, этот файл миграции (databaseChangeLog) служит в качестве точки входа для Liquibase
-и может включать другие файлы миграции или определять изменения, которые должны быть выполнены
- для изменения структуры базы данных. В данном случае, он включает файл create.xml,
- который, вероятно, содержит определения таблицы или другие изменения для базы данных.
--->
