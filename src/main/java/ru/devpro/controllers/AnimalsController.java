@@ -2,7 +2,6 @@ package ru.devpro.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.extensions.Extension;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,41 +26,49 @@ import java.util.Collections;
 @RequestMapping("animals")
 @Tag(name = "Животные", description = "Методы работы с животными")
 public class AnimalsController {
-   private static final Logger LOGGER =LoggerFactory.getLogger(AnimalsController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AnimalsController.class);
     private final CatService catService;
     private final DogService dogService;
 
-    public AnimalsController(CatService catService,
-                             DogService dogService
-                            ) {
+    public AnimalsController(CatService catService, DogService dogService) {
         this.catService = catService;
         this.dogService = dogService;
     }
-    //КОНТРОЛЛЕРЫ КОШКИ
 
-    @PostMapping
+    //ЭНДПОИНТЫ КОШКИ
+
+    @PostMapping("/cats")
     @Operation(summary = "Создание кошки",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-
                     description = "Создание объекта кошка"))
-
-    public Cat createCat(@Parameter(description = "Принимает объект кошка")@RequestBody Cat cat) {
+    public Cat createCat(@Parameter(description = "Принимает объект кошка") @RequestBody Cat cat) {
         LOGGER.info("Received request to save student: {}", cat);
         return catService.createCat(cat);
     }
+
+    @GetMapping("/cats/{id}")
+    @Operation(summary = "Информация о кошке")
+    public ResponseEntity<Cat> getCatInfo(@Parameter(description = "ID кошки")
+                                          @PathVariable long id) {
+        Cat cat = catService.findCatById(id);
+        if (cat == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(cat);
+    }
+
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
                     description = "Корректировка объекта кошка",
                     content = {
                             @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Cat.class )
+                                    schema = @Schema(implementation = Cat.class)
                             )
-
                     }
             )
     })
-    @PutMapping
+    @PutMapping("/cats")
     @Operation(summary = "Изменение инфо о кошке")
     public ResponseEntity<Cat> editCat(@RequestBody Cat cat) {
         Cat foundCat = catService.editCat(cat);
@@ -70,22 +77,22 @@ public class AnimalsController {
         }
         return ResponseEntity.ok(foundCat);
     }
+
     @ApiResponses({
             @ApiResponse(
                     responseCode = "ничего",
                     description = "Удаление кошки",
                     content = {
                             @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Cat.class )
+                                    schema = @Schema(implementation = Cat.class)
                             )
-
                     }
             )
     })
-    @DeleteMapping("{id}")
+    @DeleteMapping("/cats/{id}")
     @Operation(summary = "Удаление кошки")
-    public ResponseEntity<Void> deleteCat(@PathVariable Long catId) {
-        catService.deleteCat(catId);
+    public ResponseEntity<Void> deleteCat(@PathVariable Long id) {
+        catService.deleteCat(id);
         return ResponseEntity.ok().build();
     }
     @ApiResponses({
@@ -94,9 +101,8 @@ public class AnimalsController {
                     description = "Поиск всех кошек",
                     content = {
                             @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Cat[].class )
+                                    schema = @Schema(implementation = Cat[].class)
                             )
-
                     }
             )
     })
@@ -105,8 +111,10 @@ public class AnimalsController {
     public Collection<Cat> getCats() {
         return catService.getAllCats();
     }
+
     //============================
-    //КОНТРОЛЛЕРЫ СОБАКИ
+
+    //ЭНДПОИНТЫ СОБАКИ
 
     @GetMapping("/dogs")
     @Operation(summary = "Найти собак")
@@ -114,20 +122,10 @@ public class AnimalsController {
         return dogService.getDogs();
     }
 
-    @GetMapping("{id}")
-    @Operation(summary = "Информация о кошке")
-    public ResponseEntity<Cat> getCatInfo(@Parameter(description = "ID животного")
-                                                  @PathVariable long id) {
-        Cat cat = catService.findCatById(id);
-        if (cat == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(cat);
-    }
-    @GetMapping("{id}")
+    @GetMapping("/dogs/{id}")
     @Operation(summary = "Информация о собаке")
-    public ResponseEntity<Dog> getDogInfo(@Parameter(description = "ID животного")
-                                                  @PathVariable long id) {
+    public ResponseEntity<Dog> getDogInfo(@Parameter(description = "ID собаки")
+                                          @PathVariable long id) {
         Dog dog = dogService.findDogById(id);
         if (dog == null) {
             return ResponseEntity.notFound().build();
@@ -135,20 +133,18 @@ public class AnimalsController {
         return ResponseEntity.ok(dog);
     }
 
-
     @GetMapping("/{catsId}/cat")
     @Operation(summary = "Инфо о кошках")
-    public Collection<Cat> getCatsById(@PathVariable long catId) {
-        return catService.getCatsByGroupId(catId);
+    public Collection<Cat> getCatsById(@PathVariable long catsId) {
+        return catService.getCatsByGroupId(catsId);
 
     }
+
     @GetMapping("/{dogsId}/dog")
     @Operation(summary = "Инфо о собаках")
-    public Collection<Dog> getDogsById(@PathVariable long dogId) {
-        return dogService.getDogById(dogId);
-
+    public Collection<Dog> getDogsById(@PathVariable long dogsId) {
+        return dogService.getDogById(dogsId);
     }
-
 
     @PutMapping
     @Operation(summary = "Редактирование группы кошки")
@@ -160,22 +156,12 @@ public class AnimalsController {
         return ResponseEntity.ok(foundCat);
     }
 
-    @DeleteMapping("{id}")
-    @Operation(summary = "Удаление кошки")
-    public ResponseEntity<Cat> deleteAnimal(@PathVariable long id) {
-        catService.deleteCat(id);
-        return ResponseEntity.ok().build();
-
-    }
-
     @GetMapping("/byBreed")
     @Operation(summary = "Сортировка по породе")
-    public ResponseEntity<Collection<Cat>> findCats(@RequestParam(required = false) String breed
-                                                             ) {
+    public ResponseEntity<Collection<Cat>> findCats(@RequestParam(required = false) String breed) {
         if (breed != null && !breed.isBlank()) {
             return ResponseEntity.ok(catService.findAllbyBreedIgnoreCase(breed));
         }
-
         return ResponseEntity.ok(Collections.emptyList());
     }
 }
