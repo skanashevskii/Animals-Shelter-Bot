@@ -54,4 +54,22 @@
             <column name="date_time"/>
         </createIndex>-->
     </changeSet>
+
+    <changeSet id="add-constraints-to-cats" author="romax">
+        <sql>
+            alter table cats
+                alter column name set not null;
+            alter table cats
+                alter column breed set not null
+        </sql>
+    </changeSet>
+
+    <changeSet id="add-constraints-to-dogs" author="romax">
+        <sql>
+            alter table dogs
+                alter column name set not null;
+            alter table dogs
+                alter column breed set not null
+        </sql>
+    </changeSet>
 </databaseChangeLog>

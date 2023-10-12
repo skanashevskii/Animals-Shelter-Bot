@@ -19,50 +19,62 @@ public class CatService {
     }
 
     public Cat findCatById(Long catId) {
-        LOGGER.debug("Was invoked method for seach student by id: {}", catId);
+        LOGGER.debug("Was invoked method for search cat by id: {}", catId);
         return catsRepository.findById(catId).orElse(null);
     }
 
-    public Collection<Cat> getAllCats() {
-        LOGGER.info("Getting all cats ...");
-        return catsRepository.findAll();
-    }
-
-
-    public Collection<Cat> getCatsByGroupId(long catId) {
-        return null;
-    }
-
-
     public Cat createCat(Cat cat) {
-        LOGGER.info("Was invoked method for create student: {}", cat);
+        LOGGER.info("Was invoked method for create cat: {}", cat);
+        String name = cat.getName();
+        String breed = cat.getBreed();
+        if (name.isEmpty() | name.isBlank() | breed.isEmpty() | breed.isBlank()) {
+            return null;
+        }
         return catsRepository.save(cat);
     }
 
     public Cat editCat(Cat cat) {
-        LOGGER.info("Was invoked method for edit student : {}", cat);
-        return catsRepository.findById(cat.getId())
-                .map(dbEntity -> {
-                    dbEntity.setName(cat.getName());
-                    dbEntity.setBreed(cat.getBreed());
-                    catsRepository.save(dbEntity);
-                    return dbEntity;
-                })
-                .orElse(null);
+        LOGGER.info("Was invoked method for edit cat : {}", cat);
+        if (findCatById(cat.getId()) == null) {
+            return new Cat();
+        }
+        return createCat(cat);
     }
 
-
-    public void deleteCat(long catId) {
-        LOGGER.info("Was invoked method for delete student by id: {}", catId);
-        catsRepository.findById(catId)
-                .map(entity -> {
-                    catsRepository.delete(entity);
-                    return true;
-                })
-                .orElse(false);
+    public boolean deleteCat(long catId) {
+        LOGGER.info("Was invoked method for delete cat by id: {}", catId);
+        if (findCatById(catId) == null) {
+            return false;
+        }
+        catsRepository.deleteById(catId);
+        return true;
     }
 
-    public Collection<Cat> findAllbyBreedIgnoreCase(String color) {
-        return null;
+    public Collection<Cat> findAllByBreedIgnoreCase(String breed) {
+        LOGGER.debug("Was invoked method for search all cats by breed: {}", breed);
+        Collection<Cat> cats = catsRepository.findByBreedIgnoreCase(breed);
+        if (cats.isEmpty()) {
+            return null;
+        }
+        return cats;
+    }
+
+    public Collection<Cat> findCatsOrderedById() {
+        LOGGER.debug("Was invoked method for search all cats");
+        return catsRepository.findByOrderById();
+    }
+
+    public Collection<Cat> findCatsGroupedByBreeds() {
+        LOGGER.debug("Was invoked method for search all cats ordered by breeds");
+        return catsRepository.findByOrderByBreed();
+    }
+
+    public Collection<Cat> findByNameIgnoreCase(String name) {
+        LOGGER.debug("Was invoked method for search all cats with name: {}", name);
+        Collection<Cat> cats = catsRepository.findAllByNameIgnoreCase(name);
+        if (cats.isEmpty()) {
+            return null;
+        }
+        return cats;
     }
 }
