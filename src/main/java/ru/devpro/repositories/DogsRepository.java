@@ -7,7 +7,7 @@ import ru.devpro.model.Dog;
 import java.util.List;
 
 
-public interface DogsRepository extends JpaRepository<Dog,Long> {
+public interface DogsRepository extends JpaRepository<Dog, Long> {
     List<Dog> findByBreedIgnoreCase(String breed);
-    }
+}
 

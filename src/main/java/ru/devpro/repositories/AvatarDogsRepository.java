@@ -12,7 +12,7 @@ import ru.devpro.model.Dog;
 import java.util.Optional;
 
 @Repository
-public interface AvatarDogsRepository extends JpaRepository<AvatarDog,Long> {
+public interface AvatarDogsRepository extends JpaRepository<AvatarDog, Long> {
 
     Optional<AvatarDog> findDogById(Long dogId);
 

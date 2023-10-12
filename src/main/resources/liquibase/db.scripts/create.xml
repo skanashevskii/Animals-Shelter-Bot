@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
- <databaseChangeLog
+<databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
@@ -14,20 +14,20 @@
 
         <createTable tableName="cats">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" />
+                <constraints primaryKey="true"/>
             </column>
             <column name="name" type="varchar(255)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="breed" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="true"/>
             </column>
 
         </createTable>
 
-      <!--  <createIndex tableName="cats" indexName="IDX_CATS">
-            <column name="date_time"/>
-        </createIndex>-->
+        <!--  <createIndex tableName="cats" indexName="IDX_CATS">
+              <column name="date_time"/>
+          </createIndex>-->
     </changeSet>
 
 
@@ -40,13 +40,13 @@
 
         <createTable tableName="dogs">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" />
+                <constraints primaryKey="true"/>
             </column>
             <column name="name" type="varchar(255)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="breed" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="true"/>
             </column>
 
         </createTable>
@@ -54,4 +54,4 @@
             <column name="date_time"/>
         </createIndex>-->
     </changeSet>
- </databaseChangeLog>
+</databaseChangeLog>

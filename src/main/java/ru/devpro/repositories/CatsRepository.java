@@ -6,6 +6,6 @@ import ru.devpro.model.Cat;
 
 import java.util.List;
 
-public interface CatsRepository extends JpaRepository<Cat,Long> {
+public interface CatsRepository extends JpaRepository<Cat, Long> {
     List<Cat> findByBreedIgnoreCase(String breed);
 }

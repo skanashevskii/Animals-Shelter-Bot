@@ -95,6 +95,7 @@ public class AnimalsController {
         catService.deleteCat(id);
         return ResponseEntity.ok().build();
     }
+
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",

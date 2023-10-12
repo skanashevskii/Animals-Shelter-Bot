@@ -22,6 +22,7 @@ public class CatService {
         LOGGER.debug("Was invoked method for seach student by id: {}", catId);
         return catsRepository.findById(catId).orElse(null);
     }
+
     public Collection<Cat> getAllCats() {
         LOGGER.info("Getting all cats ...");
         return catsRepository.findAll();
