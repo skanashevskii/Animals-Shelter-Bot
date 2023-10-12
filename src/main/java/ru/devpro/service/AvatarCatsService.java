@@ -79,7 +79,6 @@ public class AvatarCatsService {
     }
 
 
-
     /**
      * findAvatar - метод поиска картинки у студента
      *
@@ -90,6 +89,7 @@ public class AvatarCatsService {
         LOGGER.info("Finding avatar for student with ID: {}", catId);
         return avatarCatsRepository.findCatById(catId).orElse(new AvatarCat());
     }
+
     public Page<AvatarCat> listCatsAvatars(Pageable pageable) {
         LOGGER.info("Listing avatars with pagination: page={}, size={}",
                 pageable.getPageNumber(),
@@ -107,8 +107,8 @@ public class AvatarCatsService {
     public byte[] generateImagePreview(Path filePath) throws IOException {
         LOGGER.info("Generating image preview for file: {}", filePath);
         try (InputStream is = Files.newInputStream(filePath);
-            BufferedInputStream bis = new BufferedInputStream(is, 1024);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+             BufferedInputStream bis = new BufferedInputStream(is, 1024);
+             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             BufferedImage image = ImageIO.read(bis);
 
             int height = image.getHeight() / (image.getWidth() / 100);

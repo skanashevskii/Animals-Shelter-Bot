@@ -10,7 +10,7 @@ import ru.devpro.model.AvatarCat;
 import java.util.Optional;
 
 @Repository
-public interface AvatarCatsRepository extends JpaRepository<AvatarCat,Long> {
+public interface AvatarCatsRepository extends JpaRepository<AvatarCat, Long> {
 
     Optional<AvatarCat> findCatById(Long catId);
 

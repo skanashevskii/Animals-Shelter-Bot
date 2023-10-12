@@ -59,7 +59,7 @@ public class AvatarController {
         AvatarCat avatar = avatarCatsService.findCatAvatar(id);
         Path path = Path.of(avatar.getFilePath());
         try (InputStream is = Files.newInputStream(path);
-             OutputStream os = response.getOutputStream();) {
+             OutputStream os = response.getOutputStream()) {
             response.setStatus(200);
             response.setContentType(avatar.getMediaType());
             response.setContentLength((int) avatar.getFileSize());
@@ -69,7 +69,7 @@ public class AvatarController {
 
     @GetMapping(value = "/page-avatars-from-db")
     public ResponseEntity<Page<AvatarCat>> downloadAvatars(@RequestParam(defaultValue = "1") Integer page,
-                                                        @RequestParam(defaultValue = "1") Integer size) {
+                                                           @RequestParam(defaultValue = "1") Integer size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<AvatarCat> avatarPage = avatarCatsService.listCatsAvatars(pageable);
 

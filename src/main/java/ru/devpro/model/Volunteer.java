@@ -27,9 +27,9 @@ public class Volunteer {
     private Long telephone;
 
 
-    @OneToMany(mappedBy = "volunteer",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "volunteer", fetch = FetchType.EAGER)
     private Set<Cat> cats;
-    @OneToMany(mappedBy = "volunteer",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "volunteer", fetch = FetchType.EAGER)
     private Set<Dog> dogs;
 
     public Volunteer() {
