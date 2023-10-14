@@ -10,8 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.devpro.model.AvatarCat;
-import ru.devpro.service.AvatarCatsService;
+import ru.devpro.model.Avatar;
+import ru.devpro.service.AvatarService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,39 +24,39 @@ import java.nio.file.Path;
 
 
 public class AvatarController {
-    private final AvatarCatsService avatarCatsService;
+    private final AvatarService avatarService;
 
-    public AvatarController(AvatarCatsService avatarCatsService) {
-        this.avatarCatsService = avatarCatsService;
+    public AvatarController(AvatarService avatarService) {
+        this.avatarService = avatarService;
     }
 
-    @PostMapping(value = "/{catId}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadAvatar(@PathVariable Long catId,
+    @PostMapping(value = "/{animalId}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadAvatar(@PathVariable Long animalId,
                                                @RequestParam MultipartFile avatar) throws IOException {
         if (avatar.getSize() >= 1024 * 600) {
             return ResponseEntity.badRequest().body("File is too big");
         }
-        avatarCatsService.uploadAvatar(catId, avatar);
+        avatarService.uploadAvatar(animalId, avatar);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping(value = "/{id}/avatar-from-db")
     public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) {
-        AvatarCat avatarCat = avatarCatsService.findCatAvatar(id);
+        Avatar avatar = avatarService.findAvatar(id);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType(avatarCat.getMediaType()));
-        headers.setContentLength(avatarCat.getPreview().length);
+        headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
+        headers.setContentLength(avatar.getPreview().length);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .headers(headers)
-                .body(avatarCat.getPreview());
+                .body(avatar.getPreview());
     }
 
 
     @GetMapping(value = "/{id}/avatar-from-file")
     public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
-        AvatarCat avatar = avatarCatsService.findCatAvatar(id);
+        Avatar avatar = avatarService.findAvatar(id);
         Path path = Path.of(avatar.getFilePath());
         try (InputStream is = Files.newInputStream(path);
              OutputStream os = response.getOutputStream();) {
@@ -68,10 +68,10 @@ public class AvatarController {
     }
 
     @GetMapping(value = "/page-avatars-from-db")
-    public ResponseEntity<Page<AvatarCat>> downloadAvatars(@RequestParam(defaultValue = "1") Integer page,
+    public ResponseEntity<Page<Avatar>> downloadAvatars(@RequestParam(defaultValue = "1") Integer page,
                                                         @RequestParam(defaultValue = "1") Integer size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<AvatarCat> avatarPage = avatarCatsService.listCatsAvatars(pageable);
+        Page<Avatar> avatarPage = avatarService.listAvatars(pageable);
 
         return ResponseEntity.ok(avatarPage);
     }

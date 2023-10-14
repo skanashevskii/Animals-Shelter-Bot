@@ -5,16 +5,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.devpro.model.AvatarCat;
+import ru.devpro.model.Avatar;
 
 import java.util.Optional;
 
 @Repository
-public interface AvatarCatsRepository extends JpaRepository<AvatarCat,Long> {
+public interface AvatarRepository extends JpaRepository<Avatar,Long> {
 
-    Optional<AvatarCat> findCatById(Long catId);
-
+    Optional<Avatar> findById(Long dogId);
 
     @NotNull
-    Page<AvatarCat> findAll(@NotNull Pageable pageable);
+    Page<Avatar> findAll(@NotNull Pageable pageable);
 }

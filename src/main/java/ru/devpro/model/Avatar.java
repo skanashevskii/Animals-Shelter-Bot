@@ -8,8 +8,9 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
-public class AvatarCat {
-    @Min(1)
+@Table(name = "avatar")
+public class Avatar {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,11 +24,12 @@ public class AvatarCat {
     @Schema(description = "массив байт(хранение в БД)")
     private byte[] preview;
     @OneToOne(fetch = FetchType.EAGER)
+    private Animal animal;
 
-    private Cat cat;
-
-    public AvatarCat() {
+    public Avatar() {
     }
+
+
 
     public Long getId() {
         return id;
@@ -69,20 +71,20 @@ public class AvatarCat {
         this.preview = preview;
     }
 
-    public Cat getCat() {
-        return cat;
+    public Animal getAnimal() {
+        return animal;
     }
 
-    public void setCat(Cat cat) {
-        this.cat = cat;
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AvatarCat avatarCat = (AvatarCat) o;
-        return Objects.equals(id, avatarCat.id);
+        Avatar that = (Avatar) o;
+        return Objects.equals(id, that.id);
     }
 
     @Override
@@ -92,13 +94,13 @@ public class AvatarCat {
 
     @Override
     public String toString() {
-        return "AvatarCat{" +
+        return "AvatarAnimals{" +
                 "id=" + id +
                 ", filePath='" + filePath + '\'' +
                 ", fileSize=" + fileSize +
                 ", mediaType='" + mediaType + '\'' +
                 ", preview=" + Arrays.toString(preview) +
-                ", cat=" + cat +
+                ", animal=" + animal +
                 '}';
     }
 }
