@@ -38,7 +38,7 @@ public class AnimalService {
         }
         if(isValidType){
             LOGGER.info("Animal type {} is valid.", animalType);
-            animal.setTypeAnimal(animalType);
+            animal.setType_animal(String.valueOf(animalType));
             LocalDateTime truncatedDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.HOURS);
             animal.setDateTime(truncatedDateTime);
             return animalsRepository.save(animal);
@@ -55,7 +55,7 @@ public class AnimalService {
                 .map(dbEntity -> {
                     dbEntity.setName(animal.getName());
                     dbEntity.setBreed(animal.getBreed());
-                    dbEntity.setTypeAnimal(animal.getTypeAnimal());
+                    dbEntity.setType_animal(animal.getType_animal());
                     dbEntity.setText(animal.getText());
                     animalsRepository.save(dbEntity);
                     return dbEntity;

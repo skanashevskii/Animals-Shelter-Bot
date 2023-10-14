@@ -52,7 +52,7 @@ public class AnimalsController {
     public ResponseEntity<Animal> editAnimal(
             @RequestBody Animal animal,
             @Parameter(description = "Тип животного (CAT/DOG)") @RequestParam AnimalType type) {
-        animal.setTypeAnimal(type);
+        animal.setType_animal(String.valueOf(type));
         Animal foundAnimal = animalService.editAnimal(animal);
         if (foundAnimal == null) {
             return ResponseEntity.badRequest().build();
