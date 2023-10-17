@@ -1,63 +1,20 @@
 package ru.devpro.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import ru.devpro.model.Animal;
+
+import ru.devpro.dto.UserDTO;
 import ru.devpro.model.User;
-import ru.devpro.repositories.UsersRepository;
 
 import java.util.Collection;
 
-@Service
-public class UserService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+public interface UserService {
 
-    private final UsersRepository usersRepository;
+   UserDTO createUser(UserDTO userDTO); // Метод для создания пользователя
 
-    public UserService(UsersRepository usersRepository) {
-        this.usersRepository = usersRepository;
-    }
+    User editUser(User user);
 
-    public User createUser(User user) {
-        LOGGER.info("Was invoked method for create animal: {}", user);
-        return usersRepository.save(user);
-    }
+    void deleteUser(Long userId);
 
-    public User editUser(User user) {
-        LOGGER.info("Was invoked method for edit animal : {}", user);
-        return usersRepository.findById(user.getId())
-                .map(dbEntity -> {
-                    dbEntity.setName(user.getName());
-                    dbEntity.setFamily(user.getFamily());
-                    dbEntity.setEmail(user.getEmail());
-                    dbEntity.setRole(user.getRole());
-                    dbEntity.setTelephone(user.getTelephone());
+    User findUserById(Long userId);
 
-                    usersRepository.save(dbEntity);
-                    return dbEntity;
-                })
-                .orElse(null);
-    }
-
-    public void deleteUser(long userId) {
-        LOGGER.info("Was invoked method for delete animal by id: {}", userId);
-        usersRepository.findById(userId)
-                .map(entity -> {
-                    usersRepository.delete(entity);
-                    return true;
-                })
-                .orElse(false);
-    }
-
-    public User findUserById(Long userId) {
-        LOGGER.info("Was invoked method for delete animal by id: {}", userId);
-        return usersRepository.findById(userId).orElse(null);
-    }
-
-    public Collection<User> findAll() {
-        return usersRepository.findAll();
-    }
-
-
+    Collection<User> findAll();
 }

@@ -13,10 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.devpro.dto.AnimalDTO;
 import ru.devpro.enums.AnimalType;
 import ru.devpro.model.Animal;
 import ru.devpro.service.AnimalService;
-import ru.devpro.service.UserService;
+import ru.devpro.service.AnimalServiceImpl;
 
 
 import java.util.Collection;
@@ -39,20 +40,38 @@ public class AnimalsController {
                     description = "Создание объекта животное"
             )
     )
-    public ResponseEntity<Animal> createAnimal(
+  /*  public ResponseEntity<Animal> createAnimal(
             @Parameter(description = "Принимает объект животное") @RequestBody Animal animal,
             @Parameter(description = "Тип животного (CAT/DOG)") @RequestParam AnimalType type) {
         LOGGER.info("Received request to save animal: {}", animal);
-        Animal createdAnimal = animalService.createAnimal(animal,type);
+        Animal createdAnimal = animalServiceImpl.createAnimal(animal,type);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdAnimal);
+    }*/
+    public AnimalDTO createAnimal(@Parameter(description = "Принимает объект пользователь")
+                              @RequestBody AnimalDTO animalDTO) {
+        LOGGER.info("Received request to save animal: {}", animalDTO);
+
+        return animalService.createAnimal(animalDTO);
     }
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Корректировка объекта животное",
+                    content = {
+                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Animal.class )
+                            )
+
+                    }
+            )
+    })
 
     @PutMapping
     @Operation(summary = "Изменение информации о животном")
     public ResponseEntity<Animal> editAnimal(
             @RequestBody Animal animal,
             @Parameter(description = "Тип животного (CAT/DOG)") @RequestParam AnimalType type) {
-        animal.setType_animal(String.valueOf(type));
+        animal.setType_animal(type);
         Animal foundAnimal = animalService.editAnimal(animal);
         if (foundAnimal == null) {
             return ResponseEntity.badRequest().build();
@@ -67,7 +86,7 @@ public class AnimalsController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/byBreed")
+  /*  @GetMapping("/byBreed")
     @Operation(summary = "Сортировка по породе")
     public ResponseEntity<Collection<Animal>> findAnimalsByBreed(@RequestParam(required = false) String breed) {
         if (breed != null && !breed.isBlank()) {
@@ -75,5 +94,5 @@ public class AnimalsController {
         }
 
         return ResponseEntity.ok(Collections.emptyList());
-    }
+    }*/
 }

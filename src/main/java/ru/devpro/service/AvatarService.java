@@ -27,21 +27,21 @@ public class AvatarService {
     @Value("${path.to.avatars.folder}")
     private String avatarsDir;
     private final AvatarRepository avatarRepository;
-    private final AnimalService animalService;
+    private final AnimalServiceImpl animalServiceImpl;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AvatarService.class);
 
     public AvatarService(AvatarRepository avatarRepository,
-                         AnimalService animalService) {
+                         AnimalServiceImpl animalServiceImpl) {
         this.avatarRepository = avatarRepository;
 
-        this.animalService = animalService;
+        this.animalServiceImpl = animalServiceImpl;
 
     }
 
     public void uploadAvatar(Long animalId, MultipartFile avatarFile) throws IOException {
         LOGGER.info("Uploading avatar for student with ID: {}", animalId);
-        Animal animal = animalService.findAnimalById(animalId);
+        Animal animal = animalServiceImpl.findAnimalById(animalId);
 
         //путь к папке где аватар и берем расширение файла(т е после ".")
         Path filePath = Path.of(avatarsDir, animalId + "." + getExtensions(avatarFile.getOriginalFilename()));

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import ru.devpro.enums.AnimalType;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -21,8 +22,9 @@ public class Animal {
     @NotNull
     private String name;
     @Schema(description = "Вид животного(CAT/DOG)")
+    @Enumerated(EnumType.STRING)
     @Column(name = "type_animal")
-    private String type_animal;
+    private AnimalType type_animal;
     @Schema(description = "Порода животного")
     @NotBlank
     private String breed;
@@ -57,11 +59,11 @@ public class Animal {
         this.name = name;
     }
 
-    public String getType_animal() {
+    public AnimalType getType_animal() {
         return type_animal;
     }
 
-    public void setType_animal(String type_animal) {
+    public void setType_animal(AnimalType type_animal) {
         this.type_animal = type_animal;
     }
 

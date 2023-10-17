@@ -5,6 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
+ <!--ANIMAL TABLE-->
  <changeSet id="animal-table" author="skanash">
   <preConditions>
    <not>
@@ -36,7 +37,7 @@
   </createIndex>
  </changeSet>
 
-
+ <!--USER TABLE-->
  <changeSet id="user-table" author="skanash">
   <preConditions>
    <not>
@@ -65,6 +66,9 @@
    <column name="email" type="varchar(255)">
     <constraints nullable="true" />
    </column>
+   <column name="accessLevel" type="varchar(255)">
+    <constraints nullable="true" />
+   </column>
    <column name="user_time" type="DATETIME(6)">
     <constraints nullable="true" />
    </column>
@@ -74,6 +78,85 @@
    <column name="user_time"/>
   </createIndex>
  </changeSet>
+
+ <!--SHELTER TABLE-->
+ <changeSet id="shelter-table" author="skanash">
+  <preConditions>
+   <not>
+    <tableExists tableName="shelter"/>
+   </not>
+  </preConditions>
+  <createTable tableName="shelter">
+   <column name="id" type="BIGINT" autoIncrement="true">
+    <constraints primaryKey="true" />
+   </column>
+   <column name="name" type="varchar(255)">
+    <constraints nullable="false"/>
+   </column>
+   <column name="shelter_time" type="DATETIME(6)">
+    <constraints nullable="true" />
+   </column>
+  </createTable>
+
+  <createIndex tableName="shelter" indexName="IDX_SHELTER_DATE_TIME">
+   <column name="shelter_time"/>
+  </createIndex>
+ </changeSet>
+
+ <!--SHELTER_LOCATION TABLE-->
+ <changeSet id="shelterlocation-table" author="skanash">
+  <preConditions>
+   <not>
+    <tableExists tableName="shelter_location"/>
+   </not>
+  </preConditions>
+  <createTable tableName="shelter_location">
+   <column name="id" type="BIGINT" autoIncrement="true">
+    <constraints primaryKey="true" />
+   </column>
+   <column name="name" type="varchar(255)">
+    <constraints nullable="false"/>
+   </column>
+   <column name="shelter_location_time" type="DATETIME(6)">
+    <constraints nullable="true" />
+   </column>
+  </createTable>
+
+  <createIndex tableName="shelter_location" indexName="IDX_SHELTER_LOCATION_DATE_TIME">
+   <column name="shelter_location_time"/>
+  </createIndex>
+ </changeSet>
+
+ <!--REPORT TABLE-->
+ <changeSet id="report-table" author="skanash">
+  <preConditions>
+   <not>
+    <tableExists tableName="reports"/>
+   </not>
+  </preConditions>
+  <createTable tableName="reports">
+   <column name="id" type="BIGINT" autoIncrement="true">
+    <constraints primaryKey="true" />
+   </column>
+   <column name="report_date" type="DATETIME(6)">
+    <constraints nullable="false"/>
+   </column>
+   <column name="file_path" type="varchar(255)">
+    <constraints nullable="false"/>
+   </column>
+   <column name="access_level" type="varchar(255)">
+    <constraints nullable="false"/>
+   </column>
+   <column name="report_time" type="DATETIME(6)">
+    <constraints nullable="true" />
+   </column>
+  </createTable>
+
+  <createIndex tableName="reports" indexName="IDX_REPORT_DATE_TIME">
+   <column name="report_time"/>
+  </createIndex>
+ </changeSet>
+
 
 
 </databaseChangeLog>

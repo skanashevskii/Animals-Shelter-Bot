@@ -70,20 +70,6 @@ public class User {
     public User() {
     }
 
-    public User(Long id, Long chatId, String name, String family, String role,
-                String telephone, String email, String location, LocalDateTime dateTime,
-                Shelter shelter, Set<Animal> animals) {
-        this.id = id;
-        this.chatId = chatId;
-        this.name = name;
-        this.family = family;
-        this.role = role;
-        this.telephone = telephone;
-        this.email = email;
-        this.dateTime = dateTime;
-        this.shelter = shelter;
-        this.animals = animals;
-    }
 
     public AccessLevel getAccessLevel() {
         return accessLevel;

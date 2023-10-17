@@ -1,23 +1,22 @@
 package ru.devpro.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+
+import ru.devpro.dto.ShelterLocationDTO;
+
 import ru.devpro.model.ShelterLocation;
-import ru.devpro.model.User;
-import ru.devpro.repositories.ShelterLocationRepository;
 
-@Service
-public class ShelterLocationService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ShelterLocationService.class);
+import java.util.Collection;
 
-    private final ShelterLocationRepository shelterLocationRepository;
+public interface ShelterLocationService {
+    void deleteShelterLocation(Long id);
 
-    public ShelterLocationService(ShelterLocationRepository shelterLocationRepository) {
-        this.shelterLocationRepository = shelterLocationRepository;
-    }
-    public ShelterLocation createShelterLocation(ShelterLocation shelterLocation) {
-        LOGGER.info("Was invoked method for create animal: {}", shelterLocation);
-        return shelterLocationRepository.save(shelterLocation);
-    }
+    ShelterLocation editShelterLocation(ShelterLocation shelterLocation);
+
+   ShelterLocation findShelterById(Long userId);
+
+    Collection<ShelterLocation> findAll();
+
+    ShelterLocationDTO createShelterLocation(ShelterLocationDTO shelterLocationDTO); // Метод для создания адреса приюта
+
+    // Другие методы
 }

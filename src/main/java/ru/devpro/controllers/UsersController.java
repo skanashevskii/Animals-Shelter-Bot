@@ -15,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import ru.devpro.dto.UserDTO;
+import ru.devpro.mapers.UserMapper;
+import ru.devpro.model.Shelter;
 import ru.devpro.model.User;
 import ru.devpro.service.UserService;
 
@@ -39,17 +42,23 @@ public class UsersController {
 
                     description = "Создание объекта пользователь"))
 
-    public User createUser(@Parameter(description = "Принимает объект пользователь")
+  /*  public ResponseEntity<User> createUser(@Parameter(description = "Принимает объект пользователь")
                                    @RequestBody User user) {
         LOGGER.info("Received request to save animal: {}", user);
-        return userService.createUser(user);
-    }
+        User createdUser = userService.createUser(user);
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    }*/
+    public UserDTO createUser(@Parameter(description = "Принимает объект пользователь")
+                                           @RequestBody UserDTO userDTO) {
+        LOGGER.info("Received request to save animal: {}", userDTO);
 
+        return userService.createUser(userDTO);
+    }
 
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Корректировка объекта животное",
+                    description = "Корректировка объекта пользователь",
                     content = {
                             @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = User.class )
@@ -60,8 +69,8 @@ public class UsersController {
     })
     @PutMapping
     @Operation(summary = "Изменение инфо о пользователе")
-    public ResponseEntity<User> editAnimal(@RequestBody User user) {
-        User foundUser =userService.editUser(user);
+    public ResponseEntity<User> editUser(@RequestBody User user) {
+        User foundUser = userService.editUser(user);
         if (foundUser == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -90,7 +99,7 @@ public class UsersController {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Поиск всех животных",
+                    description = "Поиск всех пользователей",
                     content = {
                             @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = User[].class )
@@ -100,7 +109,7 @@ public class UsersController {
             )
     })
 
-        @GetMapping("/users")
+        @GetMapping
         @Operation(summary = "Поиск всех пользователей")
         public ResponseEntity<Collection<User>> findAllUsers() {
 

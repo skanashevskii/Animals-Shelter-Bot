@@ -2,13 +2,17 @@ package ru.devpro.dto;
 
 
 import org.springframework.stereotype.Component;
+import ru.devpro.model.ShelterLocation;
+
+import java.time.LocalDateTime;
 
 @Component
 
 public class ShelterDTO {
     private Long id;
     private String name;
-    private ShelterLocationDTO shelterLocation;
+    private LocalDateTime dateTime;
+    private ShelterLocation shelterLocation;
 
     public ShelterDTO() {
     }
@@ -29,11 +33,19 @@ public class ShelterDTO {
         this.name = name;
     }
 
-    public ShelterLocationDTO getShelterLocation() {
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public ShelterLocation getShelterLocation() {
         return shelterLocation;
     }
 
-    public void setShelterLocation(ShelterLocationDTO shelterLocation) {
+    public void setShelterLocation(ShelterLocation shelterLocation) {
         this.shelterLocation = shelterLocation;
     }
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 
@@ -20,14 +21,15 @@ public class Shelter {
     @NotNull
     @Column(name = "name")
     private String name;
-
+    @Column(name="shelter_time", nullable = false)
+    private LocalDateTime dateTime;
     @OneToOne
     @JoinColumn(name="shelter_location_id")
     private ShelterLocation shelterLocation;
 
-
     public Shelter() {
     }
+
     public Long getId() {
         return id;
     }
@@ -42,6 +44,14 @@ public class Shelter {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public ShelterLocation getShelterLocation() {
@@ -70,6 +80,7 @@ public class Shelter {
         return "Shelter{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", dateTime=" + dateTime +
                 ", shelterLocation=" + shelterLocation +
                 '}';
     }

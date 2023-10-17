@@ -1,80 +1,22 @@
 package ru.devpro.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.devpro.enums.AnimalType;
+import ru.devpro.dto.AnimalDTO;
+import ru.devpro.dto.UserDTO;
 import ru.devpro.model.Animal;
-import ru.devpro.repositories.AnimalsRepository;
+import ru.devpro.model.User;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Collection;
-import java.util.EnumSet;
-
 @Service
-public class AnimalService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AnimalService.class);
 
-    private final AnimalsRepository animalsRepository;
+public interface AnimalService {
+    AnimalDTO createAnimal(AnimalDTO animalDTO); // Метод для создания животного
 
-    public AnimalService(AnimalsRepository animalsRepository) {
-        this.animalsRepository = animalsRepository;
-    }
+    Animal editAnimal(Animal animal);
 
-    public Animal findAnimalById(Long animalId) {
-        LOGGER.debug("Was invoked method for seach animal by id: {}", animalId);
-        return animalsRepository.findById(animalId).orElse(null);
-    }
+    void deleteAnimal(Long animalId);
 
-    public Animal createAnimal(Animal animal, AnimalType animalType) {
-        boolean isValidType = false;
-        // Перебираем значения enum AnimalType
-        for (AnimalType type : AnimalType.values()) {
-            if (type == animalType) {
-                isValidType = true;
-                break;
-            }
-        }
-        if(isValidType){
-            LOGGER.info("Animal type {} is valid.", animalType);
-            animal.setType_animal(String.valueOf(animalType));
-            LocalDateTime truncatedDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.HOURS);
-            animal.setDateTime(truncatedDateTime);
-            return animalsRepository.save(animal);
-        }else {
-            LOGGER.warn("Invalid animal type: {}", animalType);
-            throw new IllegalArgumentException("Invalid animal type: " + animalType);
-        }
+    Animal findUserById(Long animalId);
 
-    }
-
-    public Animal editAnimal(Animal animal) {
-        LOGGER.info("Was invoked method for edit animal : {}", animal);
-        return animalsRepository.findById(animal.getId())
-                .map(dbEntity -> {
-                    dbEntity.setName(animal.getName());
-                    dbEntity.setBreed(animal.getBreed());
-                    dbEntity.setType_animal(animal.getType_animal());
-                    dbEntity.setText(animal.getText());
-                    animalsRepository.save(dbEntity);
-                    return dbEntity;
-                })
-                .orElse(null);
-    }
-
-
-    public void deleteAnimal(long animalId) {
-        LOGGER.info("Was invoked method for delete animal by id: {}", animalId);
-        animalsRepository.findById(animalId)
-                .map(entity -> {
-                    animalsRepository.delete(entity);
-                    return true;
-                })
-                .orElse(false);
-    }
-
-    public Collection<Animal> findAllbyBreedIgnoreCase(String breed) {
-        return animalsRepository.findByBreedIgnoreCase(breed);
-    }
+    Collection<Animal> findAll();
 }

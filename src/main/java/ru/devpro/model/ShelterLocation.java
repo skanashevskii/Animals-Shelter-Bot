@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -35,10 +36,11 @@ public class ShelterLocation {
     @Schema(description = "Почтовый индекс")
     @Column(name = "zipcode")
     private String zipcode;
+    @Column(name="shelter_location_time", nullable = false)
+    private LocalDateTime dateTime;
 
     @OneToOne
     private Shelter shelter;
-
 
     public ShelterLocation() {
     }
@@ -83,6 +85,14 @@ public class ShelterLocation {
         this.zipcode = zipcode;
     }
 
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
     public Shelter getShelter() {
         return shelter;
     }
@@ -112,6 +122,7 @@ public class ShelterLocation {
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", zipcode='" + zipcode + '\'' +
+                ", dateTime=" + dateTime +
                 ", shelter=" + shelter +
                 '}';
     }

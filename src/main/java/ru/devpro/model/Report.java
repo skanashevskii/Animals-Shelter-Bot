@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import ru.devpro.enums.AccessLevel;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -21,6 +22,8 @@ public class Report {
     @Enumerated(EnumType.STRING)
     @Column(name = "access_level")
     private AccessLevel accessLevel;  // Поле для управления доступом
+    @Column(name="report_time", nullable = false)
+    private LocalDateTime dateTime;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;  // Ссылка на владельца отчета

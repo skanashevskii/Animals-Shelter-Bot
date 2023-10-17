@@ -1,5 +1,6 @@
 package ru.devpro.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +22,7 @@ import java.nio.file.Path;
 
 @RestController
 @RequestMapping("avatar")
-
+@Tag(name = "Аватарки", description = "Методы работы с аватарками")
 
 public class AvatarController {
     private final AvatarService avatarService;
