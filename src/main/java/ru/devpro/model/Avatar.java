@@ -26,6 +26,7 @@ public class Avatar {
     @OneToOne(fetch = FetchType.EAGER)
     private Animal animal;
 
+
     public Avatar() {
     }
 

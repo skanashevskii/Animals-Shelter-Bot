@@ -67,7 +67,7 @@ public class AnimalDTO {
         this.text = text;
     }
 
-  /*  public LocalDateTime getDateTime() {
+    public LocalDateTime getDateTime() {
         return dateTime;
     }
 
@@ -81,5 +81,5 @@ public class AnimalDTO {
 
     public void setUser(User user) {
         this.user = user;
-    }*/
+    }
 }

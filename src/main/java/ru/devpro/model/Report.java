@@ -28,16 +28,10 @@ public class Report {
     @JoinColumn(name = "user_id")
     private User user;  // Ссылка на владельца отчета
 
+
     public Report() {
     }
 
-    public Report(Long id, LocalDate reportDate, String filePath, AccessLevel accessLevel, User user) {
-        this.id = id;
-        this.reportDate = reportDate;
-        this.filePath = filePath;
-        this.accessLevel = accessLevel;
-        this.user = user;
-    }
     // Другие поля и геттеры/сеттеры
 
 

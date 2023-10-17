@@ -21,6 +21,11 @@ public class Shelter {
     @NotNull
     @Column(name = "name")
     private String name;
+
+    @Schema(description = "Рекомендации")
+    @NotNull
+    @Column(name="safety_advise")
+    private String safety;
     @Column(name="shelter_time", nullable = false)
     private LocalDateTime dateTime;
     @OneToOne
@@ -28,6 +33,14 @@ public class Shelter {
     private ShelterLocation shelterLocation;
 
     public Shelter() {
+    }
+
+    public String getSafety() {
+        return safety;
+    }
+
+    public void setSafety(String safety) {
+        this.safety = safety;
     }
 
     public Long getId() {
@@ -80,6 +93,7 @@ public class Shelter {
         return "Shelter{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", safety='" + safety + '\'' +
                 ", dateTime=" + dateTime +
                 ", shelterLocation=" + shelterLocation +
                 '}';
