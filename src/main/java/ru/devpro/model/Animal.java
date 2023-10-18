@@ -14,7 +14,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "animal")
 public class Animal {
-    @Min(1)
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,10 +37,21 @@ public class Animal {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
+    //@JsonIgnore
     private User user;
 
     public Animal() {
+    }
+
+    public Animal(Long id, String name, AnimalType type_animal,
+                  String breed, String text, LocalDateTime dateTime, User user) {
+        this.id = id;
+        this.name = name;
+        this.type_animal = type_animal;
+        this.breed = breed;
+        this.text = text;
+        this.dateTime = dateTime;
+        this.user = user;
     }
 
     public Long getId() {

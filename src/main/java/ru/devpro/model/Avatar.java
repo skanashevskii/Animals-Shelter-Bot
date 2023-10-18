@@ -30,7 +30,15 @@ public class Avatar {
     public Avatar() {
     }
 
-
+    public Avatar(Long id, String filePath, long fileSize,
+                  String mediaType, byte[] preview, Animal animal) {
+        this.id = id;
+        this.filePath = filePath;
+        this.fileSize = fileSize;
+        this.mediaType = mediaType;
+        this.preview = preview;
+        this.animal = animal;
+    }
 
     public Long getId() {
         return id;

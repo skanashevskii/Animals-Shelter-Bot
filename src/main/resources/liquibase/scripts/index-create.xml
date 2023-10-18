@@ -66,7 +66,7 @@
    <column name="email" type="varchar(255)">
     <constraints nullable="true" />
    </column>
-   <column name="accessLevel" type="varchar(255)">
+   <column name="access_level" type="varchar(255)">
     <constraints nullable="true" />
    </column>
    <column name="user_time" type="DATETIME(6)">
@@ -92,6 +92,9 @@
    </column>
    <column name="name" type="varchar(255)">
     <constraints nullable="false"/>
+   </column>
+   <column name="safety_advise" type="varchar(1024)">
+    <constraints nullable="false" />
    </column>
    <column name="shelter_time" type="DATETIME(6)">
     <constraints nullable="true" />
@@ -156,6 +159,8 @@
    <column name="report_time"/>
   </createIndex>
  </changeSet>
+
+
 
 
 

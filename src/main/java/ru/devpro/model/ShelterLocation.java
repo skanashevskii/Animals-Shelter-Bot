@@ -1,16 +1,16 @@
 package ru.devpro.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
+
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
-import java.util.List;
+
 import java.util.Objects;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "shelter_location")
@@ -43,6 +43,17 @@ public class ShelterLocation {
     private Shelter shelter;
 
     public ShelterLocation() {
+    }
+
+    public ShelterLocation(Long id, String address, String city, String state,
+                           String zipcode, LocalDateTime dateTime, Shelter shelter) {
+        this.id = id;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.dateTime = dateTime;
+        this.shelter = shelter;
     }
 
     public Long getId() {

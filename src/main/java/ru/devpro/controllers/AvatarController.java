@@ -31,7 +31,7 @@ public class AvatarController {
         this.avatarService = avatarService;
     }
 
-    @PostMapping(value = "/{animalId}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/{animalId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> uploadAvatar(@PathVariable Long animalId,
                                                @RequestParam MultipartFile avatar) throws IOException {
         if (avatar.getSize() >= 1024 * 600) {

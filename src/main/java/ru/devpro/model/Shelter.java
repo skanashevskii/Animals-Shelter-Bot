@@ -1,5 +1,6 @@
 package ru.devpro.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
@@ -33,6 +34,15 @@ public class Shelter {
     private ShelterLocation shelterLocation;
 
     public Shelter() {
+    }
+
+    public Shelter(String name, String safety,
+                   LocalDateTime dateTime, ShelterLocation shelterLocation) {
+
+        this.name = name;
+        this.safety = safety;
+        this.dateTime = dateTime;
+        this.shelterLocation = shelterLocation;
     }
 
     public String getSafety() {

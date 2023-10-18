@@ -1,29 +1,40 @@
 package ru.devpro.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import ru.devpro.model.Report;
-import ru.devpro.model.User;
-import ru.devpro.service.ReportService;
-import ru.devpro.service.UserServiceImpl;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import ru.devpro.dto.ReportDTO;
+
+import ru.devpro.service.ReportServiceImpl;
+
+
+
 
 @RestController
 @RequestMapping("/reports")
 @Tag(name = "Отчеты", description = "Методы работы с отчетами")
 public class ReportController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReportController.class);
     @Autowired
-    private ReportService reportService;
-    private UserServiceImpl userServiceImpl;
+    private ReportServiceImpl reportService;
 
-    @GetMapping("/user")
-    public List<Report> getReportsForUser(@RequestParam Long userId) {
-        User user = userServiceImpl.findUserById(userId);
-        return reportService.getReportsForUser(user);
+
+    @PostMapping
+    @Operation(summary = "Создание отчета",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Создание объекта отчет"
+            )
+    )
+
+    public ReportDTO createAnimal(@Parameter(description = "Принимает объект отчет")
+                                  @RequestBody ReportDTO reportDTO) {
+        LOGGER.info("Received request to save animal: {}", reportDTO);
+
+        return reportService.createReport(reportDTO);
     }
 }

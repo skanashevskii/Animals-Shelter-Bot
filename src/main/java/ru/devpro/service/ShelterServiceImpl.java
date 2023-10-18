@@ -28,9 +28,13 @@ public class ShelterServiceImpl implements ShelterService {
     @Override
     public ShelterDTO createShelter(ShelterDTO shelterDTO) {
         LOGGER.info("Received request to save shelter: {}", shelterDTO);
-        Shelter shelterEntity = shelterMapper.toEntity(shelterDTO); // Преобразуйте DTO в сущность
-        Shelter savedEntity = shelterRepository.save(shelterEntity);
-        return shelterMapper.toDTO(savedEntity); // Преобразуйте сущность обратно в DTO
+        // Преобразование ShelterDTO в сущность Shelter с использованием маппера
+        Shelter shelter = shelterMapper.toEntity(shelterDTO);
+        // Сохранение сущности Shelter в репозитории
+        Shelter savedShelter = shelterRepository.save(shelter);
+        // Преобразование сохраненной сущности Shelter обратно в DTO
+
+        return shelterMapper.toDTO(savedShelter);
     }
 
     @Override
@@ -44,25 +48,59 @@ public class ShelterServiceImpl implements ShelterService {
                 .orElse(false);
     }
 
+    /*@Override
+    public ShelterDTO editShelter(ShelterDTO shelterDTO) {
+        return null;
+    }*/
+
     @Override
-    public Shelter editShelter(Shelter shelter) {
-        LOGGER.info("Was invoked method for edit animal : {}", shelter);
-        return shelterRepository.findById(shelter.getId())
-                .map(dbEntity -> {
-                    dbEntity.setName(shelter.getName());
-                    shelterRepository.save(dbEntity);
-                    return dbEntity;
-                })
-                .orElse(null);
-    }
-    @Override
-    public Shelter findShelterById(Long userId) {
-        return shelterRepository.findById(userId).orElse(null);
+    public ShelterDTO findShelterById(Long shelterId) {
+        return null;
     }
 
     @Override
-    public Collection<Shelter> findAll() {
-        LOGGER.info("Was invoked method for finding all shelters");
-        return shelterRepository.findAll();
+    public Collection<ShelterDTO> findAll() {
+        return null;
+    }
+
+    @Override
+    public ShelterDTO editShelter(ShelterDTO shelterDTO) {
+        LOGGER.info("Was invoked method for edit shelter : {}", shelterDTO);
+
+        // Преобразовать ShelterDTO в Shelter с использованием маппера
+        Shelter shelterEntity = shelterMapper.toEntity(shelterDTO);
+
+        // Сохранить обновленную сущность Shelter в репозитории
+        Shelter savedEntity = shelterRepository.save(shelterEntity);
+
+        // Попытаться найти обновленную сущность Shelter
+        return shelterRepository.findById(savedEntity.getId())
+                .map(dbEntity -> {
+                    // Обновить поля Shelter
+                    dbEntity.setName(savedEntity.getName());
+                    dbEntity.setSafety(savedEntity.getSafety());
+
+                    // Сохранить обновленную сущность Shelter
+                    shelterRepository.save(dbEntity);
+
+                    // Преобразовать обновленную сущность Shelter обратно в ShelterDTO
+                    ShelterDTO updatedShelterDTO = shelterMapper.toDTO(dbEntity);
+
+                    return updatedShelterDTO;
+                })
+                .orElse(null);
     }
 }
+
+
+   /* @Override
+    public ShelterDTO findShelterById(Long shelterId) {
+        return shelterRepository.findById(shelterId).orElse(null);*/
+
+
+   /* @Override
+    public Collection<ShelterDTO> findAll() {
+        LOGGER.info("Was invoked method for finding all shelters");
+        return shelterRepository.findAll();
+    }*/
+

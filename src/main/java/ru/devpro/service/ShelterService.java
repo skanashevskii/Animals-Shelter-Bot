@@ -9,17 +9,16 @@ import java.util.Collection;
 
 @Service
 public interface ShelterService {
+    ShelterDTO createShelter(ShelterDTO shelterDTO); // Метод для создания приюта
     void deleteShelter(Long id);
 
+    ShelterDTO editShelter(ShelterDTO shelterDTO);
+
+    ShelterDTO findShelterById(Long shelterId);
+
+    Collection<ShelterDTO> findAll();
 
 
-    Shelter editShelter(Shelter shelter);
-
-    Shelter findShelterById(Long userId);
-
-    Collection<Shelter> findAll();
-
-    ShelterDTO createShelter(ShelterDTO shelterDTO); // Метод для создания приюта
 
     // Другие методы
 }

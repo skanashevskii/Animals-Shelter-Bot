@@ -1,7 +1,7 @@
 package ru.devpro.dto;
 
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.stereotype.Component;
 import ru.devpro.enums.AnimalType;
 import ru.devpro.model.User;
@@ -10,21 +10,32 @@ import java.time.LocalDateTime;
 
 @Component
 public class AnimalDTO {
-        private Long id;
+    private Long id;
 
-        private String name;
+    private String name;
 
-        private AnimalType type_animal;
+    private AnimalType type_animal;
 
-        private String breed;
+    private String breed;
 
-        private String text;
+    private String text;
 
-        private LocalDateTime dateTime;
-
-        private User user;
+    private LocalDateTime dateTime;
+    @JsonIgnore
+    private User user;
 
     public AnimalDTO() {
+    }
+
+    public AnimalDTO(Long id, String name, AnimalType type_animal,
+                     String breed, String text, LocalDateTime dateTime, User user) {
+        this.id = id;
+        this.name = name;
+        this.type_animal = type_animal;
+        this.breed = breed;
+        this.text = text;
+        this.dateTime = dateTime;
+        this.user = user;
     }
 
     public Long getId() {

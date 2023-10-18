@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import ru.devpro.dto.ShelterDTO;
 import ru.devpro.dto.UserDTO;
 import ru.devpro.mapers.UserMapper;
 import ru.devpro.model.Shelter;
@@ -42,17 +43,12 @@ public class UsersController {
 
                     description = "Создание объекта пользователь"))
 
-  /*  public ResponseEntity<User> createUser(@Parameter(description = "Принимает объект пользователь")
-                                   @RequestBody User user) {
-        LOGGER.info("Received request to save animal: {}", user);
-        User createdUser = userService.createUser(user);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
-    }*/
-    public UserDTO createUser(@Parameter(description = "Принимает объект пользователь")
+
+    public ResponseEntity<UserDTO> createUser(@Parameter(description = "Принимает объект пользователь")
                                            @RequestBody UserDTO userDTO) {
         LOGGER.info("Received request to save animal: {}", userDTO);
-
-        return userService.createUser(userDTO);
+        UserDTO createUser = userService.createUser(userDTO);
+        return new ResponseEntity<>(createUser,HttpStatus.CREATED);
     }
 
     @ApiResponses({
@@ -69,29 +65,33 @@ public class UsersController {
     })
     @PutMapping
     @Operation(summary = "Изменение инфо о пользователе")
-    public ResponseEntity<User> editUser(@RequestBody User user) {
-        User foundUser = userService.editUser(user);
+    public ResponseEntity<UserDTO> editUser(@RequestBody UserDTO userDTO) {
+        UserDTO foundUser = userService.editUser(userDTO);
         if (foundUser == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(foundUser);
     }
-    @ApiResponses({
+   /* @ApiResponses({
             @ApiResponse(
-                    responseCode = "ничего",
-                    description = "Удаление пользователя",
+                    responseCode = "200",
+                    description = "Успешное удаление пользователя",
                     content = {
                             @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = User.class )
                             )
 
                     }
-            )
-    })
-    @DeleteMapping("{id}")
+            ),
+            @ApiResponse(responseCode = "404",
+                    description = "Пользователь не найден")
+    })*/
+    @DeleteMapping("/{id}")
     @Operation(summary = "Удаление пользователя")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
-       userService.deleteUser(userId);
+    @ApiResponse(responseCode = "200", description = "Успешное удаление пользователя")
+    @ApiResponse(responseCode = "404", description = "Пользователь не найден")
+    public ResponseEntity<Void> deleteUser(@RequestParam long userId) {
+       userService.deleteUserById(userId);
         return ResponseEntity.ok().build();
     }
 
@@ -111,7 +111,7 @@ public class UsersController {
 
         @GetMapping
         @Operation(summary = "Поиск всех пользователей")
-        public ResponseEntity<Collection<User>> findAllUsers() {
+        public ResponseEntity<Collection<UserDTO>> findAllUsers() {
 
                 return ResponseEntity.ok(userService.findAll());
 

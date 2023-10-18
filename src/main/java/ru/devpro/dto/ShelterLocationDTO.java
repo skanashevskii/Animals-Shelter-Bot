@@ -1,5 +1,6 @@
 package ru.devpro.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 import ru.devpro.model.Shelter;
@@ -15,11 +16,23 @@ public class ShelterLocationDTO {
     private String state;
     private String zipcode;
     private LocalDateTime dateTime;
+    @JsonIgnore
     private Shelter shelter;
 
     public ShelterLocationDTO() {
     }
 
+    public ShelterLocationDTO(Long id, String address, String city,
+                              String state, String zipcode, LocalDateTime dateTime,
+                              Shelter shelter) {
+        this.id = id;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.dateTime = dateTime;
+        this.shelter = shelter;
+    }
     // Геттеры и сеттеры для полей
 
 

@@ -2,30 +2,46 @@ package ru.devpro.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import ru.devpro.dto.ShelterDTO;
 import ru.devpro.dto.UserDTO;
 
+import ru.devpro.exceptions.ShelterNotFoundException;
+import ru.devpro.mapers.ShelterMapper;
 import ru.devpro.mapers.UserMapper;
 
+import ru.devpro.model.Shelter;
 import ru.devpro.model.User;
+import ru.devpro.repositories.ShelterRepository;
 import ru.devpro.repositories.UsersRepository;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final UsersRepository usersRepository;
+
     private final UserMapper userMapper;
 
-    public UserServiceImpl(UsersRepository usersRepository) {
+
+    public UserServiceImpl(UsersRepository usersRepository, ShelterRepository shelterRepository) {
         this.usersRepository = usersRepository;
+
         this.userMapper = UserMapper.INSTANCE;
+
     }
 
     @Override
+    @Cacheable("user")
     public UserDTO createUser(UserDTO userDTO) {
         LOGGER.info("Received request to save shelter: {}", userDTO);
         User userEntity = userMapper.toEntity(userDTO); // Преобразуйте DTO в сущность
@@ -33,40 +49,62 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDTO(savedEntity); // Преобразуйте сущность обратно в DTO
     }
     @Override
-    public User editUser(User user) {
-        LOGGER.info("Was invoked method for edit animal : {}", user);
-        return usersRepository.findById(user.getId())
-                .map(dbEntity -> {
-                    dbEntity.setName(user.getName());
-                    dbEntity.setFamily(user.getFamily());
-                    dbEntity.setEmail(user.getEmail());
-                    dbEntity.setRole(user.getRole());
-                    dbEntity.setTelephone(user.getTelephone());
+    @CachePut(value = "user", key="#user.id")
+    public UserDTO editUser(UserDTO userDTO) {
+        LOGGER.info("Was invoked method for edit user: {}", userDTO);
+        // Преобразовать UserDTO в User
+        User user = userMapper.toEntity(userDTO);
 
-                    usersRepository.save(dbEntity);
-                    return dbEntity;
-                })
-                .orElse(null);
+        // Попытаться найти существующего пользователя
+        Optional<User> existingUser = usersRepository.findById(user.getId());
+
+        if (existingUser.isPresent()) {
+            // Обновляем информацию о пользователе
+            User updatedUser = existingUser.get();
+            updatedUser.setName(user.getName());
+            updatedUser.setFamily(user.getFamily());
+            updatedUser.setRole(user.getRole());
+            updatedUser.setTelephone(user.getTelephone());
+            updatedUser.setEmail(user.getEmail());
+            // Сохранить обновленного пользователя
+            usersRepository.save(updatedUser);
+            // Преобразовать обновленного пользователя обратно в UserDTO
+            return userMapper.toDTO(updatedUser);
+        } else {
+            // Обработка случая, если пользователь не найден
+            return null;
+        }
     }
+
     @Override
-    public void deleteUser(Long userId) {
-        LOGGER.info("Was invoked method for delete animal by id: {}", userId);
-        usersRepository.findById(userId)
-                .map(entity -> {
-                    usersRepository.delete(entity);
-                    return true;
-                })
-                .orElse(false);
+    @CacheEvict("user")//удаление кэш
+    public void deleteUserById(Long userId) {
+        LOGGER.info("Was invoked method for delete user by id: {}", userId);
+
+        // Найти пользователя по ID
+        User user = usersRepository.findById(userId).orElse(null);
+
+        // Если пользователь с таким ID найден, удаляем его
+        if (user != null) {
+            usersRepository.delete(user);
+        }
     }
-    @Override
-    public User findUserById(Long userId) {
+  /*  @Override
+    public UserDTO findUserById(Long userId) {
         LOGGER.info("Was invoked method for delete animal by id: {}", userId);
         return usersRepository.findById(userId).orElse(null);
-    }
-    @Override
-    public Collection<User> findAll() {
-        return usersRepository.findAll();
-    }
+    }*/
+  @Override
+  public Collection<UserDTO> findAll() {
+      // Всех пользователей из репозитория
+      List<User> users = usersRepository.findAll();
+
+      // Преобразуйте список пользователей в список UserDTO с использованием маппера
+
+      return users.stream()
+              .map(userMapper::toDTO)
+              .collect(Collectors.toList());
+  }
 
 
 }

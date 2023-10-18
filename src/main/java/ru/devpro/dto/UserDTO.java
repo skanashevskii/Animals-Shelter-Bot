@@ -1,5 +1,6 @@
 package ru.devpro.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -26,10 +27,28 @@ public class UserDTO {
     private String email;
     private LocalDateTime dateTime;
     private AccessLevel accessLevel;
+    @JsonIgnore
     private Shelter shelter;
+    @JsonIgnore
     private Set<Animal> animals;
 
     public UserDTO() {
+    }
+
+    public UserDTO(Long id, Long chatId, String name, String family, String role,
+                   String telephone, String email, LocalDateTime dateTime,
+                   AccessLevel accessLevel, Shelter shelter, Set<Animal> animals) {
+        this.id = id;
+        this.chatId = chatId;
+        this.name = name;
+        this.family = family;
+        this.role = role;
+        this.telephone = telephone;
+        this.email = email;
+        this.dateTime = dateTime;
+        this.accessLevel = accessLevel;
+        this.shelter = shelter;
+        this.animals = animals;
     }
 
     public Long getId() {

@@ -36,6 +36,11 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version> <!-- Подставьте актуальную версию Springfox -->
+        </dependency>
         <!-- для работы с ДТО-->
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -49,7 +54,13 @@
             <scope>provided</scope>
         </dependency>
 
-
+        <!-- для работы с Cache-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+            <version>3.1.4</version>
+        </dependency>
+        <!-- для работы с Bot-->
         <dependency>
             <groupId>com.github.pengrad</groupId>
             <artifactId>java-telegram-bot-api</artifactId>
@@ -64,16 +75,19 @@
             <artifactId>telegrambots</artifactId>
             <version>6.8.0</version>
         </dependency>
+        <!-- для работы с БД-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!--Миграции в БД-->
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>4.23.1</version>
         </dependency>
+        <!-- для работы с Logs-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -89,6 +103,7 @@
             <artifactId>spring-data-jpa</artifactId>
             <version>3.1.1</version>
         </dependency>
+        <!-- для работы с Emoji-->
         <dependency>
             <groupId>com.vdurmont</groupId>
             <artifactId>emoji-java</artifactId>

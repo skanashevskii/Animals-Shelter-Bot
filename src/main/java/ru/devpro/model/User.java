@@ -1,5 +1,6 @@
 package ru.devpro.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -41,7 +42,6 @@ public class User {
     private String role;
 
     @Schema(description = "Телефон")
-
     @Column(name="telephone_number",nullable = false)
     @Pattern(regexp = "^[0-9]{7,15}$", message = "Invalid phone number format")
     @Size(min = 7, max = 15, message = "Phone number must be between 7 and 15 characters")
@@ -70,6 +70,21 @@ public class User {
     public User() {
     }
 
+    public User(Long id, Long chatId, String name, String family, String role,
+                String telephone, String email, LocalDateTime dateTime,
+                AccessLevel accessLevel, Shelter shelter, Set<Animal> animals) {
+        this.id = id;
+        this.chatId = chatId;
+        this.name = name;
+        this.family = family;
+        this.role = role;
+        this.telephone = telephone;
+        this.email = email;
+        this.dateTime = dateTime;
+        this.accessLevel = accessLevel;
+        this.shelter = shelter;
+        this.animals = animals;
+    }
 
     public AccessLevel getAccessLevel() {
         return accessLevel;

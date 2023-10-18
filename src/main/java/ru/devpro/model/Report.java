@@ -32,6 +32,15 @@ public class Report {
     public Report() {
     }
 
+    public Report(Long id, LocalDate reportDate, String filePath,
+                  AccessLevel accessLevel, LocalDateTime dateTime, User user) {
+        this.id = id;
+        this.reportDate = reportDate;
+        this.filePath = filePath;
+        this.accessLevel = accessLevel;
+        this.dateTime = dateTime;
+        this.user = user;
+    }
     // Другие поля и геттеры/сеттеры
 
 

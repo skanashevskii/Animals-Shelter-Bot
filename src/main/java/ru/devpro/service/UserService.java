@@ -10,11 +10,8 @@ public interface UserService {
 
    UserDTO createUser(UserDTO userDTO); // Метод для создания пользователя
 
-    User editUser(User user);
+    UserDTO editUser(UserDTO userDTO);
 
-    void deleteUser(Long userId);
-
-    User findUserById(Long userId);
-
-    Collection<User> findAll();
+    void deleteUserById(Long userId);
+    Collection<UserDTO> findAll();
 }

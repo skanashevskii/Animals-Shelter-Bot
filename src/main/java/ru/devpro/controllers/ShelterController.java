@@ -38,19 +38,16 @@ public class ShelterController {
     // Создание нового приюта
     @PostMapping
     @Operation(summary = "Создание приюта")
-  /*  public ResponseEntity<?> createShelter(@RequestBody Shelter shelter) {
-        Shelter createdShelter = shelterService.createShelter(shelter);
-        return new ResponseEntity<>(createdShelter, HttpStatus.CREATED);
-    }*/
-    public ShelterDTO createShelter(@Parameter(description = "Принимает объект приют")
+    public ResponseEntity<ShelterDTO> createShelter(@Parameter(description = "Принимает объект приют")
                               @RequestBody ShelterDTO shelterDTO) {
         LOGGER.info("Received request to save animal: {}", shelterDTO);
-        return shelterService.createShelter(shelterDTO);
+        ShelterDTO createdShelter = shelterService.createShelter(shelterDTO);
+        return new ResponseEntity<>(createdShelter,HttpStatus.CREATED);
     }
     @PutMapping
     @Operation(summary = "Изменение инфо о приюте")
-    public ResponseEntity<Shelter> editShelter(@RequestBody Shelter shelter) {
-        Shelter foundShelter = shelterService.editShelter(shelter);
+    public ResponseEntity<ShelterDTO> editShelter(@RequestBody ShelterDTO shelterDTO) {
+        ShelterDTO foundShelter = shelterService.editShelter(shelterDTO);
         if (foundShelter == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -58,8 +55,8 @@ public class ShelterController {
     }
     // Получение информации о приюте по его идентификатору
     @GetMapping("/{id}")
-    public ResponseEntity<Shelter> getShelterById(@PathVariable Long id) {
-        Shelter shelter = shelterService.findShelterById(id);
+    public ResponseEntity<ShelterDTO> getShelterById(@PathVariable Long id) {
+        ShelterDTO shelter = shelterService.findShelterById(id);
         if(shelter == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
