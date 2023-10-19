@@ -12,7 +12,8 @@ import java.util.Optional;
 @Repository
 public interface AvatarRepository extends JpaRepository<Avatar,Long> {
 
-    Optional<Avatar> findById(Long dogId);
+    @NotNull
+    Optional<Avatar> findById(@NotNull Long dogId);
 
     @NotNull
     Page<Avatar> findAll(@NotNull Pageable pageable);

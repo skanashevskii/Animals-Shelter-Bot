@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.devpro.model.Avatar;
-import ru.devpro.service.AvatarService;
+import ru.devpro.service.AvatarServiceImpl;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,10 +25,10 @@ import java.nio.file.Path;
 @Tag(name = "Аватарки", description = "Методы работы с аватарками")
 
 public class AvatarController {
-    private final AvatarService avatarService;
+    private final AvatarServiceImpl avatarServiceImpl;
 
-    public AvatarController(AvatarService avatarService) {
-        this.avatarService = avatarService;
+    public AvatarController(AvatarServiceImpl avatarServiceImpl) {
+        this.avatarServiceImpl = avatarServiceImpl;
     }
 
     @PostMapping(value = "/{animalId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -37,13 +37,13 @@ public class AvatarController {
         if (avatar.getSize() >= 1024 * 600) {
             return ResponseEntity.badRequest().body("File is too big");
         }
-        avatarService.uploadAvatar(animalId, avatar);
+        avatarServiceImpl.uploadAvatar(animalId, avatar);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping(value = "/{id}/avatar-from-db")
     public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) {
-        Avatar avatar = avatarService.findAvatar(id);
+        Avatar avatar = avatarServiceImpl.findAvatar(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
@@ -57,7 +57,7 @@ public class AvatarController {
 
     @GetMapping(value = "/{id}/avatar-from-file")
     public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
-        Avatar avatar = avatarService.findAvatar(id);
+        Avatar avatar = avatarServiceImpl.findAvatar(id);
         Path path = Path.of(avatar.getFilePath());
         try (InputStream is = Files.newInputStream(path);
              OutputStream os = response.getOutputStream();) {
@@ -72,7 +72,7 @@ public class AvatarController {
     public ResponseEntity<Page<Avatar>> downloadAvatars(@RequestParam(defaultValue = "1") Integer page,
                                                         @RequestParam(defaultValue = "1") Integer size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Avatar> avatarPage = avatarService.listAvatars(pageable);
+        Page<Avatar> avatarPage = avatarServiceImpl.listAvatars(pageable);
 
         return ResponseEntity.ok(avatarPage);
     }

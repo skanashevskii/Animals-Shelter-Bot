@@ -72,20 +72,7 @@ public class UsersController {
         }
         return ResponseEntity.ok(foundUser);
     }
-   /* @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Успешное удаление пользователя",
-                    content = {
-                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = User.class )
-                            )
 
-                    }
-            ),
-            @ApiResponse(responseCode = "404",
-                    description = "Пользователь не найден")
-    })*/
     @DeleteMapping("/{id}")
     @Operation(summary = "Удаление пользователя")
     @ApiResponse(responseCode = "200", description = "Успешное удаление пользователя")

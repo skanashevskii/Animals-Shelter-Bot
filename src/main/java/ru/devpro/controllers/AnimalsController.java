@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +18,7 @@ import ru.devpro.dto.AnimalDTO;
 import ru.devpro.enums.AnimalType;
 import ru.devpro.model.Animal;
 import ru.devpro.service.AnimalService;
-import ru.devpro.service.AnimalServiceImpl;
 
-
-import java.util.Collection;
-import java.util.Collections;
 
 @RestController
 @RequestMapping("/animals")
@@ -40,18 +37,24 @@ public class AnimalsController {
                     description = "Создание объекта животное"
             )
     )
-  /*  public ResponseEntity<Animal> createAnimal(
-            @Parameter(description = "Принимает объект животное") @RequestBody Animal animal,
+    public ResponseEntity<AnimalDTO> createAnimal(
+            @Parameter(description = "Принимает объект животное")
+            @RequestBody AnimalDTO animalDTO,
             @Parameter(description = "Тип животного (CAT/DOG)") @RequestParam AnimalType type) {
-        LOGGER.info("Received request to save animal: {}", animal);
-        Animal createdAnimal = animalServiceImpl.createAnimal(animal,type);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdAnimal);
-    }*/
-    public AnimalDTO createAnimal(@Parameter(description = "Принимает объект пользователь")
-                              @RequestBody AnimalDTO animalDTO) {
+
         LOGGER.info("Received request to save animal: {}", animalDTO);
 
-        return animalService.createAnimal(animalDTO);
+        // Сервис для создания животного
+        AnimalDTO createdAnimal = animalService.createAnimal(animalDTO, type);
+
+        // Проверка, что животное было успешно создано
+        if (createdAnimal != null) {
+            // Верните успешный результат с созданным животным
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdAnimal);
+        } else {
+            // Если создание не удалось, верните код ошибки
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
     @ApiResponses({
             @ApiResponse(
@@ -68,16 +71,30 @@ public class AnimalsController {
 
     @PutMapping
     @Operation(summary = "Изменение информации о животном")
-    public ResponseEntity<Animal> editAnimal(
-            @RequestBody Animal animal,
+    public ResponseEntity<AnimalDTO> editAnimal(
+            @RequestParam Long id,
+            @RequestBody AnimalDTO animalDTO,
             @Parameter(description = "Тип животного (CAT/DOG)") @RequestParam AnimalType type) {
-        animal.setType_animal(type);
-        Animal foundAnimal = animalService.editAnimal(animal);
+        // Передаем id, animalDTO и type в сервис для обработки
+        AnimalDTO foundAnimal = animalService.editAnimal(id, animalDTO, type);
         if (foundAnimal == null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(foundAnimal);
     }
+    @GetMapping("/{animalId}")
+    @Operation(summary = "Получение информации о животном по ID")
+    public ResponseEntity<AnimalDTO> getAnimalById(
+            @RequestParam Long animalId) {
+        AnimalDTO animalDTO = animalService.findAnimalById(animalId);
+        if (animalDTO != null) {
+            return ResponseEntity.ok(animalDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 
     @DeleteMapping("{id}")
     @Operation(summary = "Удаление животного")

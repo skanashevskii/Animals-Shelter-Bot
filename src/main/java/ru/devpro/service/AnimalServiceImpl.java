@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.devpro.dto.AnimalDTO;
 
+import ru.devpro.enums.AnimalType;
 import ru.devpro.mapers.AnimalMapper;
 
 import ru.devpro.model.Animal;
@@ -12,7 +13,10 @@ import ru.devpro.model.Animal;
 import ru.devpro.repositories.AnimalsRepository;
 
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
+import java.util.Optional;
 
 
 @Service
@@ -26,58 +30,72 @@ public class AnimalServiceImpl implements AnimalService{
         this.animalsRepository = animalsRepository;
         this.animalMapper = AnimalMapper.INSTANCE;
     }
+    @Override
+    public AnimalDTO findAnimalById(Long animalId) {
+        LOGGER.debug("Was invoked method for search animal by id: {}", animalId);
 
-    public Animal findAnimalById(Long animalId) {
-        LOGGER.debug("Was invoked method for seach animal by id: {}", animalId);
-        return animalsRepository.findById(animalId).orElse(null);
+        Optional<Animal> animalOptional = animalsRepository.findById(animalId);
+
+        if (animalOptional.isPresent()) {
+            Animal animal = animalOptional.get();
+            // маппер для преобразования сущности Animal в DTO
+            return animalMapper.toDTO(animal);
+        } else {
+            return null;
+        }
     }
 
- /*   public Animal createAnimal(Animal animal, AnimalType animalType) {
-        boolean isValidType = false;
-        // Перебираем значения enum AnimalType
-        for (AnimalType type : AnimalType.values()) {
-            if (type == animalType) {
-                isValidType = true;
-                break;
-            }
-        }
-        if(isValidType){
-            LOGGER.info("Animal type {} is valid.", animalType);
-            animal.setType_animal(animalType);
-            LocalDateTime truncatedDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.HOURS);
-            animal.setDateTime(truncatedDateTime);
-            return animalsRepository.save(animal);
-        }else {
+    @Override
+    public AnimalDTO createAnimal(AnimalDTO animalDTO, AnimalType animalType) {
+        LOGGER.info("Received request to save shelter: {}", animalDTO);
+
+        if (!isValidAnimalType(animalType)) {
             LOGGER.warn("Invalid animal type: {}", animalType);
             throw new IllegalArgumentException("Invalid animal type: " + animalType);
         }
 
-    }*/
- @Override
- public AnimalDTO createAnimal(AnimalDTO animalDTO) {
-     LOGGER.info("Received request to save shelter: {}", animalDTO);
-     Animal animalEntity = animalMapper.toEntity(animalDTO); // Преобразуйте DTO в сущность
-     Animal savedEntity = animalsRepository.save(animalEntity);
-     return animalMapper.toDTO(savedEntity); // Преобразуйте сущность обратно в DTO
- }
+        // Преобразуйте DTO в сущность
+        Animal animalEntity = animalMapper.toEntity(animalDTO);
+        animalEntity.setType_animal(animalType);
 
-    public Animal editAnimal(Animal animal) {
-        LOGGER.info("Was invoked method for edit animal : {}", animal);
-        return animalsRepository.findById(animal.getId())
-                .map(dbEntity -> {
-                    dbEntity.setName(animal.getName());
-                    dbEntity.setBreed(animal.getBreed());
-                    dbEntity.setType_animal(animal.getType_animal());
-                    dbEntity.setText(animal.getText());
-                    animalsRepository.save(dbEntity);
-                    return dbEntity;
-                })
-                .orElse(null);
+        // Установите дату и время
+        LocalDateTime truncatedDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.HOURS);
+        animalEntity.setDateTime(truncatedDateTime);
+
+        // Сохраните сущность в репозитории
+        Animal savedEntity = animalsRepository.save(animalEntity);
+
+        // Преобразуйте сущность обратно в DTO
+        return animalMapper.toDTO(savedEntity);
     }
 
-    @Override
-    public Animal findUserById(Long animalId) {
-        return null;
+    public AnimalDTO editAnimal(Long id, AnimalDTO animalDTO, AnimalType type) {
+        // Проверка валидности типа животного
+        if (!isValidAnimalType(type)) {
+            LOGGER.warn("Invalid animal type: {}", type);
+            throw new IllegalArgumentException("Invalid animal type: " + type);
+        }
+
+        // Поиск животного в репозитории по ID
+        return animalsRepository.findById(id)
+                .map(dbEntity -> {
+                    // Обновление полей сущности на основе данных из DTO
+                    dbEntity.setName(animalDTO.getName());
+                    dbEntity.setBreed(animalDTO.getBreed());
+                    dbEntity.setType_animal(type); // Обновление типа животного
+                    dbEntity.setText(animalDTO.getText());
+
+                    // Обновление времени изменения записи
+                    LocalDateTime now = LocalDateTime.now();
+                    dbEntity.setDateTime(now.truncatedTo(ChronoUnit.SECONDS));
+
+                    // Сохранение обновленной сущности в репозитории
+                    animalsRepository.save(dbEntity);
+
+                    // Преобразование сущности в DTO для возврата
+                    return animalMapper.toDTO(dbEntity);
+                })
+                .orElse(null);
     }
 
     @Override
@@ -98,5 +116,15 @@ public class AnimalServiceImpl implements AnimalService{
 
     public Collection<Animal> findAllbyBreedIgnoreCase(String breed) {
         return animalsRepository.findByBreedIgnoreCase(breed);
+    }
+
+    //валидность типа животного
+    private boolean isValidAnimalType(AnimalType animalType) {
+        for (AnimalType type : AnimalType.values()) {
+            if (type == animalType) {
+                return true;
+            }
+        }
+        return false;
     }
 }
