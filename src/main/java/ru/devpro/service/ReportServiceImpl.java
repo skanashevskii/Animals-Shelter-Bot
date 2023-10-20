@@ -12,6 +12,7 @@ import ru.devpro.model.Report;
 
 import ru.devpro.repositories.ReportRepository;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,8 +45,8 @@ public class ReportServiceImpl implements ReportService {
         return Collections.emptyList();
     }
 
-    @Override
     public ReportDTO createReport(ReportDTO reportDTO) {
+        reportDTO.setReportDate(LocalDate.now()); // Установка текущей даты (без времени)
         Report report = reportMapper.toEntity(reportDTO);
         Report savedReport = reportRepository.save(report);
         return reportMapper.toDTO(savedReport);

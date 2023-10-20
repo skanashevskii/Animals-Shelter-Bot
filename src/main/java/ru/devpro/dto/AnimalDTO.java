@@ -22,7 +22,7 @@ public class AnimalDTO {
     private String text;
 
     private LocalDateTime dateTime;
-    //@JsonIgnore
+    @JsonIgnore
     private User user;
 
 

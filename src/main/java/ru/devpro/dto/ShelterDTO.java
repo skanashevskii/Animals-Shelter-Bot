@@ -17,6 +17,7 @@ public class ShelterDTO {
     private LocalDateTime dateTime;
     @JsonIgnore
     private ShelterLocation shelterLocation;
+    @JsonIgnore
     private List<ShelterLocation> shelterLocations;
 
 

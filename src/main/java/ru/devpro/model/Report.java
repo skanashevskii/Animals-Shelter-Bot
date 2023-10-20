@@ -22,7 +22,6 @@ public class Report {
 
     @Column(name = "report_date")
     private LocalDate reportDate;  // Дата отчета
-
     @Column(name = "file_path")
     private String filePath;  // Путь к файлу отчета
     @Enumerated(EnumType.STRING)
