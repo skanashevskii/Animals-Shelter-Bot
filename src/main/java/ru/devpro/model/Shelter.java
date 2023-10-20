@@ -5,14 +5,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 
 @Entity
 @Table(name = "shelter")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Shelter {
 
     @Id
@@ -33,69 +40,11 @@ public class Shelter {
     @JoinColumn(name="shelter_location_id")
     private ShelterLocation shelterLocation;
 
-    @OneToMany(mappedBy = "shelter",fetch = FetchType.EAGER)
-    private Set<Animal> animals;
+   /* @OneToMany(mappedBy = "shelter",fetch = FetchType.EAGER)
+    private Set<Animal> animals;*/
+    @OneToMany(mappedBy = "shelter")
+    private List<ShelterLocation> shelterLocations;
 
-    public Shelter() {
-    }
-
-    public Shelter(Long id, String name, String safety, LocalDateTime dateTime,
-                   ShelterLocation shelterLocation, Set<Animal> animals) {
-        this.id = id;
-        this.name = name;
-        this.safety = safety;
-        this.dateTime = dateTime;
-        this.shelterLocation = shelterLocation;
-        this.animals = animals;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSafety() {
-        return safety;
-    }
-
-    public void setSafety(String safety) {
-        this.safety = safety;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public ShelterLocation getShelterLocation() {
-        return shelterLocation;
-    }
-
-    public void setShelterLocation(ShelterLocation shelterLocation) {
-        this.shelterLocation = shelterLocation;
-    }
-
-    public Set<Animal> getAnimals() {
-        return animals;
-    }
-
-    public void setAnimals(Set<Animal> animals) {
-        this.animals = animals;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -108,18 +57,6 @@ public class Shelter {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Shelter{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", safety='" + safety + '\'' +
-                ", dateTime=" + dateTime +
-                ", shelterLocation=" + shelterLocation +
-                ", animals=" + animals +
-                '}';
     }
 }
 

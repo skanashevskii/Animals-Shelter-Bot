@@ -4,10 +4,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.devpro.enums.AccessLevel;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -15,6 +19,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "app_user")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -65,115 +72,8 @@ public class User {
 
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private Set<Animal> animals;
-
-
-    public User() {
-    }
-
-    public User(Long id, Long chatId, String name, String family, String role,
-                String telephone, String email,
-                LocalDateTime dateTime, AccessLevel accessLevel, Shelter shelter,
-                Set<Animal> animals) {
-        this.id = id;
-        this.chatId = chatId;
-        this.name = name;
-        this.family = family;
-        this.role = role;
-        this.telephone = telephone;
-        this.email = email;
-        this.dateTime = dateTime;
-        this.accessLevel = accessLevel;
-        this.shelter = shelter;
-        this.animals = animals;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getChatId() {
-        return chatId;
-    }
-
-    public void setChatId(Long chatId) {
-        this.chatId = chatId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getFamily() {
-        return family;
-    }
-
-    public void setFamily(String family) {
-        this.family = family;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public AccessLevel getAccessLevel() {
-        return accessLevel;
-    }
-
-    public void setAccessLevel(AccessLevel accessLevel) {
-        this.accessLevel = accessLevel;
-    }
-
-    public Shelter getShelter() {
-        return shelter;
-    }
-
-    public void setShelter(Shelter shelter) {
-        this.shelter = shelter;
-    }
-
-    public Set<Animal> getAnimals() {
-        return animals;
-    }
-
-    public void setAnimals(Set<Animal> animals) {
-        this.animals = animals;
-    }
+    @OneToMany(mappedBy = "user")
+    private List<Report> reports;
 
     @Override
     public boolean equals(Object o) {
@@ -186,22 +86,5 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", chatId=" + chatId +
-                ", name='" + name + '\'' +
-                ", family='" + family + '\'' +
-                ", role='" + role + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", email='" + email + '\'' +
-                ", dateTime=" + dateTime +
-                ", accessLevel=" + accessLevel +
-                ", shelter=" + shelter +
-                ", animals=" + animals +
-                '}';
     }
 }

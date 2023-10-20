@@ -43,7 +43,8 @@ public class AnimalsController {
             @ApiResponse(
                     responseCode = "201",
                     description = "Животное успешно создано.",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AnimalDTO.class))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = AnimalDTO.class))
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -79,7 +80,8 @@ public class AnimalsController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Информация о животном успешно изменена.",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AnimalDTO.class))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = AnimalDTO.class))
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -107,7 +109,8 @@ public class AnimalsController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Информация о животном успешно найдена.",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AnimalDTO.class))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = AnimalDTO.class))
             ),
             @ApiResponse(
                     responseCode = "404",

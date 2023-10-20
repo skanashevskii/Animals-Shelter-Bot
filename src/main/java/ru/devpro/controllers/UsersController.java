@@ -15,11 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import ru.devpro.dto.ShelterDTO;
+
 import ru.devpro.dto.UserDTO;
-import ru.devpro.mapers.UserMapper;
-import ru.devpro.model.Shelter;
-import ru.devpro.model.User;
+
 import ru.devpro.service.UserService;
 
 import java.util.Collection;
@@ -46,7 +44,7 @@ public class UsersController {
             @ApiResponse(
                     responseCode = "201",
                     description = "Пользователь успешно создан.",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = User.class))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = UserDTO.class))
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -71,7 +69,7 @@ public class UsersController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Информация о пользователе успешно изменена.",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = User.class))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = UserDTO.class))
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -96,7 +94,7 @@ public class UsersController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Информация о пользователе успешно найдена.",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = User.class))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = UserDTO.class))
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -146,7 +144,7 @@ public class UsersController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Информация о пользователях успешно найдена.",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = User[].class))
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = UserDTO[].class))
             )
     })
 

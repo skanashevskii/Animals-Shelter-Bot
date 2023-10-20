@@ -89,7 +89,8 @@ public class ReportController {
     }
 
     @GetMapping("/{reportId}")
-    @Operation(summary = "Получение информации о отчете по ID", description = "Возвращает информацию о отчете по его идентификатору.")
+    @Operation(summary = "Получение информации о отчете по ID",
+            description = "Возвращает информацию о отчете по его идентификатору.")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -131,7 +132,8 @@ public class ReportController {
     }
 
     @GetMapping
-    @Operation(summary = "Поиск всех отчетов", description = "Поиск и возвращает информацию о всех отчетах.")
+    @Operation(summary = "Поиск всех отчетов",
+            description = "Поиск и возвращает информацию о всех отчетах.")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
