@@ -19,6 +19,9 @@ import ru.devpro.enums.AnimalType;
 import ru.devpro.model.Animal;
 import ru.devpro.service.AnimalService;
 
+import java.util.Collection;
+import java.util.Collections;
+
 
 @RestController
 @RequestMapping("/animals")
@@ -32,11 +35,22 @@ public class AnimalsController {
     }
 
     @PostMapping
-    @Operation(summary = "Создание животного",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Создание объекта животное"
-            )
+    @Operation(
+            summary = "Создание животного",
+            description = "Создание объекта животное"
     )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Животное успешно создано.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AnimalDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Неверный запрос. Проверьте входные данные.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            )
+    })
     public ResponseEntity<AnimalDTO> createAnimal(
             @Parameter(description = "Принимает объект животное")
             @RequestBody AnimalDTO animalDTO,
@@ -56,21 +70,23 @@ public class AnimalsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @PutMapping
+    @Operation(
+            summary = "Изменение информации о животном",
+            description = "Изменение информации о животном."
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Корректировка объекта животное",
-                    content = {
-                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Animal.class )
-                            )
-
-                    }
+                    description = "Информация о животном успешно изменена.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AnimalDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Неверный запрос. Проверьте входные данные.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-
-    @PutMapping
-    @Operation(summary = "Изменение информации о животном")
     public ResponseEntity<AnimalDTO> editAnimal(
             @RequestParam Long id,
             @RequestBody AnimalDTO animalDTO,
@@ -83,7 +99,22 @@ public class AnimalsController {
         return ResponseEntity.ok(foundAnimal);
     }
     @GetMapping("/{animalId}")
-    @Operation(summary = "Получение информации о животном по ID")
+    @Operation(
+            summary = "Получение информации о животном по ID",
+            description = "Возвращает информацию о животном по его идентификатору."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Информация о животном успешно найдена.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AnimalDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Животное не найдено.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            )
+    })
     public ResponseEntity<AnimalDTO> getAnimalById(
             @RequestParam Long animalId) {
         AnimalDTO animalDTO = animalService.findAnimalById(animalId);
@@ -97,19 +128,44 @@ public class AnimalsController {
 
 
     @DeleteMapping("{id}")
-    @Operation(summary = "Удаление животного")
+    @Operation(
+            summary = "Удаление животного",
+            description = "Удаляет животное по его идентификатору."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Животное успешно удалено."
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Животное не найдено."
+            )
+    })
     public ResponseEntity<Void> deleteAnimal(@PathVariable Long id) {
         animalService.deleteAnimal(id);
         return ResponseEntity.ok().build();
     }
 
-  /*  @GetMapping("/byBreed")
-    @Operation(summary = "Сортировка по породе")
-    public ResponseEntity<Collection<Animal>> findAnimalsByBreed(@RequestParam(required = false) String breed) {
+    @GetMapping("/byBreed")
+    @Operation(
+            summary = "Сортировка по породе",
+            description = "Поиск и возвращает информацию о животных по породе."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Информация о животных успешно найдена.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AnimalDTO[].class, type = "array"))
+            )
+    })
+    public ResponseEntity<Collection<AnimalDTO>> findAnimalsByBreed(
+            @RequestParam(required = false) String breed) {
         if (breed != null && !breed.isBlank()) {
-            return ResponseEntity.ok(animalService.findAllbyBreedIgnoreCase(breed));
+            Collection<AnimalDTO> animals = animalService.findAllByBreedIgnoreCase(breed);
+            return ResponseEntity.ok(animals);
         }
 
         return ResponseEntity.ok(Collections.emptyList());
-    }*/
+    }
 }

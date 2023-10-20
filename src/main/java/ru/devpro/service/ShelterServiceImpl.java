@@ -10,7 +10,9 @@ import ru.devpro.mapers.ShelterMapper;
 import ru.devpro.model.Shelter;
 import ru.devpro.repositories.ShelterRepository;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 
@@ -36,33 +38,6 @@ public class ShelterServiceImpl implements ShelterService {
 
         return shelterMapper.toDTO(savedShelter);
     }
-
-    @Override
-    public void deleteShelter(Long id) {
-        LOGGER.info("Was invoked method for delete student by id: {}", id);
-        shelterRepository.findById(id)
-                .map(entity -> {
-                    shelterRepository.delete(entity);
-                    return true;
-                })
-                .orElse(false);
-    }
-
-    /*@Override
-    public ShelterDTO editShelter(ShelterDTO shelterDTO) {
-        return null;
-    }*/
-
-    @Override
-    public ShelterDTO findShelterById(Long shelterId) {
-        return null;
-    }
-
-    @Override
-    public Collection<ShelterDTO> findAll() {
-        return null;
-    }
-
     @Override
     public ShelterDTO editShelter(ShelterDTO shelterDTO) {
         LOGGER.info("Was invoked method for edit shelter : {}", shelterDTO);
@@ -90,17 +65,38 @@ public class ShelterServiceImpl implements ShelterService {
                 })
                 .orElse(null);
     }
+
+    @Override
+    public void deleteShelter(Long id) {
+        LOGGER.info("Received request to delete shelter by ID: {}", id);
+        shelterRepository.findById(id).ifPresent(entity -> {
+            shelterRepository.delete(entity);
+            LOGGER.info("Shelter with ID {} deleted.", id);
+        });
+    }
+
+    @Override
+    public ShelterDTO findShelterById(Long shelterId) {
+        LOGGER.info("Received request to find shelter by ID: {}", shelterId);
+        return shelterRepository.findById(shelterId)
+                .map(shelterMapper::toDTO)
+                .orElse(null);
+    }
+
+    @Override
+    public Collection<ShelterDTO> findAll() {
+        LOGGER.info("Received request to find all shelters");
+        List<ShelterDTO> shelterDTOs = new ArrayList<>();
+        shelterRepository.findAll().forEach(shelter -> shelterDTOs.add(shelterMapper.toDTO(shelter)));
+        return shelterDTOs;
+    }
+
+
+
+
+
 }
 
 
-   /* @Override
-    public ShelterDTO findShelterById(Long shelterId) {
-        return shelterRepository.findById(shelterId).orElse(null);*/
 
-
-   /* @Override
-    public Collection<ShelterDTO> findAll() {
-        LOGGER.info("Was invoked method for finding all shelters");
-        return shelterRepository.findAll();
-    }*/
 

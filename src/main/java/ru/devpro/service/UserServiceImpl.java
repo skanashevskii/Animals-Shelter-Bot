@@ -7,14 +7,10 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import ru.devpro.dto.ShelterDTO;
 import ru.devpro.dto.UserDTO;
 
-import ru.devpro.exceptions.ShelterNotFoundException;
-import ru.devpro.mapers.ShelterMapper;
 import ru.devpro.mapers.UserMapper;
 
-import ru.devpro.model.Shelter;
 import ru.devpro.model.User;
 import ru.devpro.repositories.ShelterRepository;
 import ru.devpro.repositories.UsersRepository;
@@ -89,17 +85,20 @@ public class UserServiceImpl implements UserService {
             usersRepository.delete(user);
         }
     }
-  /*  @Override
+    @Override
     public UserDTO findUserById(Long userId) {
-        LOGGER.info("Was invoked method for delete animal by id: {}", userId);
-        return usersRepository.findById(userId).orElse(null);
-    }*/
+        LOGGER.info("Was invoked method for find user by id: {}", userId);
+        Optional<User> userOptional = usersRepository.findById(userId);
+
+       return userOptional.map(userMapper::toDTO).orElse(null);
+    }
+
   @Override
   public Collection<UserDTO> findAll() {
       // Всех пользователей из репозитория
       List<User> users = usersRepository.findAll();
 
-      // Преобразуйте список пользователей в список UserDTO с использованием маппера
+      // Преобразуем список пользователей в список UserDTO с использованием маппера
 
       return users.stream()
               .map(userMapper::toDTO)

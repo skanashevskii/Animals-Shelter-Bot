@@ -71,8 +71,9 @@ public class User {
     }
 
     public User(Long id, Long chatId, String name, String family, String role,
-                String telephone, String email, LocalDateTime dateTime,
-                AccessLevel accessLevel, Shelter shelter, Set<Animal> animals) {
+                String telephone, String email,
+                LocalDateTime dateTime, AccessLevel accessLevel, Shelter shelter,
+                Set<Animal> animals) {
         this.id = id;
         this.chatId = chatId;
         this.name = name;
@@ -84,14 +85,6 @@ public class User {
         this.accessLevel = accessLevel;
         this.shelter = shelter;
         this.animals = animals;
-    }
-
-    public AccessLevel getAccessLevel() {
-        return accessLevel;
-    }
-
-    public void setAccessLevel(AccessLevel accessLevel) {
-        this.accessLevel = accessLevel;
     }
 
     public Long getId() {
@@ -150,13 +143,20 @@ public class User {
         this.email = email;
     }
 
-
     public LocalDateTime getDateTime() {
         return dateTime;
     }
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public AccessLevel getAccessLevel() {
+        return accessLevel;
+    }
+
+    public void setAccessLevel(AccessLevel accessLevel) {
+        this.accessLevel = accessLevel;
     }
 
     public Shelter getShelter() {
@@ -199,6 +199,7 @@ public class User {
                 ", telephone='" + telephone + '\'' +
                 ", email='" + email + '\'' +
                 ", dateTime=" + dateTime +
+                ", accessLevel=" + accessLevel +
                 ", shelter=" + shelter +
                 ", animals=" + animals +
                 '}';

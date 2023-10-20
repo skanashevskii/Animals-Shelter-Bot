@@ -34,10 +34,21 @@ public class ShelterController {
         this.shelterService = shelterService;
     }
 
-
-    // Создание нового приюта
     @PostMapping
-    @Operation(summary = "Создание приюта")
+    @Operation(summary = "Создание приюта", description = "Создает новый приют.")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Приют успешно создан.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Shelter.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Неверный запрос. Проверьте входные данные.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            )
+    })
+
     public ResponseEntity<ShelterDTO> createShelter(@Parameter(description = "Принимает объект приют")
                               @RequestBody ShelterDTO shelterDTO) {
         LOGGER.info("Received request to save animal: {}", shelterDTO);
@@ -45,16 +56,40 @@ public class ShelterController {
         return new ResponseEntity<>(createdShelter,HttpStatus.CREATED);
     }
     @PutMapping
-    @Operation(summary = "Изменение инфо о приюте")
+    @Operation(summary = "Изменение информации о приюте", description = "Изменяет существующий приют.")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Информация о приюте успешно изменена.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Shelter.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Приют не найден.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            )
+    })
     public ResponseEntity<ShelterDTO> editShelter(@RequestBody ShelterDTO shelterDTO) {
         ShelterDTO foundShelter = shelterService.editShelter(shelterDTO);
         if (foundShelter == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(foundShelter);
     }
-    // Получение информации о приюте по его идентификатору
     @GetMapping("/{id}")
+    @Operation(summary = "Получение информации о приюте по его идентификатору", description = "Возвращает информацию о приюте по его идентификатору.")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Информация о приюте успешно найдена.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Shelter.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Приют не найден.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            )
+    })
     public ResponseEntity<ShelterDTO> getShelterById(@PathVariable Long id) {
         ShelterDTO shelter = shelterService.findShelterById(id);
         if(shelter == null){
@@ -62,25 +97,21 @@ public class ShelterController {
         }
         return new ResponseEntity<>(shelter,HttpStatus.OK);
     }
+    @DeleteMapping("{id}")
+    @Operation(summary = "Удаление приюта", description = "Удаляет приют по его идентификатору.")
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "ничего",
-                    description = "Удаление приюта",
-                    content = {
-                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Shelter.class )
-                            )
-
-                    }
+                    responseCode = "204",
+                    description = "Приют успешно удален."
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Приют не найден.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-
-    // Удаление приюта по его идентификатору
-
-    @DeleteMapping("{id}")
-    @Operation(summary = "Удаление приюта")
     public ResponseEntity<Void> deleteShelter(@PathVariable Long id) {
         shelterService.deleteShelter(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

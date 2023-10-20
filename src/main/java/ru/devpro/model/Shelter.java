@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-
+import java.util.Set;
 
 
 @Entity
@@ -33,24 +33,20 @@ public class Shelter {
     @JoinColumn(name="shelter_location_id")
     private ShelterLocation shelterLocation;
 
+    @OneToMany(mappedBy = "shelter",fetch = FetchType.EAGER)
+    private Set<Animal> animals;
+
     public Shelter() {
     }
 
-    public Shelter(String name, String safety,
-                   LocalDateTime dateTime, ShelterLocation shelterLocation) {
-
+    public Shelter(Long id, String name, String safety, LocalDateTime dateTime,
+                   ShelterLocation shelterLocation, Set<Animal> animals) {
+        this.id = id;
         this.name = name;
         this.safety = safety;
         this.dateTime = dateTime;
         this.shelterLocation = shelterLocation;
-    }
-
-    public String getSafety() {
-        return safety;
-    }
-
-    public void setSafety(String safety) {
-        this.safety = safety;
+        this.animals = animals;
     }
 
     public Long getId() {
@@ -69,6 +65,14 @@ public class Shelter {
         this.name = name;
     }
 
+    public String getSafety() {
+        return safety;
+    }
+
+    public void setSafety(String safety) {
+        this.safety = safety;
+    }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -83,6 +87,14 @@ public class Shelter {
 
     public void setShelterLocation(ShelterLocation shelterLocation) {
         this.shelterLocation = shelterLocation;
+    }
+
+    public Set<Animal> getAnimals() {
+        return animals;
+    }
+
+    public void setAnimals(Set<Animal> animals) {
+        this.animals = animals;
     }
 
     @Override
@@ -106,6 +118,7 @@ public class Shelter {
                 ", safety='" + safety + '\'' +
                 ", dateTime=" + dateTime +
                 ", shelterLocation=" + shelterLocation +
+                ", animals=" + animals +
                 '}';
     }
 }

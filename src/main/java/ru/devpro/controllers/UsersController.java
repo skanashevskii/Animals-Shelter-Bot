@@ -38,33 +38,48 @@ public class UsersController {
 
 
     @PostMapping
-    @Operation(summary = "Создание пользователя",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-
-                    description = "Создание объекта пользователь"))
-
-
-    public ResponseEntity<UserDTO> createUser(@Parameter(description = "Принимает объект пользователь")
-                                           @RequestBody UserDTO userDTO) {
+    @Operation(
+            summary = "Создание пользователя",
+            description = "Создание объекта пользователя."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Пользователь успешно создан.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = User.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Неверный запрос. Проверьте входные данные.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            )
+    })
+    public ResponseEntity<UserDTO> createUser(
+            @Parameter(description = "Принимает объект пользователь")
+            @RequestBody UserDTO userDTO) {
         LOGGER.info("Received request to save animal: {}", userDTO);
         UserDTO createUser = userService.createUser(userDTO);
         return new ResponseEntity<>(createUser,HttpStatus.CREATED);
     }
 
+    @PutMapping
+    @Operation(
+            summary = "Изменение информации о пользователе",
+            description = "Изменение информации о пользователе."
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Корректировка объекта пользователь",
-                    content = {
-                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = User.class )
-                            )
-
-                    }
+                    description = "Информация о пользователе успешно изменена.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = User.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Неверный запрос. Проверьте входные данные.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
             )
     })
-    @PutMapping
-    @Operation(summary = "Изменение инфо о пользователе")
+
     public ResponseEntity<UserDTO> editUser(@RequestBody UserDTO userDTO) {
         UserDTO foundUser = userService.editUser(userDTO);
         if (foundUser == null) {
@@ -72,32 +87,69 @@ public class UsersController {
         }
         return ResponseEntity.ok(foundUser);
     }
+    @GetMapping("/{userId}")
+    @Operation(
+            summary = "Получение информации о пользователе по его идентификатору",
+            description = "Возвращает информацию о пользователе по его идентификатору."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Информация о пользователе успешно найдена.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = User.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Пользователь не найден.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            )
+    })
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId) {
+        ResponseEntity<UserDTO> response;
+        UserDTO userDTO = userService.findUserById(userId);
 
+        if (userDTO != null) {
+            response = ResponseEntity.ok(userDTO);
+        } else {
+            response = ResponseEntity.notFound().build();
+        }
+
+        return response;
+    }
     @DeleteMapping("/{id}")
-    @Operation(summary = "Удаление пользователя")
-    @ApiResponse(responseCode = "200", description = "Успешное удаление пользователя")
-    @ApiResponse(responseCode = "404", description = "Пользователь не найден")
-    public ResponseEntity<Void> deleteUser(@RequestParam long userId) {
+    @Operation(
+            summary = "Удаление пользователя",
+            description = "Удаляет пользователя по его идентификатору."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Пользователь успешно удален."
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Пользователь не найден."
+            )
+    })
+    public ResponseEntity<Void> deleteUser(@PathVariable long userId) {
        userService.deleteUserById(userId);
         return ResponseEntity.ok().build();
     }
 
 
+    @GetMapping
+    @Operation(
+            summary = "Поиск всех пользователей",
+            description = "Поиск и возвращает информацию о всех пользователях."
+    )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Поиск всех пользователей",
-                    content = {
-                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = User[].class )
-                            )
-
-                    }
+                    description = "Информация о пользователях успешно найдена.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = User[].class))
             )
     })
 
-        @GetMapping
-        @Operation(summary = "Поиск всех пользователей")
         public ResponseEntity<Collection<UserDTO>> findAllUsers() {
 
                 return ResponseEntity.ok(userService.findAll());

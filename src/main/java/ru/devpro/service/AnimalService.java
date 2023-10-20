@@ -19,5 +19,8 @@ public interface AnimalService {
 
     AnimalDTO findAnimalById(Long animalId);
 
-    Collection<Animal> findAll();
+    Collection<AnimalDTO> findAll();
+
+
+    Collection<AnimalDTO> findAllByBreedIgnoreCase(String breed);
 }

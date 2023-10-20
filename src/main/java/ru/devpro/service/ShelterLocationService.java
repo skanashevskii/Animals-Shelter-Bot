@@ -10,11 +10,11 @@ import java.util.Collection;
 public interface ShelterLocationService {
     void deleteShelterLocation(Long id);
 
-    ShelterLocation editShelterLocation(ShelterLocation shelterLocation);
+    ShelterLocationDTO editShelterLocation(ShelterLocationDTO shelterLocationDTO);
 
-   ShelterLocation findShelterById(Long userId);
+   ShelterLocationDTO findShelterLocationById(Long userId);
 
-    Collection<ShelterLocation> findAll();
+    Collection<ShelterLocationDTO> findAll();
 
     ShelterLocationDTO createShelterLocation(ShelterLocationDTO shelterLocationDTO); // Метод для создания адреса приюта
 

@@ -16,7 +16,10 @@ import ru.devpro.repositories.AnimalsRepository;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -45,6 +48,8 @@ public class AnimalServiceImpl implements AnimalService{
         }
     }
 
+
+
     @Override
     public AnimalDTO createAnimal(AnimalDTO animalDTO, AnimalType animalType) {
         LOGGER.info("Received request to save shelter: {}", animalDTO);
@@ -68,7 +73,7 @@ public class AnimalServiceImpl implements AnimalService{
         // Преобразуйте сущность обратно в DTO
         return animalMapper.toDTO(savedEntity);
     }
-
+    @Override
     public AnimalDTO editAnimal(Long id, AnimalDTO animalDTO, AnimalType type) {
         // Проверка валидности типа животного
         if (!isValidAnimalType(type)) {
@@ -98,12 +103,9 @@ public class AnimalServiceImpl implements AnimalService{
                 .orElse(null);
     }
 
+
+
     @Override
-    public Collection<Animal> findAll() {
-        return null;
-    }
-
-
     public void deleteAnimal(Long animalId) {
         LOGGER.info("Was invoked method for delete animal by id: {}", animalId);
         animalsRepository.findById(animalId)
@@ -113,10 +115,18 @@ public class AnimalServiceImpl implements AnimalService{
                 })
                 .orElse(false);
     }
+    @Override
+    public Collection<AnimalDTO> findAllByBreedIgnoreCase(String breed) {
+        if (breed == null || breed.isEmpty()) {
+            return Collections.emptyList();
+        }
 
-    public Collection<Animal> findAllbyBreedIgnoreCase(String breed) {
-        return animalsRepository.findByBreedIgnoreCase(breed);
+        List<Animal> animals = animalsRepository.findByBreedIgnoreCase(breed);
+        return animals.stream()
+                .map(animalMapper::toDTO)
+                .collect(Collectors.toList());
     }
+
 
     //валидность типа животного
     private boolean isValidAnimalType(AnimalType animalType) {
@@ -126,5 +136,13 @@ public class AnimalServiceImpl implements AnimalService{
             }
         }
         return false;
+    }
+
+    @Override
+    public Collection<AnimalDTO> findAll() {
+        List<Animal> animals = animalsRepository.findAll();
+        return animals.stream()
+                .map(animalMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

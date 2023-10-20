@@ -9,5 +9,8 @@
     <include file="scripts/create-table-shelter.xml" relativeToChangelogFile="true" />
     <include file="scripts/create-table-shelter-location.xml" relativeToChangelogFile="true" />
     <include file="scripts/create-table-reports.xml" relativeToChangelogFile="true" />
+   <!-- <include file="scripts/add-foreign-key-animal-shelter.xml" relativeToChangelogFile="true" />
+    <include file="scripts/add-foreign-key-animal-app_user.xml" relativeToChangelogFile="true" />
+    <include file="scripts/add-foreign-key-app_user-shelter.xml" relativeToChangelogFile="true" />-->
 
 </databaseChangeLog>

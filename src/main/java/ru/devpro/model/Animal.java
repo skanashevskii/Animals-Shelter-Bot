@@ -39,6 +39,9 @@ public class Animal {
     @JoinColumn(name = "user_id")
     //@JsonIgnore
     private User user;
+    @ManyToOne
+    @JoinColumn(name = "shelter_id")
+    private Shelter shelter;
 
     public Animal() {
     }

@@ -1,19 +1,19 @@
 package ru.devpro.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.devpro.dto.ReportDTO;
+import ru.devpro.dto.UserDTO;
 import ru.devpro.enums.AccessLevel;
-import ru.devpro.mapers.AnimalMapper;
+
 import ru.devpro.mapers.ReportMapper;
 import ru.devpro.model.Report;
-import ru.devpro.model.User;
+
 import ru.devpro.repositories.ReportRepository;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -26,17 +26,19 @@ public class ReportServiceImpl implements ReportService {
         this.reportMapper = ReportMapper.INSTANCE;
     }
 
-    public List<Report> getReportsForUser(User user) {
-        AccessLevel userAccessLevel = user.getAccessLevel(); // Предположим, что есть метод для получения AccessLevel у пользователя
+    public List<ReportDTO> getReportsForUser(UserDTO userDTO) {
+        AccessLevel userAccessLevel = userDTO.getAccessLevel();
 
         if (AccessLevel.OWNER.equals(userAccessLevel)) {
-            // Владельцу доступны отчеты с AccessLevel OWNER и BOTH
-            return reportRepository.findByAccessLevelIn(Arrays.asList(AccessLevel.OWNER,
-                    AccessLevel.BOTH));
+            List<Report> reports = reportRepository.findByAccessLevelIn(Arrays.asList(AccessLevel.OWNER, AccessLevel.BOTH));
+            return reports.stream()
+                    .map(reportMapper::toDTO)
+                    .collect(Collectors.toList());
         } else if (AccessLevel.VOLUNTEER.equals(userAccessLevel)) {
-            // Волонтеру доступны отчеты с AccessLevel VOLUNTEER и BOTH
-            return reportRepository.findByAccessLevelIn(Arrays.asList(AccessLevel.VOLUNTEER,
-                    AccessLevel.BOTH));
+            List<Report> reports = reportRepository.findByAccessLevelIn(Arrays.asList(AccessLevel.VOLUNTEER, AccessLevel.BOTH));
+            return reports.stream()
+                    .map(reportMapper::toDTO)
+                    .collect(Collectors.toList());
         }
 
         return Collections.emptyList();
@@ -44,26 +46,53 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public ReportDTO createReport(ReportDTO reportDTO) {
-        return null;
+        Report report = reportMapper.toEntity(reportDTO);
+        Report savedReport = reportRepository.save(report);
+        return reportMapper.toDTO(savedReport);
     }
 
     @Override
-    public Report editReport(Report report) {
-        return null;
+    public ReportDTO editReport(ReportDTO reportDTO) {
+        Report report = reportMapper.toEntity(reportDTO);
+
+        // Попытка найти существующий отчет по его ID
+        Optional<Report> existingReport = reportRepository.findById(report.getId());
+
+        if (existingReport.isPresent()) {
+            Report updatedReport = existingReport.get();
+            // Вносим необходимые изменения в updatedReport,
+            // например, название, содержание и другие поля.
+            updatedReport.setReportDate(report.getReportDate());
+            updatedReport.setFilePath(report.getFilePath());
+            updatedReport.setAccessLevel(report.getAccessLevel());
+            updatedReport.setUser(report.getUser());
+
+            // Сохраняем обновленный отчет в репозитории
+            updatedReport = reportRepository.save(updatedReport);
+
+            // Преобразем обновленный отчет обратно в ReportDTO
+            return reportMapper.toDTO(updatedReport);
+        } else {
+            // Обработка случая, если отчет не найден
+            throw new EntityNotFoundException("Отчет с ID " + report.getId() + " не найден");
+        }
+    }
+
+
+    @Override
+    public void deleteReport(Long reportId) {
+        reportRepository.deleteById(reportId);
     }
 
     @Override
-    public void deleteReport(Long repostId) {
-
+    public ReportDTO findReportById(Long reportId) {
+        Optional<Report> reportOptional = reportRepository.findById(reportId);
+        return reportOptional.map(reportMapper::toDTO).orElse(null);
     }
 
     @Override
-    public Report findReportById(Long reportId) {
-        return null;
-    }
-
-    @Override
-    public Collection<Report> findAll() {
-        return null;
+    public Collection<ReportDTO> findAll() {
+        List<Report> reports = reportRepository.findAll();
+        return reports.stream().map(reportMapper::toDTO).collect(Collectors.toList());
     }
 }

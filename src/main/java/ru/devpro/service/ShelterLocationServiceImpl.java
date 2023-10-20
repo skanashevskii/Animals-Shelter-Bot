@@ -12,6 +12,9 @@ import ru.devpro.model.ShelterLocation;
 import ru.devpro.repositories.ShelterLocationRepository;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ShelterLocationServiceImpl implements ShelterLocationService{
@@ -24,28 +27,6 @@ public class ShelterLocationServiceImpl implements ShelterLocationService{
         this.shelterLocationRepository = shelterLocationRepository;
         this.shelterLocationMapper = ShelterLocationMapper.INSTANCE;
     }
-
-
-    @Override
-    public void deleteShelterLocation(Long id) {
-
-    }
-
-    @Override
-    public ShelterLocation editShelterLocation(ShelterLocation shelterLocation) {
-        return null;
-    }
-
-    @Override
-    public ShelterLocation findShelterById(Long userId) {
-        return null;
-    }
-
-    @Override
-    public Collection<ShelterLocation> findAll() {
-        return null;
-    }
-
     @Override
     public ShelterLocationDTO createShelterLocation(ShelterLocationDTO shelterLocationDTO) {
         LOGGER.info("Received request to save shelter: {}",shelterLocationDTO);
@@ -53,5 +34,57 @@ public class ShelterLocationServiceImpl implements ShelterLocationService{
         ShelterLocation savedEntity = shelterLocationRepository.save(shelterEntity);
         return shelterLocationMapper.toDTO(savedEntity); // Преобразуйте сущность обратно в DTO
     }
+    @Override
+    public ShelterLocationDTO editShelterLocation(ShelterLocationDTO shelterLocationDTO) {
+        LOGGER.info("Was invoked method for edit shelter location: {}", shelterLocationDTO);
+
+        // Преобразовать ShelterLocationDTO в ShelterLocation с использованием маппера
+        ShelterLocation shelterLocationEntity = shelterLocationMapper.toEntity(shelterLocationDTO);
+
+        // Сохранить обновленную сущность ShelterLocation в репозитории
+        ShelterLocation savedEntity = shelterLocationRepository.save(shelterLocationEntity);
+
+        // Попытаться найти обновленную сущность ShelterLocation
+        return shelterLocationRepository.findById(savedEntity.getId())
+                .map(dbEntity -> {
+                    // Обновить поля ShelterLocation
+                    dbEntity.setAddress(shelterLocationEntity.getAddress());
+                    dbEntity.setCity(shelterLocationEntity.getCity());
+                    dbEntity.setState(shelterLocationEntity.getState());
+                    dbEntity.setZipcode(shelterLocationEntity.getZipcode());
+                    dbEntity.setDateTime(shelterLocationEntity.getDateTime());
+                    dbEntity.setShelter(shelterLocationEntity.getShelter());
+
+                    // Сохранить обновленную сущность ShelterLocation
+                    shelterLocationRepository.save(dbEntity);
+
+                    // Преобразовать обновленную сущность ShelterLocation обратно в ShelterLocationDTO
+                    ShelterLocationDTO updatedShelterLocationDTO = shelterLocationMapper.toDTO(dbEntity);
+
+                    return updatedShelterLocationDTO;
+                })
+                .orElse(null);
+    }
+
+    @Override
+    public void deleteShelterLocation(Long id) {
+        shelterLocationRepository.deleteById(id);
+    }
+
+    @Override
+    public ShelterLocationDTO findShelterLocationById(Long shelterId) {
+        Optional<ShelterLocation> shelterOptional = shelterLocationRepository.findById(shelterId);
+        return shelterOptional.map(shelterLocationMapper::toDTO).orElse(null);
+    }
+
+    @Override
+    public Collection<ShelterLocationDTO> findAll() {
+        List<ShelterLocation> shelters = shelterLocationRepository.findAll();
+        return shelters.stream().map(shelterLocationMapper::toDTO).collect(Collectors.toList());
+    }
+
+
+
+
 
 }
