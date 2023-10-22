@@ -25,12 +25,12 @@ public class UserDTO {
     private String email;
     private LocalDateTime dateTime;
     private AccessLevel accessLevel;
-    @JsonIgnore
-    private Shelter shelter;
-    @JsonIgnore
-    private Set<Animal> animals;
-    @JsonIgnore
-    private List<Report> reports;
+    //@JsonIgnore
+    private ShelterDTO shelterDTO;
+    //@JsonIgnore
+    private Set<AnimalDTO> animalDTOs;
+    //@JsonIgnore
+    private List<ReportDTO> reportDTOs;
 
 
 }

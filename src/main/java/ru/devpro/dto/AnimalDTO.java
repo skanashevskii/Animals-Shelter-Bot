@@ -22,8 +22,8 @@ public class AnimalDTO {
     private String text;
 
     private LocalDateTime dateTime;
-    @JsonIgnore
-    private User user;
+    //@JsonIgnore
+    private UserDTO userDTO;
 
 
 }

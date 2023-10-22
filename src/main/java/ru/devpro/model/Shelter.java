@@ -40,9 +40,9 @@ public class Shelter {
     @JoinColumn(name="shelter_location_id")
     private ShelterLocation shelterLocation;
 
-   /* @OneToMany(mappedBy = "shelter",fetch = FetchType.EAGER)
-    private Set<Animal> animals;*/
-    @OneToMany(mappedBy = "shelter")
+    @OneToMany(mappedBy = "shelter",fetch = FetchType.EAGER)
+    private Set<Animal> animals;
+    @OneToMany(mappedBy = "shelter",fetch = FetchType.EAGER)
     private List<ShelterLocation> shelterLocations;
 
 

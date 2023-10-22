@@ -16,14 +16,14 @@ import java.time.LocalDateTime;
 public class ReportDTO {
 
     private Long id;
-    private LocalDate reportDate;  // Дата отчета
+    private LocalDateTime reportDate;  // Дата отчета
     private String filePath;  // Путь к файлу отчета
     private AccessLevel accessLevel;  // Поле для управления доступом
     private LocalDateTime dateTime;
-    @JsonIgnore
-    private User user;  // Ссылка на владельца отчета
-    @JsonIgnore
-    private Animal animal;
+    //@JsonIgnore
+    private UserDTO userDTO;  // Ссылка на владельца отчета
+    //@JsonIgnore
+    private AnimalDTO animalDTO;
 
 
 }

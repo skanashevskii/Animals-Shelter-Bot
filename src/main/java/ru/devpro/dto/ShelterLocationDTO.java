@@ -16,7 +16,7 @@ public class ShelterLocationDTO {
     private String state;
     private String zipcode;
     private LocalDateTime dateTime;
-    @JsonIgnore
-    private Shelter shelter;
+    //@JsonIgnore
+    private ShelterDTO shelterDTO;
 
 }

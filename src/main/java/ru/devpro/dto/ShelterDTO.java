@@ -15,10 +15,10 @@ public class ShelterDTO {
     private String name;
     private String safety;
     private LocalDateTime dateTime;
-    @JsonIgnore
-    private ShelterLocation shelterLocation;
-    @JsonIgnore
-    private List<ShelterLocation> shelterLocations;
+    //@JsonIgnore
+    private ShelterLocationDTO shelterLocationDTO;
+    //@JsonIgnore
+    private List<ShelterLocationDTO> shelterLocationDTOs;
 
 
 }

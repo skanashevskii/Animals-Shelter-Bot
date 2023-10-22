@@ -72,7 +72,7 @@ public class User {
 
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private Set<Animal> animals;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private List<Report> reports;
 
     @Override

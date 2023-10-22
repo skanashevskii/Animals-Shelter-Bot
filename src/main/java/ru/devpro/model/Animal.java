@@ -49,7 +49,7 @@ public class Animal {
     @JoinColumn(name = "shelter_id")
     private Shelter shelter;
     @ManyToOne
-    @JoinColumn(name = "sheltor_location_id")
+    @JoinColumn(name = "shelter_location_id")
     private ShelterLocation shelterLocation;
 
 

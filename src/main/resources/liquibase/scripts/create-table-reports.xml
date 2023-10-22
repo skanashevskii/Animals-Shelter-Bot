@@ -16,8 +16,8 @@
    <column name="id" type="BIGINT" autoIncrement="true">
     <constraints primaryKey="true" />
    </column>
-   <column name="report_date" type="DATE">
-    <constraints nullable="false"/>
+   <column name="report_date" type="DATETIME(6)">
+    <constraints nullable="true"/>
    </column>
    <column name="file_path" type="varchar(255)">
     <constraints nullable="false"/>
@@ -26,7 +26,7 @@
     <constraints nullable="false"/>
    </column>
    <column name="report_time" type="DATETIME(6)">
-    <constraints nullable="false" />
+    <constraints nullable="true" />
    </column>
   </createTable>
 

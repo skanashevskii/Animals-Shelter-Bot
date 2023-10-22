@@ -28,7 +28,7 @@
    <column name="role" type="varchar(30)">
     <constraints nullable="true" />
    </column>
-   <column name="telephone_number" type="int">
+   <column name="telephone_number" type="varchar(30)">
     <constraints nullable="true" />
    </column>
    <column name="email" type="varchar(30)">

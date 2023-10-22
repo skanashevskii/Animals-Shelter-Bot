@@ -11,8 +11,10 @@ import ru.devpro.mapers.ReportMapper;
 import ru.devpro.model.Report;
 
 import ru.devpro.repositories.ReportRepository;
+import ru.devpro.repositories.UsersRepository;
 
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,10 +22,12 @@ import java.util.stream.Collectors;
 public class ReportServiceImpl implements ReportService {
     @Autowired
     private final ReportRepository reportRepository;
+    private final UsersRepository usersRepository;
     private final ReportMapper reportMapper;
 
-    public ReportServiceImpl(ReportRepository reportRepository) {
+    public ReportServiceImpl(ReportRepository reportRepository, UsersRepository usersRepository) {
         this.reportRepository = reportRepository;
+        this.usersRepository = usersRepository;
         this.reportMapper = ReportMapper.INSTANCE;
     }
 
@@ -45,9 +49,13 @@ public class ReportServiceImpl implements ReportService {
         return Collections.emptyList();
     }
 
+    @Override
     public ReportDTO createReport(ReportDTO reportDTO) {
-        reportDTO.setReportDate(LocalDate.now()); // Установка текущей даты (без времени)
+        var user = usersRepository.findById(reportDTO.getId()).orElseThrow(()->
+                new IllegalStateException("User not found"));
+        reportDTO.setReportDate(LocalDateTime.now());
         Report report = reportMapper.toEntity(reportDTO);
+        report.setUser(user);
         Report savedReport = reportRepository.save(report);
         return reportMapper.toDTO(savedReport);
     }
