@@ -1,17 +1,12 @@
 package ru.devpro.enums;
 
+import lombok.Getter;
 
 
-public enum Commands {
-    START,
-    SHELTER_SELECTION,
-    QUERY_TYPE,
-    GET_INFO,
-    ADOPT_PET,
-    SEND_REPORT,
-    CALL_VOLUNTEER
-}
-/*    START("запуск бота", "/start"),
+
+@Getter
+public enum BotCommand {
+    START("запуск бота", "/start"),
     HELP("описание команд бота", "/help"),
     CAT_SHELTER("приют для кошек", "/cat_shelter"),
     DOG_SHELTER("приют для собак", "/dog_shelter"),
@@ -54,4 +49,17 @@ public enum Commands {
     BACK_CAT_INFO_MENU("<- назад", "back_cat_info_menu"),
     BACK_DOG_INFO_MENU("<- назад", "back_dog_info_menu"),
     BACK_CAT_ADOPTION_MENU("<- назад", "back_cat_adoption_menu"),
-    BACK_DOG_ADOPTION_MENU("<- назад", "back_dog_adoption_menu");*/
+    BACK_DOG_ADOPTION_MENU("<- назад", "back_dog_adoption_menu");
+
+    private final String description;
+    private final String command;
+
+    BotCommand(String description, String command) {
+        this.description = description;
+        this.command = command;
+    }
+
+
+
+}
+
