@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import ru.devpro.dto.UserDTO;
 
+import ru.devpro.exceptions.UserNotFoundException;
 import ru.devpro.service.UserService;
 
 import java.util.Collection;
@@ -130,7 +131,7 @@ public class UsersController {
             )
     })
     public ResponseEntity<Void> deleteUser(@PathVariable long userId) {
-       userService.deleteUserById(userId);
+        userService.deleteUserById(userId);
         return ResponseEntity.ok().build();
     }
 

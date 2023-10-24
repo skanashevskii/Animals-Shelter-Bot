@@ -2,7 +2,7 @@ package ru.devpro.dto;
 
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 import ru.devpro.enums.AccessLevel;
