@@ -5,9 +5,10 @@ import lombok.Getter;
 
 
 @Getter
+
 public enum BotCommand {
-    START("запуск бота", "/start"),
-    HELP("описание команд бота", "/help"),
+    START("Привет, рад приветствовать тебя!", "/start"),
+    SHELTERS("приюты", "/shelters"),
     CAT_SHELTER("приют для кошек", "/cat_shelter"),
     DOG_SHELTER("приют для собак", "/dog_shelter"),
     CAT_SHELTER_INFO_MENU("меню информации о приюте кошек", "/cat_shelter_info_menu"),

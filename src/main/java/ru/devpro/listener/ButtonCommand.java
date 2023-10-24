@@ -2,6 +2,7 @@ package ru.devpro.listener;
 
 import com.pengrad.telegrambot.TelegramBot;
 
+import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
@@ -18,10 +19,8 @@ import java.util.*;
 public class ButtonCommand implements Command {
     private final TelegramBot bot;
 
-
     public ButtonCommand(TelegramBot bot) {
         this.bot = bot;
-
     }
 
     public boolean ifSuitable(Update update) {
@@ -30,73 +29,75 @@ public class ButtonCommand implements Command {
             return Arrays.stream(BotCommand.values())
                     .anyMatch(botCommand -> botCommand.getCommand().equalsIgnoreCase(text));
         }
-
-            return false;
+        return false;
     }
 
-
     public void handle(Update update) {
-        var chatId = update.message().chat().id();
-        String text = update.message().text();
-        BotCommand command = Arrays.stream(BotCommand.values())
-                .filter(cmd -> cmd.getCommand().equalsIgnoreCase(text))
-                .findFirst()
-                .orElse(null);
-        if (command != null) {
-            String description = command.getDescription();
-            bot.execute(new SendMessage(chatId, description));
-        } else {
-            bot.execute(new SendMessage(chatId, "Команда не найдена"));
+        if (update.message() != null) {
+            var chatId = update.message().chat().id();
+            String text = update.message().text();
+
+            BotCommand command = Arrays.stream(BotCommand.values())
+                    .filter(cmd -> cmd.getCommand().equalsIgnoreCase(text))
+                    .findFirst()
+                    .orElse(null);
+
+            if (command != null) {
+                String description = command.getDescription();
+                bot.execute(new SendMessage(chatId, description));
+            } else {
+                bot.execute(new SendMessage(chatId, "Команда не найдена"));
+            }
         }
 
-        if (text.equals("/start")) {
-            String downArrow = "👇";  // Символ смайлика
-            // Если пользователь отправил /start, отправьте сообщение с кнопками
-            InlineKeyboardButton button1 = new InlineKeyboardButton("Приют для кошек")
-                    .callbackData("Приют для кошек");
-            InlineKeyboardButton button2 = new InlineKeyboardButton("Приют для собак")
-                    .callbackData("Приют для собак");
-            InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup(button1, button2);
-            SendMessage message = new SendMessage(chatId, "Выберите команду" + downArrow);
-            message.replyMarkup(markupInline);
-            bot.execute(message);
-        }else if (update.callbackQuery() != null) {
-            // Пользователь нажал на кнопку, обработайте это событие
-            String callbackData = update.callbackQuery().data();
-            if (callbackData.equals("Приют для кошек")) {
-                // Пользователь выбрал приют для кошек, обработайте это событие
-                sendCatShelterOptions(chatId);
-            } else if (callbackData.equals("Приют для собак")) {
-                // Пользователь выбрал приют для собак, обработайте это событие
-                sendDogShelterOptions(chatId);
+        if (update.callbackQuery() != null) {
+            var chatId = update.callbackQuery().message().chat().id();
+            var callbackData = update.callbackQuery().data();
+
+            if (callbackData.equalsIgnoreCase("/start")) {
+                sendStartMessage(chatId);
+            } else if (callbackData.equalsIgnoreCase("/shelters")) {
+                sendSheltersMessage(chatId);
+            } else if (callbackData.equalsIgnoreCase("/cat_shelter")) {
+                // Handle the "Приют для кошек" button click
+            } else if (callbackData.equalsIgnoreCase("/dog_shelter")) {
+                // Handle the "Приют для собак" button click
+            } else {
+                bot.execute(new SendMessage(chatId, "Извините, не могу обработать данную команду."));
             }
         }
     }
 
-        private void sendCatShelterOptions(Long chatId) {
-            InlineKeyboardButton button3 = new InlineKeyboardButton("Опция 1")
-                    .callbackData("option1");
-            InlineKeyboardButton button4 = new InlineKeyboardButton("Опция 2")
-                    .callbackData("option2");
+    private void sendStartMessage(Long chatId) {
+        String downArrow = "👇";
+        // If the user sent "/start," send a message with buttons
+        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new InlineKeyboardButton[][]{
+                {new InlineKeyboardButton("О приюте").callbackData("about")},
+                {new InlineKeyboardButton("Расписание и адрес").callbackData("schedule")},
+                {new InlineKeyboardButton("Контакты охраны").callbackData("security")},
+                {new InlineKeyboardButton("Рекомендации по безопасности").callbackData("safety")},
+                {new InlineKeyboardButton("Оставить контактные данные").callbackData("contact")},
+                {new InlineKeyboardButton("Позвать волонтера").callbackData("volunteer")},
+                {new InlineKeyboardButton("Приюты").callbackData("/shelters")}
+        });
 
-            InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup(button3, button4);
-
-            SendMessage message = new SendMessage(chatId, "Выберите опцию:");
-            message.replyMarkup(markupInline);
-
-            bot.execute(message);
-        }
-    private void sendDogShelterOptions(Long chatId) {
-        // Создайте кнопки для опций приюта для собак и отправьте их
+        SendMessage message = new SendMessage(chatId, "Выберите действие" + downArrow);
+        message.replyMarkup(keyboard);
+        bot.execute(message);
     }
 
-
-
-
-
-
-
+    private void sendSheltersMessage(Long chatId) {
+        String downArrow = "👇";
+        // If the user sent "/shelters," send a message with buttons
+        InlineKeyboardMarkup sheltersKeyboard = new InlineKeyboardMarkup(new InlineKeyboardButton[][]{
+                {new InlineKeyboardButton("Приют для кошек").callbackData("/cat_shelter")},
+                {new InlineKeyboardButton("Приют для собак").callbackData("/dog_shelter")}
+        });
+        SendMessage message = new SendMessage(chatId, "Выберите приют:" + "👇");
+        message.replyMarkup(sheltersKeyboard);
+        bot.execute(message);
     }
+}
 
 
 

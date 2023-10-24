@@ -6,9 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.devpro.enums.AnimalType;
 
 import java.time.LocalDateTime;
@@ -16,8 +14,6 @@ import java.util.Objects;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "animal")
 public class Animal {
 
@@ -43,7 +39,7 @@ public class Animal {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    //@JsonIgnore
+    @JsonIgnore
     private User user;
     @ManyToOne
     @JoinColumn(name = "shelter_id")
@@ -52,6 +48,8 @@ public class Animal {
     @JoinColumn(name = "shelter_location_id")
     private ShelterLocation shelterLocation;
 
+    public Animal() {
+    }
 
     @Override
     public boolean equals(Object o) {

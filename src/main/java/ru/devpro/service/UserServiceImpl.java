@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
 
-    public UserServiceImpl(UsersRepository usersRepository, ShelterRepository shelterRepository) {
+    public UserServiceImpl(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
 
         this.userMapper = UserMapper.INSTANCE;

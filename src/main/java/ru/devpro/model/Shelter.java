@@ -1,13 +1,11 @@
 package ru.devpro.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,8 +16,7 @@ import java.util.Set;
 @Entity
 @Table(name = "shelter")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Shelter {
 
     @Id
@@ -45,6 +42,8 @@ public class Shelter {
     @OneToMany(mappedBy = "shelter",fetch = FetchType.EAGER)
     private List<ShelterLocation> shelterLocations;
 
+    public Shelter() {
+    }
 
     @Override
     public boolean equals(Object o) {

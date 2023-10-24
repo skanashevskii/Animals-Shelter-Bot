@@ -1,13 +1,13 @@
 package ru.devpro.dto;
 
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import ru.devpro.enums.AccessLevel;
-import ru.devpro.model.Animal;
-import ru.devpro.model.Report;
-import ru.devpro.model.Shelter;
+
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,6 +31,7 @@ public class UserDTO {
     private Set<AnimalDTO> animalDTOs;
     //@JsonIgnore
     private List<ReportDTO> reportDTOs;
+
 
 
 }

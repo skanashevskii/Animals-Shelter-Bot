@@ -3,9 +3,7 @@ package ru.devpro.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -13,8 +11,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "avatar")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Avatar {
 
     @Id
@@ -32,6 +29,8 @@ public class Avatar {
     @OneToOne(fetch = FetchType.EAGER)
     private Animal animal;
 
+    public Avatar() {
+    }
 
     @Override
     public boolean equals(Object o) {

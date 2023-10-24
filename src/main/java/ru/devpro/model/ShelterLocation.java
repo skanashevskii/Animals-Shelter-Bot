@@ -6,9 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -19,8 +17,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "shelter_location")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class ShelterLocation {
 
     @Id
@@ -52,6 +49,8 @@ public class ShelterLocation {
     @OneToMany(mappedBy = "shelterLocation",fetch = FetchType.EAGER)
     private List<Animal> animals;
 
+    public ShelterLocation() {
+    }
 
     @Override
     public boolean equals(Object o) {

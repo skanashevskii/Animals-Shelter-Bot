@@ -1,9 +1,7 @@
 package ru.devpro.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.devpro.enums.AccessLevel;
 
 import java.time.LocalDate;
@@ -13,8 +11,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "reports")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +33,8 @@ public class Report {
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
+    public Report() {
+    }
 
     @Override
     public boolean equals(Object o) {

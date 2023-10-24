@@ -1,11 +1,12 @@
 package ru.devpro.dto;
 
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.springframework.stereotype.Component;
+
 import ru.devpro.enums.AnimalType;
-import ru.devpro.model.User;
+
 
 import java.time.LocalDateTime;
 

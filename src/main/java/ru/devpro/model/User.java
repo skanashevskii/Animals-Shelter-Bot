@@ -1,12 +1,10 @@
 package ru.devpro.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.devpro.enums.AccessLevel;
 
 
@@ -20,8 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name = "app_user")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class User {
 
     @Id
@@ -74,6 +71,9 @@ public class User {
     private Set<Animal> animals;
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     private List<Report> reports;
+
+    public User() {
+    }
 
     @Override
     public boolean equals(Object o) {

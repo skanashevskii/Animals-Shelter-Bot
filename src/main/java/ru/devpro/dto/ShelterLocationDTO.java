@@ -1,12 +1,12 @@
 package ru.devpro.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
-import org.mapstruct.Mapper;
-import org.springframework.stereotype.Component;
-import ru.devpro.model.Shelter;
+
+
 
 import java.time.LocalDateTime;
+
 
 @Data
 public class ShelterLocationDTO {
@@ -16,7 +16,6 @@ public class ShelterLocationDTO {
     private String state;
     private String zipcode;
     private LocalDateTime dateTime;
-    //@JsonIgnore
-    private ShelterDTO shelterDTO;
+
 
 }

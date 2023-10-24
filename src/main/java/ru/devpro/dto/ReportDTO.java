@@ -1,16 +1,16 @@
 package ru.devpro.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import jdk.jfr.DataAmount;
-import lombok.Data;
-import org.springframework.stereotype.Component;
-import ru.devpro.enums.AccessLevel;
-import ru.devpro.model.Animal;
-import ru.devpro.model.User;
 
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+
+
+import ru.devpro.enums.AccessLevel;
+
+
+
 import java.time.LocalDateTime;
+
 
 @Data
 public class ReportDTO {

@@ -1,13 +1,16 @@
 package ru.devpro.dto;
 
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.springframework.stereotype.Component;
-import ru.devpro.model.ShelterLocation;
+import lombok.Getter;
+import lombok.Setter;
+
 
 import java.time.LocalDateTime;
-import java.util.List;
+
+
 
 @Data
 public class ShelterDTO {
@@ -17,8 +20,7 @@ public class ShelterDTO {
     private LocalDateTime dateTime;
     //@JsonIgnore
     private ShelterLocationDTO shelterLocationDTO;
-    //@JsonIgnore
-    private List<ShelterLocationDTO> shelterLocationDTOs;
+
 
 
 }

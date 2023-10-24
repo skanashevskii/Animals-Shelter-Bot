@@ -43,6 +43,6 @@ public class UpdateListener implements UpdatesListener {
 
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
-    }
+}
 
 
