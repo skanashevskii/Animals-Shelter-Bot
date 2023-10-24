@@ -130,13 +130,17 @@ public class UsersController {
                     description = "Пользователь не найден."
             )
     })
-    public ResponseEntity<Void> deleteUser(@PathVariable long userId) {
+   /* *//*public ResponseEntity<Void> deleteUser(@PathVariable long userId) {
         userService.deleteUserById(userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();*//*
+    } */
+    public void deleteUser(@PathVariable long userId) {
+        userService.deleteUserById(userId);
+        //return ResponseEntity.ok().build();
     }
 
 
-    @GetMapping
+    @GetMapping("/all")
     @Operation(
             summary = "Поиск всех пользователей",
             description = "Поиск и возвращает информацию о всех пользователях."

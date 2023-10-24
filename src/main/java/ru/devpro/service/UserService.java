@@ -5,6 +5,7 @@ import ru.devpro.dto.UserDTO;
 import ru.devpro.model.User;
 
 import java.util.Collection;
+import java.util.Set;
 
 public interface UserService {
 
@@ -17,4 +18,5 @@ public interface UserService {
     UserDTO findUserById(Long userId);
 
     Collection<UserDTO> findAll();
+
 }

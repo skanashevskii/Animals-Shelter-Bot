@@ -32,6 +32,11 @@ public class UserDTO {
     //@JsonIgnore
     private List<ReportDTO> reportDTOs;
 
+    public UserDTO() {
+    }
 
-
+    public UserDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
