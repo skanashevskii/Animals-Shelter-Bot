@@ -1,5 +1,6 @@
 package controllers;
 
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -33,7 +34,7 @@ public class UsersControllerTest {
 
     @Test
     public void testCreateUser() {
-        UserDTO userDTO = new UserDTO(); // Создайте объект UserDTO для тестирования
+        UserDTO userDTO = new UserDTO();
         when(userService.createUser(userDTO)).thenReturn(userDTO);
 
         ResponseEntity<UserDTO> response = usersController.createUser(userDTO);
@@ -44,7 +45,7 @@ public class UsersControllerTest {
 
     @Test
     public void testEditUser() {
-        UserDTO userDTO = new UserDTO(); // Создайте объект UserDTO для тестирования
+        UserDTO userDTO = new UserDTO();
         when(userService.editUser(userDTO)).thenReturn(userDTO);
 
         ResponseEntity<UserDTO> response = usersController.editUser(userDTO);
@@ -55,8 +56,8 @@ public class UsersControllerTest {
 
     @Test
     public void testGetUserById() {
-        Long userId = 1L; // Замените на реальный идентификатор пользователя
-        UserDTO userDTO = new UserDTO(); // Создайте объект UserDTO для тестирования
+        Long userId = 1L;
+        UserDTO userDTO = new UserDTO();
         when(userService.findUserById(userId)).thenReturn(userDTO);
 
         ResponseEntity<UserDTO> response = usersController.getUserById(userId);
@@ -67,7 +68,7 @@ public class UsersControllerTest {
 
     @Test
     public void testGetUserByIdUserNotFound() {
-        Long userId = 1L; // Замените на несуществующий идентификатор пользователя
+        Long userId = 1L;
         when(userService.findUserById(userId)).thenReturn(null);
 
         ResponseEntity<UserDTO> response = usersController.getUserById(userId);
@@ -89,7 +90,7 @@ public class UsersControllerTest {
 
     @Test
     public void testFindAllUsers() {
-        UserDTO[] userArray = new UserDTO[] {new UserDTO(), new UserDTO()}; // Создайте массив объектов UserDTO для тестирования
+        UserDTO[] userArray = new UserDTO[] {new UserDTO(), new UserDTO()};
         when(userService.findAll()).thenReturn(Arrays.asList(userArray));
 
         ResponseEntity<Collection<UserDTO>> response = usersController.findAllUsers();
