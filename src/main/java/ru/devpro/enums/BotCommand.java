@@ -8,9 +8,9 @@ import lombok.Getter;
 
 public enum BotCommand {
     START("Привет, рад приветствовать тебя!", "/start"),
-    SHELTERS("приюты", "/shelters"),
-    CAT_SHELTER("приют для кошек", "/cat_shelter"),
-    DOG_SHELTER("приют для собак", "/dog_shelter"),
+    SHELTERS("\uD83D\uDC08   Приюты   \uD83D\uDC36", "/shelters"),
+    CAT_SHELTER("Приют для кошек", "/cat_shelter"),
+    DOG_SHELTER("Приют для собак", "/dog_shelter"),
     CAT_SHELTER_INFO_MENU("меню информации о приюте кошек", "/cat_shelter_info_menu"),
     DOG_SHELTER_INFO_MENU("меню информации о приюте собак", "/dog_shelter_info_menu"),
     ADOPT_CAT("информация для усыновителя кошки", "/preparing_for_adoption_dog"),
@@ -41,7 +41,7 @@ public enum BotCommand {
     POSSIBLE_REASON_FOR_REFUSAL_FOR_ADOPTION_DOG("причины отказа в усыновлении", "possible_reasons_for_refusal_of_adoption_dog"),
     REPORT_ABOUT_PET("отправить отчет о питомце", "/report_about_pet"),
     COMMUNICATION_REQUEST("запрос на обратную связь", "/communication_request"),
-    CALL_VOLUNTEER("позвать волонтера", "/call_volunteer"),
+    CALL_VOLUNTEER("Позвать волонтера", "/call_volunteer"),
     PHONE("телефон", "phone"),
     EMAIL("электронная почта", "email"),
     BACK_DOG_SHELTER("<- назад", "back_dog_shelter"),
@@ -50,7 +50,12 @@ public enum BotCommand {
     BACK_CAT_INFO_MENU("<- назад", "back_cat_info_menu"),
     BACK_DOG_INFO_MENU("<- назад", "back_dog_info_menu"),
     BACK_CAT_ADOPTION_MENU("<- назад", "back_cat_adoption_menu"),
-    BACK_DOG_ADOPTION_MENU("<- назад", "back_dog_adoption_menu");
+    BACK_DOG_ADOPTION_MENU("<- назад", "back_dog_adoption_menu"),
+    SCHEDULE("Расписание", "schedule"),
+    SECURITY("Безопасность","security"),
+    CONTACT("Контакты","contact"),
+    SAFETY("Техника безопасности","safety"),
+    ABOUT_SHELTERS("О Приютах","about_shelters" );
 
     private final String description;
     private final String command;

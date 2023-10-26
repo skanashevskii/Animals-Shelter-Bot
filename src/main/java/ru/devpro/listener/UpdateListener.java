@@ -3,30 +3,27 @@ package ru.devpro.listener;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.request.KeyboardButton;
-import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
-import com.pengrad.telegrambot.request.SendMessage;
-import com.pengrad.telegrambot.response.SendResponse;
-import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import ru.devpro.enums.BotCommand;
 
-import java.util.Arrays;
+import jakarta.annotation.PostConstruct;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
 import java.util.List;
 
 @Service
+@Log4j2
 public class UpdateListener implements UpdatesListener {
-    private static final Logger logger = LoggerFactory.getLogger(UpdateListener.class);
+
     private final TelegramBot bot;
     private final List<Command> commands;
 
     public UpdateListener(TelegramBot bot, List<Command> commands) {
         this.bot = bot;
         this.commands = commands;
-
     }
+
     @PostConstruct
     void init() {
         bot.setUpdatesListener(this);
@@ -35,14 +32,23 @@ public class UpdateListener implements UpdatesListener {
     @Override
     public int process(List<Update> updates) {
         updates.forEach(update -> {
-            logger.debug("Handle update: {}", update);
+            log.debug("Handle update: {}", update);
             commands.stream()
                     .filter(command -> command.ifSuitable(update))
-                    .forEach(command -> command.handle(update));
+                    .forEach(command -> {
+                        try {
+                            command.handle(update);
+                        } catch (TelegramApiException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
         });
 
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
+
+
 }
+
 
 
