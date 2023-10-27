@@ -16,6 +16,8 @@ import ru.devpro.enums.BotCommand;
 
 import java.util.*;
 
+
+
 @Component
 public class ButtonCommand implements Command {
     private final TelegramBot bot;
@@ -31,44 +33,14 @@ public class ButtonCommand implements Command {
             String text = update.message().text();
             return Arrays.stream(BotCommand.values())
                     .anyMatch(botCommand -> botCommand.getCommand().equalsIgnoreCase(text));
+
         }
         return false;
     }
 
     public void handle(Update update) throws TelegramApiException {
-        if (update.message() != null) {
-            var chatId = update.message().chat().id();
-            var text = update.message().text();
-            System.out.println("Received callbackData: " + text);
-            BotCommand botCommand = Arrays.stream(BotCommand.values())
-                    .filter(command -> command.getCommand().equalsIgnoreCase(text))
-                    .findFirst()
-                    .orElse(null);
-            System.out.println("Received callbackData: " + botCommand);
-            if (botCommand != null) {
-                // Вызываем соответствующий метод на основе команды
-                switch (botCommand) {
-                    case START -> sendStartMessage(update.message().chat().id());
-                    case CALL_VOLUNTEER -> sendVolunteerMessage(chatId);
-                    case SHELTERS -> sendSheltersMessage(chatId);
-                    case CAT_SHELTER -> sendCatShelterMessage(chatId);
-                    // Обработка нажатия кнопки "Приют для кошек"
-                    case DOG_SHELTER -> sendDogShelterMessage(chatId);
-                    case SCHEDULE -> sendScheduleMessage(chatId);
-                    case ABOUT_SHELTERS -> sendAboutScheduleMessage(chatId);
-                    case SECURITY -> sendSecurityMessage(chatId);
-                    case SAFETY -> sendSafetyMessage(chatId);
-                    case CONTACT -> sendContactMessage(chatId);
 
-                    // Обработка нажатия кнопки "Приют для собак"
-                    // Другие команды
-                    default -> bot.execute(new SendMessage(chatId, "Извините, не могу обработать данную команду."));
-                }
-            }
-            // Обработка callback-запросов
-        } else if (update.callbackQuery() != null) {
-
-
+        if (update.callbackQuery() != null) {
             var chatId = update.callbackQuery().message().chat().id();
             var callbackData = update.callbackQuery().data();
 
@@ -93,8 +65,41 @@ public class ButtonCommand implements Command {
                     default -> bot.execute(new SendMessage(chatId, "Извините, не могу обработать данную команду."));
                 }
             }
+
+            // Обработка callback-запросов
+        } else if (update.message() != null) {
+            var chatId = update.message().chat().id();
+            var text = update.message().text();
+            System.out.println("Received text: " + text);
+
+            BotCommand botCommand = Arrays.stream(BotCommand.values())
+                    .filter(command -> command.getCommand().equalsIgnoreCase(text))
+                    .findFirst()
+                    .orElse(null);
+            System.out.println("Received text: " + botCommand);
+            if (botCommand != null) {
+                // Вызываем соответствующий метод на основе команды
+                switch (botCommand) {
+                    case START -> sendStartMessage(chatId);
+                    case CALL_VOLUNTEER -> sendVolunteerMessage(chatId);
+                    case SHELTERS -> sendSheltersMessage(chatId);
+                    case CAT_SHELTER -> sendCatShelterMessage(chatId);
+                    // Обработка нажатия кнопки "Приют для кошек"
+                    case DOG_SHELTER -> sendDogShelterMessage(chatId);
+                    case SCHEDULE -> sendScheduleMessage(chatId);
+                    case ABOUT_SHELTERS -> sendAboutScheduleMessage(chatId);
+                    case SECURITY -> sendSecurityMessage(chatId);
+                    case SAFETY -> sendSafetyMessage(chatId);
+                    case CONTACT -> sendContactMessage(chatId);
+
+                    // Обработка нажатия кнопки "Приют для собак"
+                    // Другие команды
+                    default -> bot.execute(new SendMessage(chatId, "Извините, не могу обработать данную команду."));
+                }
+            }
         }
     }
+
     void sendSheltersMessage(Long chatId) {
         String downArrow = "👇";
         // If the user sent "/shelters," send a message with buttons
@@ -119,46 +124,38 @@ public class ButtonCommand implements Command {
 
     private void sendVolunteerMessage(Long chatId) {
     }
+
     private void sendCatShelterMessage(Long chatId) {
     }
+
     private void sendDogShelterMessage(Long chatId) {
     }
-    
+
     private void sendScheduleMessage(Long chatId) {
-        
+
     }
+
     private void sendAboutScheduleMessage(Long chatId) {
     }
 
     private void sendStartMessage (Long chatId){
-            String downArrow = "👇";
-            // If the user sent "/start," send a message with buttons
+        String downArrow = "👇";
+        // If the user sent "/start," send a message with buttons
 
-        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
-                    new InlineKeyboardButton[][]{
-                        {new InlineKeyboardButton(BotCommand.ABOUT_SHELTERS.getDescription()).callbackData(BotCommand.ABOUT_SHELTERS.getCommand())},
-                        {new InlineKeyboardButton(BotCommand.SCHEDULE.getDescription()).callbackData(BotCommand.SCHEDULE.getCommand())},
-                        {new InlineKeyboardButton(BotCommand.SECURITY.getDescription()).callbackData(BotCommand.SECURITY.getCommand())},
-                        {new InlineKeyboardButton(BotCommand.SAFETY.getDescription()).callbackData(BotCommand.SAFETY.getCommand())},
-                        {new InlineKeyboardButton(BotCommand.CONTACT.getDescription()).callbackData(BotCommand.CONTACT.getCommand())},
-                        {new InlineKeyboardButton(BotCommand.CALL_VOLUNTEER.getDescription()).callbackData(BotCommand.CALL_VOLUNTEER.getCommand())},
-                        {new InlineKeyboardButton(BotCommand.SHELTERS.getDescription()).callbackData(BotCommand.SHELTERS.getCommand())}
-                    });
-        /* ReplyKeyboardMarkup keyboard = new ReplyKeyboardMarkup(
-                    new KeyboardButton[][]{
-                        {new KeyboardButton(BotCommand.ABOUT_SHELTERS.getDescription())},
-                        {new KeyboardButton(BotCommand.SCHEDULE.getDescription())},
-                        {new KeyboardButton(BotCommand.SECURITY.getDescription())},
-                        {new KeyboardButton(BotCommand.SAFETY.getDescription())},
-                        {new KeyboardButton(BotCommand.CONTACT.getDescription())},
-                        {new KeyboardButton(BotCommand.CALL_VOLUNTEER.getDescription())},
-                        {new KeyboardButton( "Приюты").callbackData(BotCommand.SHELTERS.getDescription())}
-                    });*/
+        InlineKeyboardMarkup inlineKeyboard =
+                new InlineKeyboardMarkup(BotCommand.SHELTER_INFO.getButton());
+        inlineKeyboard.addRow(BotCommand.ADDRESS.getButton());
+        inlineKeyboard.addRow(BotCommand.PASS.getButton());
+        inlineKeyboard.addRow(BotCommand.SAFETY.getButton());
+        inlineKeyboard.addRow(BotCommand.PHONE.getButton());
+        inlineKeyboard.addRow(BotCommand.SHELTERS.getButton());
 
-            SendMessage message = new SendMessage(chatId, "Выберите действие" + downArrow);
-            message.replyMarkup(keyboard);
-            bot.execute(message);
-        }
+        SendMessage message = new SendMessage(chatId, "Выберите действие" + downArrow);
+        message.replyMarkup(inlineKeyboard);
+        bot.execute(message);
+    }
+
+}
   /*  public SendMessage getMainMenuMessage( long chatId,  String textMessage) {
         final ReplyKeyboardMarkup replyKeyboardMarkup = getMainMenuKeyboard();
 
@@ -208,7 +205,7 @@ public class ButtonCommand implements Command {
     }*/
 
 
-    }
+
 
 
 

@@ -1,14 +1,21 @@
 package ru.devpro.enums;
 
+import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import lombok.Getter;
-
+import lombok.RequiredArgsConstructor;
 
 
 @Getter
+@RequiredArgsConstructor
 
 public enum BotCommand {
     START("Привет, рад приветствовать тебя!", "/start"),
     SHELTERS("\uD83D\uDC08   Приюты   \uD83D\uDC36", "/shelters"),
+    SHELTER_INFO("Общая информация", "/shelter"),
+    PASS("Оформление пропуска", "/pass"),
+    ADDRESS("Расписание работы и адрес", "/adress"),
+    HELP("Позвать волонтера", "/help"),
+    GET_INFO("Как взять животное из приюта", "/get"),
     CAT_SHELTER("Приют для кошек", "/cat_shelter"),
     DOG_SHELTER("Приют для собак", "/dog_shelter"),
     CAT_SHELTER_INFO_MENU("меню информации о приюте кошек", "/cat_shelter_info_menu"),
@@ -55,14 +62,30 @@ public enum BotCommand {
     SECURITY("Безопасность","security"),
     CONTACT("Контакты","contact"),
     SAFETY("Техника безопасности","safety"),
-    ABOUT_SHELTERS("О Приютах","about_shelters" );
+    ABOUT_SHELTERS("О Приютах","/about_shelters" ),
+
+    UNKNOWN_COMMAND("Неизвестная команда","");
 
     private final String description;
     private final String command;
 
-    BotCommand(String description, String command) {
-        this.description = description;
-        this.command = command;
+    /**
+     * Возвращает готовую кнопку с описанием и командой
+     */
+    public InlineKeyboardButton getButton() {
+        return new InlineKeyboardButton(description).callbackData(command);
+    }
+
+    /**
+     * Возвращает Enum команды
+     */
+    public static BotCommand getCommandName(String command) {
+        for (BotCommand commandName : BotCommand.values()) {
+            if (commandName.getCommand().equals(command)) {
+                return commandName;
+            }
+        }
+        return UNKNOWN_COMMAND;
     }
 
 
