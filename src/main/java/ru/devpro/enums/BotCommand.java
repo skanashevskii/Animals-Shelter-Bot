@@ -1,6 +1,7 @@
 package ru.devpro.enums;
 
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
+import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -11,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 public enum BotCommand {
     START("Привет, рад приветствовать тебя!", "/start"),
     SHELTERS("\uD83D\uDC08   Приюты   \uD83D\uDC36", "/shelters"),
-    SHELTER_INFO("Общая информация", "/shelter"),
+    SHELTER_INFO("Общая информация", "/info_shelters"),
     PASS("Оформление пропуска", "/pass"),
     ADDRESS("Расписание работы и адрес", "/adress"),
     HELP("Позвать волонтера", "/help"),
@@ -49,8 +50,8 @@ public enum BotCommand {
     REPORT_ABOUT_PET("отправить отчет о питомце", "/report_about_pet"),
     COMMUNICATION_REQUEST("запрос на обратную связь", "/communication_request"),
     CALL_VOLUNTEER("Позвать волонтера", "/call_volunteer"),
-    PHONE("телефон", "phone"),
-    EMAIL("электронная почта", "email"),
+    PHONE("Телефоны", "/phone"),
+    EMAIL("электронная почта", "/email"),
     BACK_DOG_SHELTER("<- назад", "back_dog_shelter"),
     BACK_CAT_SHELTER("<- назад", "back_cat_shelter"),
     BACK_START_MENU("<- назад", "back_start_menu"),
@@ -63,8 +64,59 @@ public enum BotCommand {
     CONTACT("Контакты","contact"),
     SAFETY("Техника безопасности","safety"),
     ABOUT_SHELTERS("О Приютах","/about_shelters" ),
+    CAT_SHELTER_INFO("Основная информация о приюте", "/cat_info"),
+    DOG_SHELTER_INFO("Основная информация о приюте", "/dog_info"),
+    SAFE("Техника безопасности на территории", "/safe"),
+    REPORT("Прислать отчет о питомце", "/report"),
+    TEXT("Заполнить отчет", "/text"),
+    PHOTO("Прислать фото животного", "/photo"),
 
-    UNKNOWN_COMMAND("Неизвестная команда","");
+    DATE("Как познакомится с животным", "/date"),
+    DOCUMENTS("Необходимые документы", "/documents"),
+    TRANSPORTATION("Рекомендации по транспортировке", "/transportation"),
+    DOG_HOME("Рекомендации по обустройству дома для собаки", "/home"),
+    CAT_HOME("Рекомендации по обустройству дома для кошки", "/cathome"),
+    PUPPY_HOME("Рекомендации по обустройству дома для щенка", "/puppyhome"),
+    KITTEN_HOME("Рекомендации по обустройству дома для котенка", "/kittenhome"),
+    DISABLED_DOG("Рекомендации для собаки с ограниченными возможностями", "/disableddog"),
+    DISABLED_CAT("Рекомендации для кошки с ограниченными возможностями", "/disabledcat"),
+    CONTACTS("Наш телефон и контакты для связи", "/contacts"),
+    DOG_TIPS("Советы кинолога по первичному общению с собакой", "/dogtips"),
+    CYNOLOGISTS("Рекомендуемые кинологи", "/cynologists"),
+    REFUSAL("Почему мы можем отказать и не дать забрать собаку", "/refusal"),
+
+    SET_ACCESS_LEVEL("Сменить права пользователя", "/setAccessLevel"),
+
+    I_AM_VOLUNTEER("Стать волонтером", "/iamvolunteer"),
+    I_AM_GUEST("Стать гостем", "/iamguest"),
+
+
+    ADD_PET("Добавить питомца","/addPet"),
+    ACCEPTANCE_OF_THE_REQUEST("Принятие запроса","Принял"),
+    PET_MENU("Меню питомцев","/petMenu"),
+    CHANGE_OF_OWNER("Новый хозяин питомцу","/setOwner"),
+    CHANGE_DATE_ADOPTION("Увелечение испытательно срока вручную","/setDateAdoption"),
+    GET_ALL_PET("Получить список всех питомцев","/getAll"),
+    USER_VOLUNTEER_MENU("Меню пользователей","/userVolunteerMenu"),
+    GET_ALL_USER_GUEST("Получить список всех гостей","/getAllUserGuest"),
+    REQUEST_FOR_REPORT("Пропущен день отчета","/requestForReport"),
+    PROBATIONARY_PERIOD_NOT_PASSED("Испытательный срок не пройден","/periodNotPassed"),
+    INCORRECT_REPORT("Неправильный отчет","/incorrectReport"),
+    CHANGE_DATE_ADOPTION_30_DAYS("Увеличение испытательно срока на 30 дней","/setDateAdoption30Days"),
+    CHANGE_DATE_ADOPTION_14_DAYS("Увеличение испытательно срока на 14 дней","/setDateAdoption14Days"),
+    CHANGE_DATE_MENU("Изменение испытательного срока","/setDate"),
+    CHECK_REPORT_DAY_TODAY("Посмотреть отчет за сегодня","/checkReport"),
+    CHECK_REPORT_PER_DATE("Посмотреть отчет за определенную дату","/checkReportPerDate"),
+    GET_ALL_PET_REPORTS("Посмотреть все отчеты питомца","/checkAllReportsPet"),
+    CHECK_HAS_NOT_REPORT("Есть ли отчет на определенную дату","/checkHasNotReport"),
+    CHECK_REPORT_DAY_TODAY_ALL("Посмотреть все отчеты за сегодня","/checkAllReportToday"),
+    REPORT_MENU("Меню отчетов","/reportMenu"),
+
+    UNKNOWN_COMMAND("Неизвестная команда",""),
+    CHECK_STATE("Проверка","/checkState"), // Добавляем команду CHECK_STATE
+    ADD_SHELTER_LOCATION("Добавить адрес приюта","/addAddress" ),
+    ADD_SHELTER("Добавить приют","/addShelter" );
+
 
     private final String description;
     private final String command;
@@ -72,6 +124,9 @@ public enum BotCommand {
     /**
      * Возвращает готовую кнопку с описанием и командой
      */
+
+
+
     public InlineKeyboardButton getButton() {
         return new InlineKeyboardButton(description).callbackData(command);
     }

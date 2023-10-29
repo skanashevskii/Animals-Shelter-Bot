@@ -16,7 +16,10 @@ public interface ShelterLocationService {
 
     Collection<ShelterLocationDTO> findAll();
 
-    ShelterLocationDTO createShelterLocation(ShelterLocationDTO shelterLocationDTO); // Метод для создания адреса приюта
+   ShelterLocationDTO createShelterLocation(ShelterLocationDTO shelterLocationDTO); // Метод для создания адреса приюта
+    //ShelterLocationDTO createShelterLocation(String address, String city, String state, String zipcode); // Метод для создания адреса приюта
+
+
 
     // Другие методы
 }

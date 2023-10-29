@@ -14,13 +14,11 @@ import java.time.LocalDateTime;
 
 
 @Data
-
 public class ShelterDTO {
     private Long id;
     private String name;
     private String safety;
     private LocalDateTime dateTime;
-    //@JsonIgnore
     private ShelterLocationDTO shelterLocationDTO;
 
 

@@ -1,15 +1,21 @@
 package ru.devpro.service;
 
+import com.pengrad.telegrambot.request.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.devpro.dto.ShelterDTO;
 import ru.devpro.mapers.ShelterMapper;
 import ru.devpro.model.Shelter;
 import ru.devpro.repositories.ShelterRepository;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -90,6 +96,15 @@ public class ShelterServiceImpl implements ShelterService {
         shelterRepository.findAll().forEach(shelter -> shelterDTOs.add(shelterMapper.toDTO(shelter)));
         return shelterDTOs;
     }
+
+
+
+
+
+
+
+
+
 
 
 

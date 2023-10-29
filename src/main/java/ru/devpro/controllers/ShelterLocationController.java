@@ -58,6 +58,34 @@ public class ShelterLocationController {
         ShelterLocationDTO createdShelterLocation = shelterLocationService.createShelterLocation(shelterLocationDTO);
         return new ResponseEntity<>(createdShelterLocation, HttpStatus.CREATED);
     }
+    /*@PostMapping
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Местоположение приюта успешно создано.",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ShelterLocationDTO.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Неверный запрос. Проверьте входные данные.",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+            )
+    })
+
+    public ResponseEntity<ShelterLocationDTO> createShelterLocation(
+            @Parameter(description = "Адрес приюта") @RequestParam String address,
+            @Parameter(description = "Город") @RequestParam String city,
+            @Parameter(description = "Штат") @RequestParam String state,
+            @Parameter(description = "Почтовый индекс") @RequestParam String zipcode
+    ) {
+        LOGGER.info("Received request to save shelter location with address: {}, city: {}, state: {}, zipcode: {}", address, city, state, zipcode);
+
+        ShelterLocationDTO createdShelterLocation = shelterLocationService.createShelterLocation(address, city, state, zipcode);
+        return new ResponseEntity<>(createdShelterLocation, HttpStatus.CREATED);
+    }*/
 
     @PutMapping
     @Operation(

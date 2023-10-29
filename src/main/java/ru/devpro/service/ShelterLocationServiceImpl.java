@@ -11,6 +11,7 @@ import ru.devpro.mapers.ShelterMapper;
 import ru.devpro.model.ShelterLocation;
 import ru.devpro.repositories.ShelterLocationRepository;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -30,10 +31,28 @@ public class ShelterLocationServiceImpl implements ShelterLocationService{
     @Override
     public ShelterLocationDTO createShelterLocation(ShelterLocationDTO shelterLocationDTO) {
         LOGGER.info("Received request to save shelter: {}",shelterLocationDTO);
+
         ShelterLocation shelterEntity = shelterLocationMapper.toEntity(shelterLocationDTO); // Преобразуйте DTO в сущность
         ShelterLocation savedEntity = shelterLocationRepository.save(shelterEntity);
         return shelterLocationMapper.toDTO(savedEntity); // Преобразуйте сущность обратно в DTO
     }
+   /* @Override
+    public ShelterLocationDTO createShelterLocation(String address, String city, String state, String zipcode) {
+        LOGGER.info("Received request to save shelter with address: {}, city: {}, state: {}, zipcode: {}", address, city, state, zipcode);
+        ShelterLocationDTO shelterLocationDTO = new ShelterLocationDTO();
+        shelterLocationDTO.setAddress(address);
+        shelterLocationDTO.setCity(city);
+        shelterLocationDTO.setState(state);
+        shelterLocationDTO.setZipcode(zipcode);
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        shelterLocationDTO.setDateTime(currentDateTime);
+
+        ShelterLocation shelterEntity = shelterLocationMapper.toEntity(shelterLocationDTO);
+        ShelterLocation savedEntity = shelterLocationRepository.save(shelterEntity);
+
+        return shelterLocationMapper.toDTO(savedEntity);
+    }*/
     @Override
     public ShelterLocationDTO editShelterLocation(ShelterLocationDTO shelterLocationDTO) {
         LOGGER.info("Was invoked method for edit shelter location: {}", shelterLocationDTO);
