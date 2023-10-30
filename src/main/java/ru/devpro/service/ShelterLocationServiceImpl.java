@@ -4,14 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import ru.devpro.dto.ShelterLocationDTO;
 import ru.devpro.mapers.ShelterLocationMapper;
 
-import ru.devpro.mapers.ShelterMapper;
 import ru.devpro.model.ShelterLocation;
 import ru.devpro.repositories.ShelterLocationRepository;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -22,12 +21,15 @@ public class ShelterLocationServiceImpl implements ShelterLocationService{
     private static final Logger LOGGER = LoggerFactory.getLogger(ShelterLocationServiceImpl.class);
 
     private final ShelterLocationRepository shelterLocationRepository;
+
     private final ShelterLocationMapper shelterLocationMapper;
 
     public ShelterLocationServiceImpl(ShelterLocationRepository shelterLocationRepository) {
         this.shelterLocationRepository = shelterLocationRepository;
+
         this.shelterLocationMapper = ShelterLocationMapper.INSTANCE;
     }
+    @Transactional
     @Override
     public ShelterLocationDTO createShelterLocation(ShelterLocationDTO shelterLocationDTO) {
         LOGGER.info("Received request to save shelter: {}",shelterLocationDTO);

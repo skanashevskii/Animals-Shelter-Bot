@@ -66,7 +66,7 @@ public class TextCommands implements Command {
                 // Вызываем соответствующий метод на основе команды
                 switch (botCommand) {
                     case START -> sendStartMessage(chatId);
-                    case ADD_SHELTER_LOCATION -> ChangeBD.createShelterLocation(chatId);
+                    //case ADD_SHELTER_LOCATION -> ChangeBD.createShelterLocation(chatId);
                     case ADD_SHELTER -> ChangeBD.createShelter(chatId);
 
                     default -> bot.execute(new SendMessage(chatId, "Извините, не могу обработать данную команду."));

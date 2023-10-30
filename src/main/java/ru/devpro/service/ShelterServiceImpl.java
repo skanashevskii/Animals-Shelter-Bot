@@ -1,21 +1,20 @@
 package ru.devpro.service;
 
-import com.pengrad.telegrambot.request.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.springframework.transaction.annotation.Transactional;
 import ru.devpro.dto.ShelterDTO;
+import ru.devpro.dto.ShelterLocationDTO;
+import ru.devpro.mapers.ShelterLocationMapper;
 import ru.devpro.mapers.ShelterMapper;
 import ru.devpro.model.Shelter;
+import ru.devpro.model.ShelterLocation;
+import ru.devpro.repositories.ShelterLocationRepository;
 import ru.devpro.repositories.ShelterRepository;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,23 +26,34 @@ public class ShelterServiceImpl implements ShelterService {
 
     private final ShelterRepository shelterRepository;
     private final ShelterMapper shelterMapper;
+    private final ShelterLocationMapper shelterLocationMapper;
 
     public ShelterServiceImpl(ShelterRepository shelterRepository) {
         this.shelterRepository = shelterRepository;
         this.shelterMapper = ShelterMapper.INSTANCE;
+        this.shelterLocationMapper = ShelterLocationMapper.INSTANCE;
     }
 
+    @Transactional
     @Override
     public ShelterDTO createShelter(ShelterDTO shelterDTO) {
         LOGGER.info("Received request to save shelter: {}", shelterDTO);
+
+        // Создайте или получите ShelterLocation на основе данных из ShelterDTO
+        ShelterLocationDTO shelterLocationDTO = shelterDTO.getShelterLocationDTO();
+        ShelterLocation shelterLocation = shelterLocationMapper.toEntity(shelterLocationDTO);
         // Преобразование ShelterDTO в сущность Shelter с использованием маппера
         Shelter shelter = shelterMapper.toEntity(shelterDTO);
+
+        // Установите связь Shelter с ShelterLocation
+        shelter.setShelterLocation(shelterLocation);
         // Сохранение сущности Shelter в репозитории
         Shelter savedShelter = shelterRepository.save(shelter);
         // Преобразование сохраненной сущности Shelter обратно в DTO
 
         return shelterMapper.toDTO(savedShelter);
     }
+
     @Override
     public ShelterDTO editShelter(ShelterDTO shelterDTO) {
         LOGGER.info("Was invoked method for edit shelter : {}", shelterDTO);
@@ -96,18 +106,6 @@ public class ShelterServiceImpl implements ShelterService {
         shelterRepository.findAll().forEach(shelter -> shelterDTOs.add(shelterMapper.toDTO(shelter)));
         return shelterDTOs;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

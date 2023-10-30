@@ -60,7 +60,7 @@ public class QueryCommands implements Command {
                     case SHELTERS -> createSheltersButtons(chatId);
                     case PASS -> sendPassInfo(chatId);
                     case ADDRESS -> sendAddressMessage(chatId);
-                    case ADD_SHELTER_LOCATION -> ChangeBD.createShelterLocation(chatId);
+                    //case ADD_SHELTER_LOCATION -> ChangeBD.createShelterLocation(chatId);
                     case ADD_SHELTER -> ChangeBD.createShelter(chatId);
                     case CAT_SHELTER -> createCatShelterButtons(chatId);
                     case DOG_SHELTER -> createDogShelterButtons(chatId);

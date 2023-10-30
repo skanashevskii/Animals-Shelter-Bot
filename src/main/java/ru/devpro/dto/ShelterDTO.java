@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import ru.devpro.model.ShelterLocation;
 
 
@@ -19,6 +20,7 @@ public class ShelterDTO {
     private String name;
     private String safety;
     private LocalDateTime dateTime;
+    @ToString.Exclude
     private ShelterLocationDTO shelterLocationDTO;
 
 
