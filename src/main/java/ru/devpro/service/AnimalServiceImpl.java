@@ -51,17 +51,14 @@ public class AnimalServiceImpl implements AnimalService{
 
 
     @Override
-    public AnimalDTO createAnimal(AnimalDTO animalDTO, AnimalType animalType) {
+    public AnimalDTO createAnimal(AnimalDTO animalDTO) {
         LOGGER.info("Received request to save shelter: {}", animalDTO);
 
-        if (!isValidAnimalType(animalType)) {
-            LOGGER.warn("Invalid animal type: {}", animalType);
-            throw new IllegalArgumentException("Invalid animal type: " + animalType);
-        }
+
 
         // Преобразуйте DTO в сущность
         Animal animalEntity = animalMapper.toEntity(animalDTO);
-        animalEntity.setType_animal(animalType);
+
 
         // Установите дату и время
         LocalDateTime truncatedDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.HOURS);
@@ -73,6 +70,9 @@ public class AnimalServiceImpl implements AnimalService{
         // Преобразуйте сущность обратно в DTO
         return animalMapper.toDTO(savedEntity);
     }
+
+
+
     @Override
     public AnimalDTO editAnimal(Long id, AnimalDTO animalDTO, AnimalType type) {
         // Проверка валидности типа животного

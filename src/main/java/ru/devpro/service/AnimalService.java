@@ -11,9 +11,11 @@ import java.util.Collection;
 @Service
 
 public interface AnimalService {
-    AnimalDTO createAnimal(AnimalDTO animalDTO, AnimalType animalType); // Метод для создания животного
+    AnimalDTO createAnimal(AnimalDTO animalDTO); // Метод для создания животного
 
-    AnimalDTO editAnimal(Long id,AnimalDTO animal,AnimalType animalType);
+
+
+    AnimalDTO editAnimal(Long id, AnimalDTO animalDTO, AnimalType type);
 
     void deleteAnimal(Long animalId);
 

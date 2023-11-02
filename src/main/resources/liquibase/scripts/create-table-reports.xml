@@ -6,7 +6,7 @@
  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
  <!--REPORT TABLE-->
- <changeSet id="report-table" author="skanash">
+ <changeSet id="create-report-table" author="skanash">
   <preConditions>
    <not>
     <tableExists tableName="reports"/>

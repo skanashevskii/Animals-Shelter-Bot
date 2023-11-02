@@ -81,8 +81,9 @@ public enum BotCommand {
     DISABLED_DOG("Рекомендации для собаки с ограниченными возможностями", "/disableddog"),
     DISABLED_CAT("Рекомендации для кошки с ограниченными возможностями", "/disabledcat"),
     CONTACTS("Наш телефон и контакты для связи", "/contacts"),
-    DOG_TIPS("Советы кинолога по первичному общению с собакой", "/dogtips"),
+    //DOG_TIPS("Советы кинолога по первичному общению с собакой", "/dogtips"),
     CYNOLOGISTS("Рекомендуемые кинологи", "/cynologists"),
+    ADVICE_CYNOLOGISTS("Советы кинолога", "/advice_cynologists"),
     REFUSAL("Почему мы можем отказать и не дать забрать собаку", "/refusal"),
 
     SET_ACCESS_LEVEL("Сменить права пользователя", "/setAccessLevel"),
@@ -115,7 +116,9 @@ public enum BotCommand {
     UNKNOWN_COMMAND("Неизвестная команда",""),
     CHECK_STATE("Проверка","/checkState"), // Добавляем команду CHECK_STATE
     ADD_SHELTER_LOCATION("Добавить адрес приюта","/addAddress" ),
-    ADD_SHELTER("Добавить приют","/addShelter" );
+    ADD_SHELTER("Добавить приют","/addShelter" ),
+    ADD_USER("Добавить пользователя","/addUser" ),
+    ADD_ANIMAL("Добавить животное","/addAnimal" );
 
 
     private final String description;

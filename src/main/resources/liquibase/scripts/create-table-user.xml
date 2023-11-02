@@ -6,7 +6,7 @@
  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
  <!--USER TABLE-->
- <changeSet id="user-table" author="skanash">
+ <changeSet id="create-user-table" author="skanash">
   <preConditions>
    <not>
     <tableExists tableName="app_user"/>

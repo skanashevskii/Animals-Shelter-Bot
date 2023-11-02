@@ -13,13 +13,10 @@ import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.stereotype.Component;
 
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.devpro.dto.ShelterLocationDTO;
 import ru.devpro.enums.BotCommand;
-import ru.devpro.enums.State;
 import ru.devpro.listener.handlersbd.ChangeBD;
 import ru.devpro.service.ShelterLocationService;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -27,12 +24,13 @@ import java.util.*;
 @Component
 public class TextCommands implements Command {
     private final TelegramBot bot;
-
+    private final ChangeBD changeBD;
     //private final Map<Long, State> stateMap = new HashMap<>();
     //private final Map<Long, ShelterLocationDTO> userPendingShelter = new HashMap<>();
     private final ShelterLocationService shelterLocationService;
-    public TextCommands(TelegramBot bot, ShelterLocationService shelterLocationService) {
+    public TextCommands(TelegramBot bot, ChangeBD changeBD, ShelterLocationService shelterLocationService) {
         this.bot = bot;
+        this.changeBD = changeBD;
         this.shelterLocationService = shelterLocationService;
     }
 
@@ -67,7 +65,7 @@ public class TextCommands implements Command {
                 switch (botCommand) {
                     case START -> sendStartMessage(chatId);
                     //case ADD_SHELTER_LOCATION -> ChangeBD.createShelterLocation(chatId);
-                    case ADD_SHELTER -> ChangeBD.createShelter(chatId);
+                    case ADD_SHELTER -> changeBD.createShelter(chatId);
 
                     default -> bot.execute(new SendMessage(chatId, "Извините, не могу обработать данную команду."));
                 }

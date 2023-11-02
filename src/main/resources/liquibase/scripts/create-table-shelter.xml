@@ -6,7 +6,7 @@
  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
  <!--SHELTER TABLE-->
- <changeSet id="shelter-table" author="skanash">
+ <changeSet id="create-shelter-table" author="skanash">
   <preConditions>
    <not>
     <tableExists tableName="shelter"/>

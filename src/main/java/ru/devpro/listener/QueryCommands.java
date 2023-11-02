@@ -23,11 +23,12 @@ import java.util.Map;
 public class QueryCommands implements Command {
 
     private final TelegramBot bot;
-    private final TextCommands textCommands;
+    private final ChangeBD changeBD;
 
-    public QueryCommands(TelegramBot bot, TextCommands textCommands) {
+    public QueryCommands(TelegramBot bot, ChangeBD changeBD) {
         this.bot = bot;
-        this.textCommands = textCommands;
+
+        this.changeBD = changeBD;
     }
 
     @Override
@@ -60,8 +61,12 @@ public class QueryCommands implements Command {
                     case SHELTERS -> createSheltersButtons(chatId);
                     case PASS -> sendPassInfo(chatId);
                     case ADDRESS -> sendAddressMessage(chatId);
+                    case CYNOLOGISTS -> sendKinologsInfo(chatId);
+                    case ADVICE_CYNOLOGISTS -> sendKinologsAdvice(chatId);
                     //case ADD_SHELTER_LOCATION -> ChangeBD.createShelterLocation(chatId);
-                    case ADD_SHELTER -> ChangeBD.createShelter(chatId);
+                    case ADD_SHELTER -> changeBD.createShelter(chatId);
+                    case ADD_USER -> changeBD.createUser(chatId);
+                    case ADD_ANIMAL -> changeBD.createAnimal(chatId);
                     case CAT_SHELTER -> createCatShelterButtons(chatId);
                     case DOG_SHELTER -> createDogShelterButtons(chatId);
                     case SCHEDULE -> sendScheduleMessage(chatId);
@@ -83,6 +88,7 @@ public class QueryCommands implements Command {
 
 
 
+
     private void sendAddressMessage(Long chatId) {
 
             RestTemplate restTemplate = new RestTemplate();
@@ -96,9 +102,11 @@ public class QueryCommands implements Command {
 
             if (shelterLocationDTO != null) {
                 // Формируйте сообщение с данными из базы данных
-                String message = "Адрес приюта:\n" +
+                String message =
+                        "Адрес приюта:\n" +
                         "Улица: " + shelterLocationDTO.getAddress() + "\n" +
                         "Город: " + shelterLocationDTO.getCity() + "\n" +
+                        "Район: " + shelterLocationDTO.getState() + "\n" +
                         "Почтовый индекс: " + shelterLocationDTO.getZipcode();
 
                 SendMessage sendMessage = new SendMessage(chatId, message);
@@ -125,6 +133,7 @@ public class QueryCommands implements Command {
             String message = "Адрес приюта:\n" +
                     "Улица: " + shelterLocationDTO.getAddress() + "\n" +
                     "Город: " + shelterLocationDTO.getCity() + "\n" +
+                    "Район: " + shelterLocationDTO.getState() + "\n" +
                     "Почтовый индекс: " + shelterLocationDTO.getZipcode();
 
             SendMessage sendMessage = new SendMessage(chatId, message);
@@ -151,6 +160,7 @@ public class QueryCommands implements Command {
             String message = "Адрес приюта:\n" +
                     "Улица: " + shelterLocationDTO.getAddress() + "\n" +
                     "Город: " + shelterLocationDTO.getCity() + "\n" +
+                    "Район: " + shelterLocationDTO.getState() + "\n" +
                     "Почтовый индекс: " + shelterLocationDTO.getZipcode();
 
             SendMessage sendMessage = new SendMessage(chatId, message);
@@ -173,6 +183,8 @@ public class QueryCommands implements Command {
         sheltersKeyboard.addRow(BotCommand.DOG_SHELTER.getButton());
         sheltersKeyboard.addRow(BotCommand.ADD_SHELTER_LOCATION.getButton());
         sheltersKeyboard.addRow(BotCommand.ADD_SHELTER.getButton());
+        sheltersKeyboard.addRow(BotCommand.ADD_USER.getButton());
+        sheltersKeyboard.addRow(BotCommand.ADD_ANIMAL.getButton());
 
         SendMessage message = new SendMessage(chatId, "Выберите приют:" + "👇");
         message.replyMarkup(sheltersKeyboard);
@@ -214,7 +226,7 @@ public class QueryCommands implements Command {
             dogKeyboard.addRow(BotCommand.DOG_HOME.getButton());
             dogKeyboard.addRow(BotCommand.PUPPY_HOME.getButton());
             dogKeyboard.addRow(BotCommand.DISABLED_DOG.getButton());
-            dogKeyboard.addRow(BotCommand.DOG_TIPS.getButton());
+            dogKeyboard.addRow(BotCommand.ADVICE_CYNOLOGISTS.getButton());
             dogKeyboard.addRow(BotCommand.CYNOLOGISTS.getButton());
             dogKeyboard.addRow(BotCommand.REFUSAL.getButton());
             dogKeyboard.addRow(BotCommand.DOG_SHELTER_INFO.getButton());
@@ -264,6 +276,38 @@ public class QueryCommands implements Command {
     public void sendPassInfo(Long chatId) {
         String passInfo = aboutPassInfoFromFile(); // Получаем информацию о приюте из файла
         SendMessage sendMessage = new SendMessage(chatId, passInfo);
+
+        bot.execute(sendMessage);
+    }
+    public String aboutKinologsFromFile() {
+        try {
+            //  путь к файлу с информацией о приюте
+            Path kinilogsInfo = Paths.get("./shelters_file/kinologs.txt");
+            return new String(Files.readAllBytes(kinilogsInfo));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Не удалось прочитать информацию о приюте.";
+        }
+    }
+    public void sendKinologsInfo(Long chatId) {
+        String kinologsInfo = aboutKinologsFromFile(); // Получаем информацию о кинологах из файла
+        SendMessage sendMessage = new SendMessage(chatId, kinologsInfo);
+
+        bot.execute(sendMessage);
+    }
+    private String aboutAdviceKinolog() {
+        try {
+            //  путь к файлу с информацией о приюте
+            Path kinilogsAdvice = Paths.get("./shelters_file/advices_from_kinolog.txt");
+            return new String(Files.readAllBytes(kinilogsAdvice));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Не удалось прочитать информацию о приюте.";
+        }
+    }
+    public void sendKinologsAdvice(Long chatId) {
+        String kinologAdvice = aboutAdviceKinolog(); // Получаем информацию советы кинолога из файла
+        SendMessage sendMessage = new SendMessage(chatId, kinologAdvice);
 
         bot.execute(sendMessage);
     }

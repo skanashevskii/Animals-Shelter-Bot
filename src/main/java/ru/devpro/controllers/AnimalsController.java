@@ -54,13 +54,10 @@ public class AnimalsController {
     })
     public ResponseEntity<AnimalDTO> createAnimal(
             @Parameter(description = "Принимает объект животное")
-            @RequestBody AnimalDTO animalDTO,
-            @Parameter(description = "Тип животного (CAT/DOG)") @RequestParam AnimalType type) {
-
+            @RequestBody AnimalDTO animalDTO){
         LOGGER.info("Received request to save animal: {}", animalDTO);
-
         // Сервис для создания животного
-        AnimalDTO createdAnimal = animalService.createAnimal(animalDTO, type);
+        AnimalDTO createdAnimal = animalService.createAnimal(animalDTO);
 
         // Проверка, что животное было успешно создано
         if (createdAnimal != null) {
@@ -94,7 +91,7 @@ public class AnimalsController {
             @RequestBody AnimalDTO animalDTO,
             @Parameter(description = "Тип животного (CAT/DOG)") @RequestParam AnimalType type) {
         // Передаем id, animalDTO и type в сервис для обработки
-        AnimalDTO foundAnimal = animalService.editAnimal(id, animalDTO, type);
+        AnimalDTO foundAnimal = animalService.editAnimal(id, animalDTO,type);
         if (foundAnimal == null) {
             return ResponseEntity.badRequest().build();
         }

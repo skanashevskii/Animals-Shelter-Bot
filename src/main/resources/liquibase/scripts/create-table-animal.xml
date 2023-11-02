@@ -6,7 +6,7 @@
  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
  <!--ANIMAL TABLE-->
- <changeSet id="animal-table" author="skanash">
+ <changeSet id="create-animal-table" author="skanash">
   <preConditions>
    <not>
     <tableExists tableName="animal"/>

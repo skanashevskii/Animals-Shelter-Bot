@@ -45,11 +45,11 @@ public class ShelterServiceImpl implements ShelterService {
         // Преобразование ShelterDTO в сущность Shelter с использованием маппера
         Shelter shelter = shelterMapper.toEntity(shelterDTO);
 
-        // Установите связь Shelter с ShelterLocation
-        shelter.setShelterLocation(shelterLocation);
         // Сохранение сущности Shelter в репозитории
         Shelter savedShelter = shelterRepository.save(shelter);
-        // Преобразование сохраненной сущности Shelter обратно в DTO
+        // Установите связь Shelter с ShelterLocation
+        shelter.setShelterLocation(shelterLocation);
+
 
         return shelterMapper.toDTO(savedShelter);
     }

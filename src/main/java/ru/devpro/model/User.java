@@ -33,6 +33,7 @@ public class User {
     @NotEmpty(message = "name cannot be empty")
     @Size(min = 1, max = 50)
     private String name;
+
     @Schema(description = "Фамилия")
     @Column(name="family",nullable = false)
     @NotEmpty(message = "family cannot be empty")
@@ -50,6 +51,7 @@ public class User {
     @Pattern(regexp = "^[0-9]{7,15}$", message = "Invalid phone number format")
     @Size(min = 7, max = 15, message = "Phone number must be between 7 and 15 characters")
     private String telephone;
+
     @Schema(description = "e-mail")
     @Column(name="email",nullable = false)
     @Email(message = "Не правильный Email",
@@ -57,8 +59,10 @@ public class User {
     @NotEmpty(message = "Email cannot be empty")
     @Size(min = 10, max = 50)
     private String email;
+
     @Column(name="user_time", nullable = false)
     private LocalDateTime dateTime;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "access_level")
     private AccessLevel accessLevel;

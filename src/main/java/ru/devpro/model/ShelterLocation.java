@@ -43,11 +43,12 @@ public class ShelterLocation {
     @Column(name="shelter_location_time", nullable = false)
     private LocalDateTime dateTime;
 
-    @ManyToOne
-    @JoinColumn(name = "shelter_id")
+    @OneToOne(mappedBy = "shelterLocation",fetch = FetchType.EAGER)
     private Shelter shelter;
+
     @OneToMany(mappedBy = "shelterLocation",fetch = FetchType.EAGER)
     private List<Animal> animals;
+
 
     public ShelterLocation() {
     }

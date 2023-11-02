@@ -10,55 +10,8 @@ import ru.devpro.enums.BotCommand;
 @Service
 
 public class CreateKeyboardsService {
-/*    private void sendStartMessage(Long chatId) {
-        String downArrow = "👇";
-        // If the user sent "/start," send a message with buttons
 
-        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
-                new InlineKeyboardButton[][]{
-                        {new InlineKeyboardButton(BotCommand.ABOUT_SHELTERS.getDescription()).callbackData(BotCommand.ABOUT_SHELTERS.getCommand())},
-                        {new InlineKeyboardButton(BotCommand.SCHEDULE.getDescription()).callbackData(BotCommand.SCHEDULE.getCommand())},
-                        {new InlineKeyboardButton(BotCommand.SECURITY.getDescription()).callbackData(BotCommand.SECURITY.getCommand())},
-                        {new InlineKeyboardButton(BotCommand.SAFETY.getDescription()).callbackData(BotCommand.SAFETY.getCommand())},
-                        {new InlineKeyboardButton(BotCommand.CONTACT.getDescription()).callbackData(BotCommand.CONTACT.getCommand())},
-                        {new InlineKeyboardButton(BotCommand.CALL_VOLUNTEER.getDescription()).callbackData(BotCommand.CALL_VOLUNTEER.getCommand())},
-                        {new InlineKeyboardButton(BotCommand.SHELTERS.getDescription()).callbackData(BotCommand.SHELTERS.getCommand())}
-                });
-        *//**
-         * Creates buttons for the shelter type selection message (reply to the /start command)
-         *
-         * @return {@code InlineKeyboardMarkup}
-         *//*
-        public InlineKeyboardMarkup createButtonsShelterTypeSelect () {
-            InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-            inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_CAT_SHELTER_TEXT).callbackData(BUTTON_CAT_SHELTER_CALLBACK_TEXT));
-            inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_DOG_SHELTER_TEXT).callbackData(BUTTON_DOG_SHELTER_CALLBACK_TEXT));
-            return inlineKeyboardMarkup;
-        }
-
-        *//**
-         * Creates buttons for the reply message to the shelter type selection (Stage 0)
-         *
-         * @return {@code InlineKeyboardMarkup}
-         *//*
-        public InlineKeyboardMarkup createButtonsStage0 () {
-            InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-            inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_STAGE1_TEXT).callbackData(BUTTON_STAGE1_CALLBACK_TEXT));
-            inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_STAGE2_TEXT).callbackData(BUTTON_STAGE2_CALLBACK_TEXT));
-            inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_STAGE3_TEXT).callbackData(BUTTON_STAGE3_CALLBACK_TEXT));
-            return inlineKeyboardMarkup;
-        }
-
-        public InlineKeyboardMarkup createButtonsStage1 () {
-            InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-            inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_INFO_SHELTER_TEXT).callbackData(BUTTON_INFO_SHELTER_CALLBACK_TEXT));
-            inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_INFO_SECURITY_TEXT).callbackData(BUTTON_INFO_SECURITY_CALLBACK_TEXT));
-            inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_INFO_SAFETY_PRECAUTIONS_TEXT).callbackData(BUTTON_INFO_SAFETY_PRECAUTIONS_CALLBACK_TEXT));
-            inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_SHARE_CONTACT_DETAILS_TEXT).callbackData(BUTTON_SHARE_CONTACT_CALLBACK_TEXT));
-            return inlineKeyboardMarkup;
-        }
-
-        public InlineKeyboardMarkup createButtonsStage2 (PetType shelterType){
+       /* public InlineKeyboardMarkup createButtonsStage2 (PetType shelterType){
             InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
             inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_RULES_MEETING_ANIMAL_TEXT).callbackData(BUTTON_RULES_MEETING_ANIMAL_CALLBACK_TEXT));
             inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_DOCS_FOR_ADOPTION_TEXT).callbackData(BUTTON_DOCS_FOR_ADOPTION_CALLBACK_TEXT));
@@ -73,36 +26,6 @@ public class CreateKeyboardsService {
             inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_REASONS_FOR_REFUSAL_TEXT).callbackData(BUTTON_REASONS_FOR_REFUSAL_CALLBACK_TEXT));
             inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_SHARE_CONTACT_DETAILS_TEXT).callbackData(BUTTON_SHARE_CONTACT_CALLBACK_TEXT));
             return inlineKeyboardMarkup;
-        }
+        }*/
 
-        public InlineKeyboardMarkup createButtonsStage3 () {
-            InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-            inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_REPORT_TEMPLATE_TEXT).callbackData(BUTTON_REPORT_TEMPLATE_CALLBACK_TEXT));
-            inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_SEND_REPORT_TEXT).callbackData(BUTTON_SEND_REPORT_CALLBACK_TEXT));
-            return inlineKeyboardMarkup;
-        }
-
-        public InlineKeyboardMarkup createButtonsSendReport () {
-            InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-            inlineKeyboardMarkup.addRow(new InlineKeyboardButton(BUTTON_CANCEL_TEXT).callbackData(BUTTON_CANCEL_SEND_REPORT_CALLBACK_TEXT));
-            return inlineKeyboardMarkup;
-        }
-
-        public ReplyKeyboardMarkup createRequestContactKeyboardButton () {
-            KeyboardButton keyboardButton1 = new KeyboardButton(BUTTON_SHARE_CONTACT_TEXT);
-            KeyboardButton keyboardButton2 = new KeyboardButton(BUTTON_CANCEL_TEXT);
-            keyboardButton1.requestContact(true);
-            ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(keyboardButton1, keyboardButton2);
-            replyKeyboardMarkup.resizeKeyboard(true);
-            return replyKeyboardMarkup;
-        }
-
-        public ReplyKeyboardMarkup createMainMenuKeyboardButtons () {
-            KeyboardButton keyboardButton1 = new KeyboardButton(BUTTON_MAIN_MENU_TEXT);
-            KeyboardButton keyboardButton2 = new KeyboardButton(BUTTON_CALL_VOLUNTEER_TEXT);
-            ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(keyboardButton1, keyboardButton2);
-            replyKeyboardMarkup.resizeKeyboard(true);
-            return replyKeyboardMarkup;
-        }
-    }*/
 }

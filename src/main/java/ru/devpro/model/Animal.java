@@ -27,23 +27,32 @@ public class Animal {
     @Enumerated(EnumType.STRING)
     @Column(name = "type_animal")
     private AnimalType type_animal;
+
     @Schema(description = "Порода животного")
     @NotBlank
     private String breed;
+
     @Schema(description = "Описание животного")
     @NotBlank
     private String text;
+
+
     @Column(name="animal_time", nullable = false)
     private LocalDateTime dateTime;
 
+    @OneToOne
+    @JoinColumn (name = "picture_id")
+    private Avatar picture;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
+
     @ManyToOne
     @JoinColumn(name = "shelter_id")
     private Shelter shelter;
+
     @ManyToOne
     @JoinColumn(name = "shelter_location_id")
     private ShelterLocation shelterLocation;
